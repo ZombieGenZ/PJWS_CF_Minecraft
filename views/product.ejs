@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --brightColor: #1b1c30;
+            --prominentColor: #222338;
+            --itemsColor: #3869d3;
+          }
+        
+        .main {
+            max-width: 100vw;
+            min-height: 100vh;
+            max-height: 10000vh;
+            display: grid;
+            color: white;
+            background-color: var(--brightColor);
+            grid-template-columns: minmax(auto, 300px) auto;
+        }
+        .main-left {
+            background-color: var(--prominentColor);
+            display: grid;
+            grid-template-rows: 200px 1fr;
+        }
+        .main-left-logo {
+            display: grid;
+            place-items: center;
+        }
+        .main-left-logo img {
+            max-width: 50%;
+        }
+        .main-left-logo-content {
+            padding: 0 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .main-left-logo-content-group {
+            display: grid;
+            grid-template-rows: 30px auto;
+        }
+        .main-left-logo-content-group-top p {
+            user-select: none;
+            color: #656680;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .main-left-logo-content-group-bottom {
+            display: grid;
+            grid-auto-rows: 40px;
+            row-gap: 3px;
+        }
+        .main-left-logo-content-group-bottom a {
+            height: 40px;
+            text-decoration: none;
+        }
+        .main-left-logo-content-group-bottom button {
+            color: #656680;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            text-align: left;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+            width: 100%;
+            height: 40px;
+            border: none;
+            background-color: var(--prominentColor);
+            transition: background-color 0.3s;
+        }
+        .main-left-logo-content-group-bottom button:hover:not(.main-left-logo-content-group-bottom-active) {
+            border-left: 5px solid var(--itemsColor);
+            background-color: var(--brightColor);
+        }
+        .main-left-logo-content-group-bottom-active button {
+            border-left: 5px solid var(--itemsColor);
+            background-color: var(--brightColor);
+        }
+        .main-left-logo-content-group-bottom i {
+            margin-left: 8px;
+            margin-right: 5px;
+        }
+        .main-right {
+            display: grid;
+            grid-template-rows: 80px 1fr;
+        }
+        .main-right-header {
+            display: grid;
+            padding: 0 15px;
+            grid-template-columns: auto auto minmax(50px, 200px) minmax(50px, 150px);
+            background-color: var(--prominentColor);
+            column-gap: 10px;
+        }
+        .main-right-header-menu {
+            display: none;
+        }
+        .main-right-header-title {
+            grid-column: 1;
+            display: flex;
+            align-items: center;
+        }
+        .main-right-header-money {
+            display: grid;
+            place-content: center;
+            grid-column: 3;
+        }
+        .btn-money {
+            cursor: default !important;
+        }
+        .main-right-header-account {
+            display: grid;
+            place-content: center;
+            grid-column: 4;
+        }
+        .btn-color-menu-account {
+            border: none !important;
+            background-color: var(--itemsColor) !important;
+        }
+        .btn-color-menu-account-background {
+            box-shadow: 0 0 10px var(--brightColor);
+            background-color: var(--prominentColor) !important;
+        }
+        .btn-color-menu-account-items {
+            color: white !important;
+            transition: background-color, font-weight 0.3s;
+        }
+        .btn-color-menu-account-items:hover {
+            font-weight: bold;
+            border-left: 5px solid var(--itemsColor);
+            background-color: var(--brightColor) !important;
+        }
+        .verified {
+            color: #3bce5b;
+        }
+        .manage {
+            color: #ff4d00;
+        }
+        .developer {
+            color: #f2ff00;
+        }
+        .overflow-1 {
+            display: -webkit-box !important;
+            -webkit-box-orient: vertical !important;
+            -webkit-line-clamp: 1 !important;
+            overflow: hidden !important;
+        }
+        .overflow-2 {
+            display: -webkit-box !important;
+            -webkit-box-orient: vertical !important;
+            -webkit-line-clamp: 1 !important;
+            overflow: hidden !important;
+        }
+        .overflow-3 {
+            display: -webkit-box !important;
+            -webkit-box-orient: vertical !important;
+            -webkit-line-clamp: 1 !important;
+            overflow: hidden !important;
+        }
+        .modal-content {
+            background-color: var(--brightColor) !important;
+        }
+        .modal-header {
+            color: white;
+        }
+        .input-group-text-dark {
+            color: white !important;
+            background-color: var(--prominentColor) !important;
+        }
+        .accoutn-auth-group {
+            margin-bottom: 5px;
+        }
+        .accoutn-auth-group label {
+            margin-left: 5px;
+            color: white;
+            padding: 10px 0;
+        }
+        .accoutn-auth-group input {
+            color: white;
+            display: block;
+            height: 35px;
+            outline: none;
+            border: none;
+            padding: 5px 10px;
+            background-color: var(--prominentColor);
+            width: 100%;
+            transition: 0.3s;
+            border-radius: 8px;
+        }
+        .accoutn-auth-group input:focus {
+            box-shadow: 0 0 10px var(--itemsColor);
+        }
+        .accoutn-auth-group-btn {
+            display: grid;
+            place-content: center;
+            margin-top: 10px;
+        }
+        .accoutn-auth-group-btn-link {
+            margin: 10px 0;
+            color: white;
+            text-align: center;
+        }
+        .accoutn-auth-group-btn-link a {
+            color: white;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .accoutn-auth-group-btn-link a:hover {
+            color: var(--itemsColor);
+        }
+        .offcanvas {
+            background-color: var(--prominentColor) !important;
+        }
+        #menuLabel {
+            color: white;
+        }
+        #alert {
+            color: white !important;
+        }
+        @media (max-width: 1300px) {
+            .main {
+                max-width: 100vw;
+                min-height: 100vh;
+                max-height: 10000vh;
+                display: grid;
+                color: white;
+                background-color: var(--brightColor);
+                grid-template-columns: auto;
+            }
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px) auto minmax(50px, 200px) minmax(50px, 150px);
+                background-color: var(--prominentColor);
+                column-gap: 10px;
+            }
+            .main-right-header-title {
+                grid-column: 2;
+            }
+            .main-left {
+                background-color: var(--prominentColor);
+                display: none;
+                grid-template-rows: 200px 1fr;
+            }
+            .main-right-header-menu {
+                display: grid;
+                place-content: center;
+            }
+        }
+        @media (max-width: 680px) {
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px) auto minmax(80px, 200px);
+                background-color: var(--prominentColor);
+                column-gap: 10px;
+            }
+            .main-right-header-money {
+                display: grid;
+                place-content: center;
+                grid-column: 3;
+            }
+            .main-right-header-account {
+                display: none;
+            }
+        }
+        @media (max-width: 570px) {
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px) auto minmax(80px, 200px);
+                background-color: var(--prominentColor);
+                column-gap: 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px) auto minmax(auto, 50px);
+                background-color: var(--prominentColor);
+            }
+            .main-right-header-money {
+                display: none;
+                place-content: center;
+                grid-column: 3;
+            }
+        }
+        @media (max-width: 310px) {
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px) auto;
+                background-color: var(--prominentColor);
+            }
+            .main-right-header-money {
+                display: none;
+                place-content: center;
+                grid-column: 3;
+            }
+        }
+        @media (max-width: 250px) {
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px);
+                background-color: var(--prominentColor);
+            }
+            .main-right-header-title {
+                display: none;
+            }
+        }
+        .main-right-header-content {
+            padding: 10px;
+            display: grid;
+            grid-template-columns: minmax(0px, auto) minmax(auto, 1200px) minmax(0px, auto);
+        }
+        .main-right-header-content-center {
+            grid-column: 2;
+            background-color: var(--prominentColor);
+            display: grid;
+            grid-template-rows: minmax(360px, auto) minmax(0px, auto) 1fr;
+            gap: 10px;
+        }
+        .main-right-header-content-center-top {
+            display: grid;
+            grid-template-columns: 35% 65%;
+            column-gap: 10px;
+        }
+        .information-left i {
+            margin-right: 5px;
+        }
+        .information {
+            padding: 10px;
+            display: grid;
+            grid-template-columns: 35% 1fr;
+            gap: 5px;
+        }
+        .information-right {
+            text-align: right;
+        }
+        .information-right a {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .information-right a:hover {
+            color: var(--itemsColor);
+        }
+        .main-right-header-content-center-top-right {
+            padding: 20px;
+        }
+        .product-price-hide {
+            color: #c6c6c6;
+            font-size: 0.8em;
+            text-decoration: line-through;
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .main-right-header-content-center-top-right input {
+            color: white;
+            background-color: var(--brightColor);
+            outline: none;
+            border: none;
+            width: 100px;
+            height: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #42447a;
+            text-align: center;
+            transition: 0.3s;
+            margin: 0 5px;
+        }
+        .main-right-header-content-center-top-right input:focus {
+            box-shadow: 0 0 20px #42447a;
+        }
+        .main-right-header-content-center-top-right>.quantity-group>button {
+            color: white;
+            background-color: var(--itemsColor);
+            outline: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            /* box-shadow: 0 0 10px #42447a; */
+            transition: 0.3s;
+        }
+        .main-right-header-content-center-top-right>.quantity-group>button:hover {
+            background-color: #3859a1;
+        }
+        #addtocart {
+            margin-top: 15px;
+            border: 2px solid #3869d3;
+            color: white;
+            background-color: #3869d36b;
+            padding: 10px 20px;
+            margin-right: 5px;
+            transition: 0.3s;
+        }
+        #addtocart:hover {
+            background-color: #81a9ff6b;
+        }
+        #buynow {
+            margin-top: 15px;
+            color: white;
+            background-color: #3869d3;
+            border: 2px solid #3869d3;
+            padding: 10px 20px;
+            transition: 0.3s;
+        }
+        #buynow:hover {
+            background-color: #4680ff;
+        }
+        .main-right-header-content-center-center {
+            display: grid;
+            grid-template-rows: 50px minmax(0px, auto) 50px minmax(50px, auto);
+            padding: 10px;
+        }
+        .main-right-header-content-center-center-top {
+            display: flex;
+            align-items: center;
+        }
+        .main-right-header-content-center-center-center-items {
+            display: grid;
+            grid-template-columns: 20% 80%;
+            column-gap: 10px;
+        }
+        .main-right-header-content-center-center-center-items-right {
+            text-align: left;
+        }
+        .main-right-header-content-center-bottom {
+            padding: 10px;
+            flex-direction: column;
+            display: flex;
+            gap: 10px;
+        }
+        .main-right-header-content-center-bottom-items {
+            display: grid;
+            grid-template-columns: 1fr 150px;
+            column-gap: 10px;
+        }
+        .main-right-header-content-center-bottom-items-left {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 10px;
+            padding: 10px;
+        }
+        .main-right-header-content-center-bottom-items-left-left img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+        .main-right-header-content-center-bottom-items-left-right a {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .main-right-header-content-center-bottom-items-left-right a:hover {
+            color: var(--itemsColor);
+        }
+        .main-right-header-content-center-bottom-items-left-left {
+            display: grid;
+            place-content: center;
+        }
+        .main-right-header-content-center-bottom-items-right {
+            display: grid;
+            place-items: center;
+        }
+        .form-label {
+            color: white;
+        }
+        #raiting-comment {
+            color: white;
+            background-color: var(--brightColor) !important;
+        }
+        @media (max-width: 1000px) {
+            .main-right-header-content-center-top {
+                display: grid;
+                grid-template-columns: 100%;
+                column-gap: 10px;
+            }
+        }
+        @media (max-width: 768px) {
+            .main-right-header-content-center-bottom-items {
+                display: grid;
+                grid-template-columns: 1fr;
+                column-gap: 10px;
+            }
+        }
+        @media (max-width: 500px) {
+            .main-right-header-content-center-bottom-items-left {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .main-right-header-content-center-bottom-items-left-left {
+                display: none;
+            }
+            .main-right-header-content-center-bottom-items-left-left img {
+                max-width: 100px;
+                max-height: 100px;
+            }
+            .main-right-header-content-center-bottom-items-left-right h5 {
+                text-align: center;
+            }
+            .main-right-header-content-center-bottom-items-left-left {
+                display: grid;
+                place-content: center;
+            }
+        }
+        .green {
+            color: green;
+        }
+        .aqua {
+            color: aqua;
+        }
+        .yellow {
+            color: yellow;
+        }
+        .black {
+            color: black;
+        }
+        .blue {
+            color: blue;
+        }
+        .pink {
+            color: pink;
+        }
+        .red {
+            color: red;
+        }
+        .voucher-group {
+            margin-top: 10px;
+        }
+        .voucher-group>#voucher-input {
+            width: 170px;
+        }
+        .no-evaluate {
+            display: grid;
+            place-content: center;
+        }
+        .evaluate-modal-items textarea {
+            color: white;
+            background-color: var(--brightColor) !important;
+        }
+        .evaluate-modal-items textarea:focus {
+            color: white;
+        }
+        .price-count {
+            font-size: 0.6em;
+        }
+    </style>
+    <link rel="icon" href="/image/system/favourite.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <title>Product</title>
+</head>
+<body>
+    <div class="madol" id="modal">
+        <div class="modal fade" id="loginMadal" tabindex="-1" aria-labelledby="loginLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="loginLabel">Đăng nhập tài khoản</h1>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="accoutn-auth-group">
+                        <label for="login-username"><i class="fa-solid fa-user"></i> Tên người dùng</label>
+                        <input type="text" id="login-username" placeholder="Nhập tên người dùng của bạn">
+                    </div>
+                    <div class="accoutn-auth-group">
+                        <label for="login-password"><i class="fa-solid fa-key"></i> Mật khẩu</label>
+                        <input type="password" id="login-password" placeholder="Nhập mật khẩu của bạn">
+                    </div>
+                    <div class="accoutn-auth-group-btn">
+                        <button type="button" class="btn btn-success form-auth-btn" onclick="LoginAccount()">Đăng nhập</button>
+                    </div>
+                    <div class="accoutn-auth-group-btn-link">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#forgotpasswordMadal">Quên mật khẩu?</a> |
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#registerMadal">Bạn chưa có tài khoản</a>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+          <div class="modal fade" id="registerMadal" tabindex="-1" aria-labelledby="registerLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="registerLabel">Đăng ký tài khoản</h1>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="accoutn-auth-group">
+                        <label for="register-username"><i class="fa-solid fa-user"></i> Tên người dùng</label>
+                        <input type="text" id="register-username" placeholder="Nhập tên người dùng của bạn">
+                    </div>
+                    <div class="accoutn-auth-group">
+                        <label for="register-email"><i class="fa-solid fa-envelope"></i> Đại chỉ email</label>
+                        <input type="text" id="register-email" placeholder="Nhập địa chỉ email của bạn">
+                    </div>
+                    <div class="accoutn-auth-group">
+                        <label for="register-password"><i class="fa-solid fa-key"></i> Mật khẩu</label>
+                        <input type="password" id="register-password" placeholder="Nhập mật khẩu của bạn">
+                    </div>
+                    <div class="accoutn-auth-group">
+                        <label for="register-comfirmpassword"><i class="fa-solid fa-key"></i> Xác nhận mật khẩu</label>
+                        <input type="password" id="register-comfirmpassword" placeholder="Xác nhận mật khẩu của bạn">
+                    </div>
+                    <div class="accoutn-auth-group-btn">
+                        <button type="submit" class="btn btn-success form-auth-btn" onclick="RegisterAccount()">Đăng ký</button>
+                    </div>
+                    <div class="accoutn-auth-group-btn-link">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#loginMadal">Bạn đã có tài khoản?</a>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          <div class="modal fade" id="forgotpasswordMadal" tabindex="-1" aria-labelledby="forgotpasswordLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="forgotpasswordLabel">Quên mật khẩu</h1>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="alert">Một email sẽ gửi về hộp thư của bạn điều này sẽ giúp chúng tôi xác minh bạn là chủ nhân của tài khoản này</p>
+                    <div class="accoutn-auth-group">
+                        <label for="forget-email"><i class="fa-solid fa-envelope"></i> Địa chỉ email</label>
+                        <input type="text" id="forget-email" placeholder="Nhập địa chỉ email của bạn">
+                    </div>
+                    <div class="accoutn-auth-group-btn">
+                        <button type="button" class="btn btn-success form-auth-btn" onclick="forgetPassword()">Xác nhận</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>   
+    </div>
+    <div class="Evaluate-modal" id="Evaluate-modal"></div>
+    <div class="main">
+        <div class="main-left">
+            <div class="main-left-logo">
+                <img src="/image/system/logo.png" alt="Logo">
+            </div>
+            <div class="main-left-logo-content" id="v_menu">
+                <div class="main-left-logo-content-group">
+                    <div class="main-left-logo-content-group-top">
+                        <p>Cửa hàng</p>
+                    </div>
+                    <div class="main-left-logo-content-group-bottom">
+                        <a href="/" class="main-left-logo-content-group-bottom-active">
+                            <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                        </a>
+                    </div>
+                </div>
+                    <div class="main-left-logo-content-group">
+                        <div class="main-left-logo-content-group-top">
+                            <p>Tài khoản</p>
+                        </div>
+                        <div class="main-left-logo-content-group-bottom">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#loginMadal">
+                                <button><i class="fa-solid fa-user"></i> Đăng nhập</button>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#registerMadal">
+                                <button><i class="fa-solid fa-user-plus"></i> Đăng ký</button>
+                            </a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="main-right">
+            <div class="main-right-header">
+                <div class="main-right-header-menu">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu" aria-controls="offcanvasExample">
+                        <i class="fa-solid fa-bars"></i>
+                      </button>
+                </div>
+                <div class="main-right-header-title">
+                    <h1 class="overflow-1">Sản phẩm</h1>
+                </div>
+                <div class="main-right-header-money">
+                    <button type="button" class="btn btn-warning overflow-1 btn-money">
+                        <i class="fa-solid fa-money-bill-1"></i>
+                        <span id="money">0</span>
+                        đ
+                    </button>
+                </div>
+                <div class="main-right-header-account">
+                    <div class="dropdown" id="dropdown_menu">
+                        <a class="btn btn-secondary dropdown-toggle btn-color-menu-account" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          KHÁCH
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end btn-color-menu-account-background">
+                          <li><a class="dropdown-item btn-color-menu-account-items" href="#" data-bs-toggle="modal" data-bs-target="#loginMadal">Đăng nhập</a></li>
+                          <li><a class="dropdown-item btn-color-menu-account-items" href="#" data-bs-toggle="modal" data-bs-target="#registerMadal">Đăng ký</a></li>
+                        </ul>
+                      </div>
+                </div>
+            </div>
+            <div class="main-right-header-content">
+                <div class="main-right-header-content-center">
+                    <div class="main-right-header-content-center-top">
+                        <div class="main-right-header-content-center-top-left">
+                            <div class="priview">
+                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner" id="preview">
+                                      <div class="carousel-item active" data-bs-interval="5000">
+                                        <img src="/image/system/default_producticon.png" class="d-block w-100" alt="">
+                                      </div>
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                      <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                      <span class="visually-hidden">Next</span>
+                                    </button>
+                                  </div>
+                            </div>
+                            <div class="information">
+                                <div class="information-left">
+                                    <p class="overflow-1"><i class="fa-solid fa-user"></i> Người bán</p>
+                                    <p class="overflow-1"><i class="fa-solid fa-clock"></i> Ngày bày bán</p>
+                                    <p class="overflow-1"><i class="fa-brands fa-shopify"></i> Đã bán</p>
+                                    <p class="overflow-1"><i class="fa-solid fa-warehouse"></i> Hàng còn lại</p>
+                                    <p class="overflow-1"><i class="fa-solid fa-star"></i> Đánh giá</p>
+                                </div>
+                                <div class="information-right">
+                                    <p class="overflow-1" id="author">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                    <p class="overflow-1" id="createtime">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                    <p class="overflow-1" id="totalsold">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                    <p class="overflow-1" id="quantity">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                    <p class="overflow-1" id="rating">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main-right-header-content-center-top-right">
+                            <h2 id="title"><span class="placeholder col-8"></span><span class="placeholder col-10"></span></h2>
+                            <h5 id="subtitle"><span class="placeholder col-8"></span><span class="placeholder col-12"></span><span class="placeholder col-10"></span></h5>
+                            <h3 id="price"><span class="placeholder col-6"></span></h3>
+                            
+                            <div class="quantity-group" id="quantity-group"></div>
+                            <div class="buy" id="buy"></div>
+                        </div>
+                    </div>
+                    <div class="main-right-header-content-center-center">
+                        <div class="main-right-header-content-center-center-top">
+                            <h3>Chi tiết sản phẩm</h3>
+                        </div>
+                        <div class="main-right-header-content-center-center-center" id="information">
+                            <div class="main-right-header-content-center-center-center-items">
+                                <div class="main-right-header-content-center-center-center-items-left">
+                                    <h class="overflow-1"><span class="placeholder col-8"></span></h>
+                                </div>
+                                <div class="main-right-header-content-center-center-center-items-right">
+                                    <p class="overflow-1"><span class="placeholder col-2"></span></p>
+                                </div>
+                            </div>
+                            <div class="main-right-header-content-center-center-center-items">
+                                <div class="main-right-header-content-center-center-center-items-left">
+                                    <h class="overflow-1"><span class="placeholder col-8"></span></h>
+                                </div>
+                                <div class="main-right-header-content-center-center-center-items-right">
+                                    <p class="overflow-1"><span class="placeholder col-2"></span></p>
+                                </div>
+                            </div>
+                            <div class="main-right-header-content-center-center-center-items">
+                                <div class="main-right-header-content-center-center-center-items-left">
+                                    <h class="overflow-1"><span class="placeholder col-8"></span></h>
+                                </div>
+                                <div class="main-right-header-content-center-center-center-items-right">
+                                    <p class="overflow-1"><span class="placeholder col-2"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main-right-header-content-center-center-medium">
+                            <h3>Mô tả sang phẩm</h3>
+                        </div>
+                        <div class="main-right-header-content-center-center-bottom" id="description">
+                            <span class="placeholder col-8"></span>
+                            <span class="placeholder col-12"></span>
+                            <span class="placeholder col-10"></span>
+                            <span class="placeholder col-6"></span>
+                            <span class="placeholder col-10"></span>
+                        </div>
+                    </div>
+                    <div class="main-right-header-content-center-bottom">
+                        <h3>Đánh giá</h3>
+                        <div class="write-rating" id="write-rating"></div>
+                        <div class="evaluate" id="evaluate">
+                            <div class="main-right-header-content-center-bottom-items">
+                                <div class="main-right-header-content-center-bottom-items-left">
+                                    <div class="main-right-header-content-center-bottom-items-left-left">
+                                        <img src="/image/system/default_user.png" alt="">
+                                    </div>
+                                    <div class="main-right-header-content-center-bottom-items-left-right">
+                                        <h5 class="placeholder-glow">
+                                            <span class="placeholder col-3"></span>
+                                            <br>
+                                            <span class="placeholder col-4"></span>
+                                        </h5>
+                                        <p class="content placeholder-glow">
+                                            <span class="placeholder col-4"></span>
+                                            <span class="placeholder col-5"></span>
+                                            <span class="placeholder col-6"></span>
+                                            <span class="placeholder col-2"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="main-right-header-content-center-bottom-items-right placeholder-glow">
+                                    <span class="placeholder col-12"></span>
+                                </div>
+                            </div>
+                            <div class="main-right-header-content-center-bottom-items">
+                                <div class="main-right-header-content-center-bottom-items-left">
+                                    <div class="main-right-header-content-center-bottom-items-left-left">
+                                        <img src="/image/system/default_user.png" alt="">
+                                    </div>
+                                    <div class="main-right-header-content-center-bottom-items-left-right">
+                                        <h5 class="placeholder-glow">
+                                            <span class="placeholder col-3"></span>
+                                            <br>
+                                            <span class="placeholder col-4"></span>
+                                        </h5>
+                                        <p class="content placeholder-glow">
+                                            <span class="placeholder col-4"></span>
+                                            <span class="placeholder col-5"></span>
+                                            <span class="placeholder col-6"></span>
+                                            <span class="placeholder col-2"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="main-right-header-content-center-bottom-items-right placeholder-glow">
+                                    <span class="placeholder col-12"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="Offcanvas">
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="menu" aria-labelledby="menuLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="menuLabel">Menu</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="main-left-logo-content" id="menu_offcanvas">
+                    <div class="main-left-logo-content-group">
+                        <div class="main-left-logo-content-group-top">
+                            <p>Cửa hàng</p>
+                        </div>
+                        <div class="main-left-logo-content-group-bottom">
+                            <a href="/" class="main-left-logo-content-group-bottom-active">
+                                <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                            </a>
+                        </div>
+                    </div>
+                        <div class="main-left-logo-content-group">
+                            <div class="main-left-logo-content-group-top">
+                                <p>Tài khoản</p>
+                            </div>
+                            <div class="main-left-logo-content-group-bottom">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#loginMadal">
+                                    <button><i class="fa-solid fa-user"></i> Đăng nhập</button>
+                                </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#registerMadal">
+                                    <button><i class="fa-solid fa-user-plus"></i> Đăng ký</button>
+                                </a>
+                            </div>
+                        </div>
+            </div>
+          </div>
+          </div>
+    </div>
+    <script>
+    const PRODUCTID = "<%= productid %>";
+    async function RegisterAccount() {
+        let username = document.getElementById("register-username").value;
+        let email = document.getElementById("register-email").value;
+        let password = document.getElementById("register-password").value;
+        let comfirmpassword = document.getElementById("register-comfirmpassword").value;
+
+        username = normalizeString(username);
+        email = normalizeString_Email(email);
+        password = normalizeString(password);
+        comfirmpassword = normalizeString(comfirmpassword);
+
+        if (username === "" || email === "" || password === "" || comfirmpassword === "") {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Bạn cần điền đầy đủ thông tin để tiếp tục",
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                });
+            return;
+        }
+        else {
+                if (username.length < 4 || username.length > 20) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Tên người dùng chỉ có thể dài từ 4 đến 20 ký tự",
+                        background: '#222338',
+                        color: "white",
+                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                      });
+                    return;
+                }
+                else {
+                    const accpetUsername = checkAlphanumeric(username);
+                    if (accpetUsername === false) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Tên người dùng không đựa chứa các ký tự đặt biệt",
+                            background: '#222338',
+                            color: "white",
+                            footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                          });
+                        return;
+                    }
+                    else {
+                        const isEmail = checkEmail(email);
+                        if (!isEmail) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Email không hợp lệ",
+                                background: '#222338',
+                                color: "white",
+                                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                              });
+                            return;
+                        }
+                        else {
+                            if (password !== comfirmpassword) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "Hai mật khẩu không trùng khớp",
+                                    background: '#222338',
+                                    color: "white",
+                                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                                  });
+                                return;
+                            }
+                            else {
+                                if (password.length < 8 || password.length > 50) {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: "Mật khẩu chỉ có thể dài 8 đến 50 ký tự",
+                                        background: '#222338',
+                                        color: "white",
+                                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                                      });
+                                    return;
+                                }
+                                else {
+                                    const data = {
+                                        username: username,
+                                        email: email,
+                                        password: password,
+                                        comfirmpassword: comfirmpassword
+                                    }
+                                    fetch('/API/register', {
+                                        method: 'POST',
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify(data),
+                                        credentials: 'include'
+                                      })
+                                      .then(res => res.json())
+                                      .then(resData => {
+                                        if (resData.status) {
+                                            localStorage.setItem("username", resData.username);
+                                            localStorage.setItem("password", resData.password);
+                                            Swal.fire({
+                                                icon: "success",
+                                                title: "Chúc mừng",
+                                                text: `${resData.message}`,
+                                                background: '#222338',
+                                                color: "white"
+                                            }).then((result) => {
+                                                if (result.dismiss === Swal.DismissReason.backdrop) {
+                                                  location.reload();
+                                                }
+                                                else {
+                                                    location.reload();
+                                                }
+                                              });;
+                                        } else {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "Oops...",
+                                                text: `${resData.message}`,
+                                                background: '#222338',
+                                                color: "white",
+                                                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                                            });
+                                        }
+                                      })
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
+    function LoginAccount(){
+        let username = document.getElementById("login-username").value;
+        let password = document.getElementById("login-password").value;
+
+        username = normalizeString(username);
+        password = normalizeString(password);
+
+        if (username === "" || password === "") {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Vui lòng điền đầy đủ thông tin",
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+              });
+            return;
+        }
+        else {
+            const data = {
+                username: username,
+                password: password
+            }
+            fetch('/API/authentication', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                credentials: 'include'
+              })
+              .then(res => res.json())
+              .then(resData => {
+                if (resData.status) {
+                    localStorage.setItem("username", resData.user.username);
+                    localStorage.setItem("password", resData.user.password);
+                    Swal.fire({
+                        icon: "success",
+                        title: "Chúc mừng",
+                        text: `${resData.message}`,
+                        background: '#222338',
+                        color: "white"
+                    }).then((result) => {
+                        if (result.dismiss === Swal.DismissReason.backdrop) {
+                          location.reload();
+                        }
+                        else {
+                            location.reload();
+                        }
+                      });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: `${resData.message}`,
+                        background: '#222338',
+                        color: "white",
+                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                    });
+                }
+            })
+        }
+    }
+    function forgetPassword() {
+        const input = document.getElementById("forget-email").value;
+
+        if (input !== "" && input !== undefined && input !== null) {
+            const isEmail = checkEmail(input);
+            if (isEmail) {
+				const data = {
+					email: input
+				}
+				fetch('/API/createotp', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                    credentials: 'include'
+                  })
+				  .then(res => res.json())
+				  .then(resData => {
+                    if (resData.status) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Chúc mừng",
+                            text: `${resData.message}`,
+                            background: '#222338',
+                            color: "white"
+                        }).then((result) => {
+                            if (result.dismiss === Swal.DismissReason.backdrop) {
+                              location.reload();
+                            }
+                            else {
+                                location.reload();
+                            }
+                          });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: `${resData.message}`,
+                            background: '#222338',
+                            color: "white",
+                            footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                        });
+                    }
+				  })
+             }
+             else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Email không đúng định dạn`,
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                });
+             }
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Vui lòng điền đầy đủ thông tin`,
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+            });
+        }
+    }
+    function checkEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    function checkAlphanumeric(str) {
+        const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+        return alphanumericRegex.test(str);
+    }
+    function normalizeString(str) {
+        return String(str)
+            .trim()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/\s+/g, "");
+        }
+    function normalizeString_Email(str) {
+        return String(str)
+            .trim()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/\s+/g, "")
+            .toLowerCase();
+    }
+    function LoadFunction() {
+        const username = localStorage.getItem("username");
+        const password = localStorage.getItem("password");
+        if (username !== undefined && username !== null && password !== undefined && password !== null) {
+            const data = {
+                username: username,
+                password: password,
+            }
+            fetch('/API/authenticationpermission', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                credentials: 'include'
+              })
+              .then(res => res.json())
+              .then(resData => {
+                if (resData.status) {
+                    document.getElementById("modal").innerHTML = "";
+                    let HTML_offcanvas = `<div class="center-money-offset">
+                                    <button type="button" class="btn btn-warning overflow-1 btn-money">
+                                        <i class="fa-solid fa-money-bill-1"></i>
+                                        <span id="money">${resData.money.toLocaleString("de-DE")}</span>
+                                        đ
+                                </button>
+                            </div>`;
+                    HTML_offcanvas += `<div class="main-left-logo-content-group">
+                        <div class="main-left-logo-content-group-top">
+                            <p>Cửa hàng</p>
+                        </div>
+                        <div class="main-left-logo-content-group-bottom">
+                            <a href="/" class="main-left-logo-content-group-bottom-active">
+                                <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                            </a>
+                            <a href="/shoppingcart">
+                                <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
+                            </a>
+                        </div>
+                    </div>`;
+                    let HTML_vmenu = `<div class="main-left-logo-content-group">
+                        <div class="main-left-logo-content-group-top">
+                            <p>Cửa hàng</p>
+                        </div>
+                        <div class="main-left-logo-content-group-bottom">
+                            <a href="/" class="main-left-logo-content-group-bottom-active">
+                                <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                            </a>
+                            <a href="/shoppingcart">
+                                <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
+                            </a>
+                        </div>
+                    </div>`;
+                    if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall || resData.permission.acceptvouchermanagementall || resData.permission.acceptcensorproduct || resData.permission.acceptviewchart || resData.permission.acceptviewchartall) {
+                        HTML_offcanvas += `<div class="main-left-logo-content-group">
+                                        <div class="main-left-logo-content-group-top">
+                                            <p>Người bán</p>
+                                        </div>
+                                        <div class="main-left-logo-content-group-bottom">`;
+                        HTML_vmenu += `<div class="main-left-logo-content-group">
+                            <div class="main-left-logo-content-group-top">
+                                <p>Người bán</p>
+                            </div>
+                            <div class="main-left-logo-content-group-bottom">`;
+                        if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall) {
+                            HTML_offcanvas += `<a href="/productpanagement">
+                                        <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
+                                    </a>`;
+                            HTML_vmenu += `<a href="/productpanagement">
+                                <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
+                            </a>`;
+                                    
+                        }
+                        if (resData.permission.acceptviewchart || resData.permission.acceptviewchartall) {
+                            HTML_offcanvas += `<a href="/statistical">
+                                        <button><i class="fa-solid fa-chart-simple"></i> Thống kê</button>
+                                    </a>`;
+                            HTML_vmenu += `<a href="/statistical">
+                                <button><i class="fa-solid fa-chart-simple"></i> Thống kê</button>
+                            </a>`;
+                        }
+                        HTML_offcanvas += `</div>
+                            </div>`;
+                        HTML_vmenu += `</div>
+                            </div>`;
+                    }
+                    if (resData.permission.acceptcensorproduct || resData.permission.acceptcensorcooperate || resData.permission.acceptaccountmanagement) {
+                        HTML_offcanvas += `<div class="main-left-logo-content-group">
+                                        <div class="main-left-logo-content-group-top">
+                                            <p>Quản trị viên</p>
+                                        </div>
+                                        <div class="main-left-logo-content-group-bottom">`;
+                        HTML_vmenu += `<div class="main-left-logo-content-group">
+                            <div class="main-left-logo-content-group-top">
+                                <p>Quản trị viên</p>
+                            </div>
+                            <div class="main-left-logo-content-group-bottom">`;
+                        if (resData.permission.acceptcensorproduct) {
+                            HTML_offcanvas += `<a href="/censorproduct">
+                                        <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
+                                    </a>`;
+                            HTML_vmenu += `<a href="/censorproduct">
+                                <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
+                            </a>`;
+                        }
+                        if (resData.permission.acceptaccountmanagement) {
+                            HTML_offcanvas += `<a href="/accountmanagement">
+                                        <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
+                                    </a>`;
+                            HTML_vmenu += `<a href="/accountmanagement">
+                                <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
+                            </a>`;
+                        }
+                        HTML_offcanvas += `</div>
+                            </div>`;
+                            HTML_vmenu += `</div>
+                        </div>`;
+                    }
+                    HTML_offcanvas += `<div class="main-left-logo-content-group">
+                                <div class="main-left-logo-content-group-top">
+                                    <p>Tài khoản</p>
+                                </div>
+                                <div class="main-left-logo-content-group-bottom">
+                                    <a href="/profile">
+                                        <button><i class="fa-solid fa-user"></i> Tài khoản</button>
+                                    </a>
+                                    <a href="/paymentgateway">
+                                        <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
+                                    </a>
+                                    <a href="/purchasedproducts">
+                                        <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
+                                    </a>
+                                </div>`;
+                        HTML_vmenu += `<div class="main-left-logo-content-group">
+                            <div class="main-left-logo-content-group-top">
+                                <p>Tài khoản</p>
+                            </div>
+                            <div class="main-left-logo-content-group-bottom">
+                                <a href="/profile">
+                                    <button><i class="fa-solid fa-user"></i> Tài khoản</button>
+                                </a>
+                                <a href="/paymentgateway">
+                                    <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
+                                </a>
+                                <a href="/purchasedproducts">
+                                    <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
+                                </a>
+                            </div>`;
+                            document.getElementById("v_menu").innerHTML = HTML_vmenu;
+                            document.getElementById("menu_offcanvas").innerHTML = HTML_offcanvas;
+
+                            let dropdown = `<a class="btn btn-secondary dropdown-toggle btn-color-menu-account" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">${resData.username}`;
+                            if (resData.verify) {
+                                dropdown += ` <i class="fa-solid fa-circle-check verified"></i>`
+                            }
+                            dropdown += `</a>`;
+                            dropdown += `</ul>
+                                            <ul class="dropdown-menu dropdown-menu-end btn-color-menu-account-background">
+                                                <li><a class="dropdown-item btn-color-menu-account-items" href="/profile/">Tài khoản</a></li>
+                                                <li><a class="dropdown-item btn-color-menu-account-items" href="/shoppingcart">Giỏ hàng</a></li>
+                                                <li><a class="dropdown-item btn-color-menu-account-items" href="/purchasedproducts">Sản phẩm đã mua</a></li>
+                                                <li><a class="dropdown-item btn-color-menu-account-items" href="" onclick="Logout()">Đăng xuất</a></li>
+                                            </ul>`;
+                            document.getElementById("dropdown_menu").innerHTML = dropdown;
+                            document.getElementById("money").textContent = `${resData.money.toLocaleString('de-DE')}`;
+                    }
+              })
+        }
+    }
+    LoadFunction();
+    function Logout() {
+        localStorage.removeItem("username");
+        localStorage.removeItem("password");
+        location.reload();
+    }
+    document.addEventListener("DOMContentLoaded", async () => {
+        const data = {
+            productid: PRODUCTID
+        }
+        fetch('/API/getproductdataview', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+            credentials: 'include'
+          })
+          .then(res => res.json())
+          .then(resData => {
+            if (resData.status) {
+                fetch('/API/getpicture', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                    credentials: 'include'
+                  })
+                  .then(res => res.json())
+                  .then(resDataPicture => {
+                    if (resDataPicture.status) {
+                        document.title = `Sản phẩm: ${resData.data.producttitle}`;
+                        document.getElementById("author").innerHTML = `<a href="/profile/${resData.data.username}">${resData.data.username} ${resData.data.Verify ? '<i class="fa-solid fa-circle-check verified"></i>' : ""}</a>`;
+                        document.getElementById("createtime").innerHTML = `${formatDate(resData.data.createtime)}`;
+                        document.getElementById("totalsold").innerHTML = `${resData.data.totalsold}`;
+                        document.getElementById("quantity").innerHTML = `${resData.data.quantity}`;
+                        document.getElementById("rating").innerHTML = `${resData.data.ratingstar} ${calculateStars(resData.data.ratingstar)} (${resData.data.EvaluateTotal} đánh giá)`;
+                        document.getElementById("title").innerHTML = `${resData.data.discount !== 0 ? `<span class="badge text-bg-danger">-${resData.data.discount}%</span>` : ``} ${resData.data.producttitle}`;
+                        document.getElementById("subtitle").innerHTML = `${resData.data.productsubtitle}`;
+                        document.getElementById("price").innerHTML = `${resData.data.discount !== 0 ? `<span class="product-price-show">${(resData.data.price - ((resData.data.price / 100) * resData.data.discount)) == 0 ? "Miễn phí" : (resData.data.price - ((resData.data.price / 100) * resData.data.discount)).toLocaleString("de-DE") + " đ"}</span> <span class="product-price-hide">${resData.data.price.toLocaleString("de-DE")} đ</span> <span class="price-count">Còn lại <span class="red">${resData.data.discountcount}</span> sản phẩm với giá này</span>` : `<span class="product-price-show">${resData.data.price.toLocaleString("de-DE")} đ</span>`}`;
+                        document.getElementById("quantity-group").innerHTML = `<label for="quantity-input"><h4>Số lượng</h4></label>
+                                                                                <button onclick="decrease()">-</button>
+                                                                                <input type="number" value="1" min="1" id="quantity-input">
+                                                                                <button onclick="increase()">+</button>`;
+                        document.getElementById("information").innerHTML = `${resData.data.information}`;
+                        document.getElementById("description").innerHTML = `${resData.data.productcontent}`;
+                        const username = localStorage.getItem("username");
+                        const password = localStorage.getItem("password");
+                        if (username !== undefined && username !== null && password !== undefined && password !== null) {
+                            const data = {
+                                username: username,
+                                password: password
+                            }
+                            fetch('/API/authentication', {
+                                method: 'POST',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data),
+                                credentials: 'include'
+                              })
+                              .then(res => res.json())
+                              .then(resDataUser => {
+                                    if (resDataUser.status) {
+                                        document.getElementById("buy").innerHTML = `<button id="addtocart" onclick="AddToCart()">Thêm vào giỏ hàng</button><button id="buynow" onclick="BuyNow()">Mua ngay</button>`;
+                                    }
+                                    else {
+                                        document.getElementById("buy").innerHTML = `<button id="buynow" data-bs-toggle="modal" data-bs-target="#loginMadal">Đăng nhập để mua</button>`;
+                                    }
+                              });
+                        }
+                        else {
+                            document.getElementById("buy").innerHTML = `<button id="buynow" data-bs-toggle="modal" data-bs-target="#loginMadal">Đăng nhập để mua</button>`;
+                        }
+                        const productIconPath = resData.data.producticonpath.replace("public\\", "/").replace("\\", "/");
+                        document.getElementById("preview").innerHTML = `<div class="carousel-item active">
+                                                                            <img src="${productIconPath}" class="d-block w-100" alt="">
+                                                                        </div>`;
+                        resDataPicture.data.forEach(items => {
+                            const productpPicturePath = items.picturepath.replace("public\\", "/").replace("\\", "/");
+                            document.getElementById("preview").innerHTML += `<div class="carousel-item">
+                                                                                <img src="${productpPicturePath}" class="d-block w-100" alt="">
+                                                                            </div>`;
+                        });
+                    } else {
+                        location.href = "/";
+                    }
+                })
+            } else {
+                location.href = "/";
+            }
+        })
+        function Bought() {
+            const username = localStorage.getItem("username");
+            const password = localStorage.getItem("password");
+    
+            if (username !== undefined && username !== null && username !== "" && password !== undefined && password !== "" && password !== null) {
+                const data = {
+                    username: username,
+                    password: password,
+                    productid: PRODUCTID
+                }
+                fetch('/API/checkbuy', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                    credentials: 'include'
+                  })
+                  .then(res => res.json())
+                  .then(resData => {
+                        if (resData.status) {
+                            document.getElementById("modal").innerHTML += `<div class="modal fade" id="createreview" tabindex="-1" aria-labelledby="createreviewLabel" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                    <h1 class="modal-title fs-5" id="createreviewLabel">Tạo đánh giá</h1>
+                                                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <label for="rating_star" class="form-label">Đánh giá: <span id="rating-star">5</span> <i class="fa-solid fa-star"></i></label>
+                                                                                        <input type="range" class="form-range" min="1" max="5" step="0.5" value="5" id="rating_star" onchange="chanageRating(this)">
+                                                                                        <label for="raiting-comment" class="form-label">Cảm nhận về sản phẩm</label>
+                                                                                        <div class="input-group">
+                                                                                            <textarea class="form-control" id="raiting-comment" ></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hũy</button>
+                                                                                    <button type="button" class="btn btn-primary" onclick="Evaluate()">Gửi</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                                </div>
+                                                                            </div>`;
+                            document.getElementById("write-rating").innerHTML = `<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createreview">Viết đánh giá</button>`;
+                        }
+                  });
+            }
+        }
+        Bought();
+        function LoadEvaluate() {
+            const username = localStorage.getItem("username");
+            const password = localStorage.getItem("password");
+            if (username !== undefined && username !== null && username !== "" && password !== undefined && password !== "" && password !== null) {
+                const data = {
+					username: username,
+					password: password
+				}
+				fetch('/API/authenticationpermission', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                    credentials: 'include'
+                  })
+				  .then(res => res.json())
+				  .then(resDataUser => {
+						if (resDataUser.permission.acceptproductmanagementall) {
+                            const data = {
+                                productid: PRODUCTID
+                            }
+                            fetch('/API/getevaluatedata', {
+                                method: 'POST',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data),
+                                credentials: 'include'
+                              })
+                              .then(res => res.json())
+                              .then(resDataEvaluate => {
+                                document.getElementById("evaluate").innerHTML = "";
+                                if (resDataEvaluate.data === null) {
+                                    document.getElementById("evaluate").innerHTML += `<div class="no-evaluate">
+                                                                                        <p>Chưa có đánh giá nào</p>
+                                                                                    </div>`;
+                                    return;
+                                }
+                                resDataEvaluate.data.forEach(items => {
+                                    document.getElementById("modal").innerHTML += `<div class="modal fade evaluate-modal-items" id="${items.evaluateid}-editreview" tabindex="-1" aria-labelledby="${items.evaluateid}-editreviewLabel" aria-hidden="true">
+                                                                                                <div class="modal-dialog">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-header">
+                                                                                                    <h1 class="modal-title fs-5" id="${items.evaluateid}-editreviewLabel">Chính sửa đánh giá</h1>
+                                                                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                                    </div>
+                                                                                                    <div class="modal-body">
+                                                                                                        <label for="rating_star-${items.evaluateid}" class="form-label">Đánh giá: <span id="rating-star-${items.evaluateid}">${items.rating.toFixed(1)}</span> <i class="fa-solid fa-star"></i></label>
+                                                                                                        <input type="range" class="form-range" min="1" max="5" step="0.5" value="${items.rating}" id="rating_star-${items.evaluateid}" onchange="chanageRating(this)">
+                                                                                                        <label for="raiting-comment-${items.evaluateid}" class="form-label">Cảm nhận về sản phẩm</label>
+                                                                                                        <div class="input-group">
+                                                                                                            <textarea class="form-control" id="raiting-comment-${items.evaluateid}" >${items.comment}</textarea>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hũy</button>
+                                                                                                    <button type="button" class="btn btn-primary" onclick="EditEvaluate('${items.evaluateid}')">Gửi</button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                </div>
+                                                                                            </div>`;
+                                    const evaluatePath = items.avatarpath.replace("public\\", "/").replace("\\", "/");
+                                    document.getElementById("evaluate").innerHTML += `<div class="main-right-header-content-center-bottom-items">
+                                                                                        <div class="main-right-header-content-center-bottom-items-left">
+                                                                                            <div class="main-right-header-content-center-bottom-items-left-left">
+                                                                                                <img src="${evaluatePath}" alt="">
+                                                                                            </div>
+                                                                                            <div class="main-right-header-content-center-bottom-items-left-right">
+                                                                                                <h5>
+                                                                                                    <div class="user-information"><a href="/profile/${items.username}">${items.username} ${items.Verify ? '<i class="fa-solid fa-circle-check verified"></i>' : ""}</a></div>
+                                                                                                    <div class="user-rating-star">${items.rating.toFixed(1)} ${calculateStars(items.rating)}</div>
+                                                                                                </h5>
+                                                                                                <p>${items.comment}</p>
+                                                                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#${items.evaluateid}-editreview">Sửa</button>
+                                                                                                <button type="button" class="btn btn-danger" onclick="DeleteEvaluate('${items.evaluateid}')">Xóa</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="main-right-header-content-center-bottom-items-right">
+                                                                                            <p>${formatDate(items.createtime)}</p>
+                                                                                        </div>
+                                                                                    </div>`;
+                                });
+                              })
+                        }
+                        else {
+                            const data = {
+                                productid: PRODUCTID
+                            }
+                            fetch('/API/getevaluatedata', {
+                                method: 'POST',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data),
+                                credentials: 'include'
+                              })
+                              .then(res => res.json())
+                              .then(resDataEvaluate => {
+                                document.getElementById("evaluate").innerHTML = "";
+                                if (resDataEvaluate.data === null) {
+                                    document.getElementById("evaluate").innerHTML += `<div class="no-evaluate">
+                                                                                        <p>Chưa có đánh giá nào</p>
+                                                                                    </div>`;
+                                    return;
+                                }
+                                resDataEvaluate.data.forEach(items => {
+                                    const evaluatePath = items.avatarpath.replace("public\\", "/").replace("\\", "/");
+                                    if (items.username == username) {
+                                        document.getElementById("modal").innerHTML += `<div class="modal fade evaluate-modal-items" id="${items.evaluateid}-editreview" tabindex="-1" aria-labelledby="${items.evaluateid}-editreviewLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="${items.evaluateid}-editreviewLabel">Chính sửa đánh giá</h1>
+                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label for="rating_star-${items.evaluateid}" class="form-label">Đánh giá: <span id="rating-star-${items.evaluateid}">${items.rating.toFixed(1)}</span> <i class="fa-solid fa-star"></i></label>
+                                                    <input type="range" class="form-range" min="1" max="5" step="0.5" value="${items.rating}" id="rating_star-${items.evaluateid}" onchange="chanageRating(this)">
+                                                    <label for="raiting-comment-${items.evaluateid}" class="form-label">Cảm nhận về sản phẩm</label>
+                                                    <div class="input-group">
+                                                        <textarea class="form-control" id="raiting-comment-${items.evaluateid}" >${items.comment}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hũy</button>
+                                                <button type="button" class="btn btn-primary" onclick="EditEvaluate('${items.evaluateid}')">Gửi</button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>`;
+                                        document.getElementById("evaluate").innerHTML += `<div class="main-right-header-content-center-bottom-items">
+                                                                                            <div class="main-right-header-content-center-bottom-items-left">
+                                                                                                <div class="main-right-header-content-center-bottom-items-left-left">
+                                                                                                    <img src="${evaluatePath}" alt="">
+                                                                                                </div>
+                                                                                                <div class="main-right-header-content-center-bottom-items-left-right">
+                                                                                                    <h5>
+                                                                                                        <div class="user-information"><a href="/profile/${items.username}">${items.username} ${items.Verify ? '<i class="fa-solid fa-circle-check verified"></i>' : ""}</a></div>
+                                                                                                        <div class="user-rating-star">${items.rating.toFixed(1)} ${calculateStars(items.rating)}</div>
+                                                                                                    </h5>
+                                                                                                    <p>${items.comment}</p>
+                                                                                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#${items.evaluateid}-editreview">Sửa</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="main-right-header-content-center-bottom-items-right">
+                                                                                                <p>${formatDate(items.createtime)}</p>
+                                                                                            </div>
+                                                                                        </div>`;
+                                    }
+                                    else {
+                                        document.getElementById("evaluate").innerHTML += `<div class="main-right-header-content-center-bottom-items">
+                                                                                            <div class="main-right-header-content-center-bottom-items-left">
+                                                                                                <div class="main-right-header-content-center-bottom-items-left-left">
+                                                                                                    <img src="${evaluatePath}" alt="">
+                                                                                                </div>
+                                                                                                <div class="main-right-header-content-center-bottom-items-left-right">
+                                                                                                    <h5>
+                                                                                                        <div class="user-information"><a href="/profile/${items.username}">${items.username} ${items.Verify ? '<i class="fa-solid fa-circle-check verified"></i>' : ""}</a></div>
+                                                                                                        <div class="user-rating-star">${items.rating.toFixed(1)} ${calculateStars(items.rating)}</div>
+                                                                                                    </h5>
+                                                                                                    <p>${items.comment}</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="main-right-header-content-center-bottom-items-right">
+                                                                                                <p>${formatDate(items.createtime)}</p>
+                                                                                            </div>
+                                                                                        </div>`;
+                                    }
+                                });
+                              })
+                        }
+				  })
+            }
+            else {
+                const data = {
+					productid: PRODUCTID
+				}
+				fetch('/API/getevaluatedata', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                    credentials: 'include'
+                  })
+				  .then(res => res.json())
+				  .then(resDataEvaluate => {
+                    document.getElementById("evaluate").innerHTML = "";
+                    if (resDataEvaluate === null) {
+                        document.getElementById("evaluate").innerHTML += `<div class="no-evaluate">
+                                                                            <p>Chưa có đánh giá nào</p>
+                                                                        </div>`;
+                        return;
+                    }
+                    resDataEvaluate.data.forEach(items => {
+                        const evaluatePath = items.avatarpath.replace("public\\", "/").replace("\\", "/");
+                        document.getElementById("evaluate").innerHTML += `<div class="main-right-header-content-center-bottom-items">
+                                                                            <div class="main-right-header-content-center-bottom-items-left">
+                                                                                <div class="main-right-header-content-center-bottom-items-left-left">
+                                                                                    <img src="${evaluatePath}" alt="">
+                                                                                </div>
+                                                                                <div class="main-right-header-content-center-bottom-items-left-right">
+                                                                                    <h5>
+                                                                                        <div class="user-information"><a href="/profile/${items.username}">${items.username} ${items.Verify ? '<i class="fa-solid fa-circle-check verified"></i>' : ""}</a></div>
+                                                                                        <div class="user-rating-star">${items.rating.toFixed(1)} ${calculateStars(items.rating)}</div>
+                                                                                    </h5>
+                                                                                    <p>${items.comment}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="main-right-header-content-center-bottom-items-right">
+                                                                                <p>${formatDate(items.createtime)}</p>
+                                                                            </div>
+                                                                        </div>`;
+                    });
+				  })
+            }
+        }
+        LoadEvaluate();
+    });
+    function Evaluate() {
+        const username = localStorage.getItem("username");
+        const password = localStorage.getItem("password");
+        const Evaluate_Star = document.getElementById("rating_star").value;
+        const Evaluate_Comment = document.getElementById("raiting-comment").value;
+
+        if (username !== undefined && username !== null && username !== "" && password !== undefined && password !== "" && password !== null) {
+            if (Evaluate_Star !== "") {
+				const data = {
+					username: username,
+					password: password,
+					productid: PRODUCTID,
+                    Evaluate_Star: Evaluate_Star,
+                    Evaluate_Comment: Evaluate_Comment
+				}
+				fetch('/API/createevaluate', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                    credentials: 'include'
+                  })
+				  .then(res => res.json())
+				  .then(resData => {
+                        if (resData.status) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Chúc mừng",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white"
+                            }).then((result) => {
+                                if (result.dismiss === Swal.DismissReason.backdrop) {
+                                  location.reload();
+                                }
+                                else {
+                                    location.reload();
+                                }
+                              });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white",
+                                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                            });
+                        }
+				  })
+            }
+            else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Bạn cần điền đầy đủ thông tin`,
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                });
+            }
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Bạn chưa mua sản phẩm này`,
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+            });
+        }
+    }
+    function formatDate(date) {
+        const now = new Date(date);
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const year = now.getFullYear();
+      
+        return `${hours}:${minutes}:${seconds} ${day}/${month}/${year}`;
+      }
+    function calculateStars(rating) {
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = Math.round(rating * 2) % 2 === 1;
+        const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    
+        let result = '';
+    
+        for (let i = 0; i < fullStars; i++) {
+            result += '<i class="fa-solid fa-star"></i>';
+        }
+    
+        if (hasHalfStar) {
+            result += '<i class="fa-solid fa-star-half-stroke"></i>';
+        }
+    
+        for (let i = 0; i < emptyStars; i++) {
+            result += '<i class="fa-regular fa-star"></i>';
+        }
+    
+        return result;
+    }
+    function BuyNow() {
+        const username = localStorage.getItem("username");
+        const password = localStorage.getItem("password");
+        const quantity = document.getElementById("quantity-input").value;
+
+        if (username == "" || password == "") {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Lỗi xác thực người dùng",
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+              });
+            return;
+        }
+        else {
+            if (quantity == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Vui lòng điều số lượng",
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                  });
+                return;
+            }
+            else {
+                if (quantity < 1) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Số lượng không được bé hơn 1",
+                        background: '#222338',
+                        color: "white",
+                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                      });
+                    return;
+                }
+                else {
+                    const data = {
+                        username: username,
+                        password: password,
+                        productid: PRODUCTID,
+                        quantity: quantity
+                    };
+                    fetch('/API/buyproduct', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                        credentials: 'include'
+                      })
+                      .then(res => res.json())
+                      .then(resData => {
+                        if (resData.status) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Chúc mừng",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white"
+                            }).then((result) => {
+                                if (result.dismiss === Swal.DismissReason.backdrop) {
+                                  location.reload();
+                                }
+                                else {
+                                    location.reload();
+                                }
+                              });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white",
+                                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                            });
+                        }
+                      });
+                }
+            }
+        }
+    }
+    function AddToCart() {
+        const username = localStorage.getItem("username");
+        const password = localStorage.getItem("password");
+        const quantity = document.getElementById("quantity-input").value;
+
+        if (username == "" || password == "") {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Lỗi xác thực người dùng",
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+              });
+            return;
+        }
+        else {
+            if (quantity == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Vui lòng điều số lượng",
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                  });
+                return;
+            }
+            else {
+                if (quantity < 1) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Số lượng không được bé hơn 1",
+                        background: '#222338',
+                        color: "white",
+                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                      });
+                    return;
+                }
+                else {
+                    const data = {
+                        username: username,
+                        password: password,
+                        productid: PRODUCTID,
+                        quantity: quantity
+                    };
+                    fetch('/API/addtocart', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                        credentials: 'include'
+                      })
+                      .then(res => res.json())
+                      .then(resData => {
+                        if (resData.status) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Chúc mừng",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white"
+                            }).then((result) => {
+                                if (result.dismiss === Swal.DismissReason.backdrop) {
+                                  location.reload();
+                                }
+                                else {
+                                    location.reload();
+                                }
+                              });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white",
+                                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                            });
+                        }
+                      });
+                }
+            }
+        }
+    }
+    function increase() {
+        document.getElementById("quantity-input").value++;
+    }
+    function decrease() {
+        let quantity = document.getElementById("quantity-input");
+        if (quantity.value > 1) {
+            quantity.value--;
+        }
+    }
+    function chanageRating(items) {
+        console.log();
+        const element = items.parentElement;
+
+        const rating = element.querySelector("input").value;
+
+        element.querySelector("span").textContent = Number(rating).toFixed(1);
+    }
+    function EditEvaluate(evaluateid) {
+        const username = localStorage.getItem("username");
+        const password = localStorage.getItem("password");
+        const rating = document.getElementById(`rating_star-${evaluateid}`).value;
+        const comment = document.getElementById(`raiting-comment-${evaluateid}`).value;
+
+        if (username !== undefined && username !== null && username !== "" && password !== undefined && password !== "" && password !== null) {
+            if (evaluateid == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Vui lòng điền đầy đủ thông tin",
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                  });
+                return;
+            }
+            else {
+                if (rating == "") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Vui lòng điền đầy đủ thông tin",
+                        background: '#222338',
+                        color: "white",
+                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                      });
+                    return;
+                }
+                else {
+                    const data = {
+                        username: username,
+                        password: password,
+                        evaluateid: evaluateid,
+                        rating: rating,
+                        comment: comment
+                    }
+                    fetch('/API/editevaluate', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                        credentials: 'include'
+                      })
+                      .then(res => res.json())
+                      .then(resData => {
+                        if (resData.status) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Chúc mừng",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white"
+                            }).then((result) => {
+                                if (result.dismiss === Swal.DismissReason.backdrop) {
+                                  location.reload();
+                                }
+                                else {
+                                    location.reload();
+                                }
+                              });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white",
+                                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                            });
+                        }
+                      })
+                }
+            }
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Bạn phải đăng nhập để tiếp tục",
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+              });
+            return;
+        }
+    }
+    function DeleteEvaluate(evaluateid) {
+        const username = localStorage.getItem("username");
+        const password = localStorage.getItem("password");
+
+        if (username !== undefined && username !== null && username !== "" && password !== undefined && password !== "" && password !== null) {
+            const data = {
+                username: username,
+                password: password
+            }
+            fetch('/API/authenticationpermission', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                credentials: 'include'
+              })
+              .then(res => res.json())
+              .then(resData => {
+                    if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall) {
+                        Swal.fire({
+                            title: "Bạn chắc chắn muống xóa?",
+                            text: "Xóa phản hồi thì bạn sẽ không thể khôi phục lại",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "Hũy",
+                            cancelButtonColor: "#3869d3",
+                            confirmButtonText: "Xóa",
+                            background: '#222338',
+                            color: "white"
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                                const data = {
+                                    username: username,
+                                    password: password,
+                                    evaluateid: evaluateid
+                                }
+                                fetch('/API/deleteevaluate', {
+                                    method: 'POST',                
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(data),
+                                    credentials: 'include'
+                                  })
+                                  .then(res => res.json())
+                                  .then(resData => {
+                                    if (resData.status) {
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Chúc mừng",
+                                            text: `${resData.message}`,
+                                            background: '#222338',
+                                            color: "white",
+                                          }).then((result) => {
+                                            if (result.dismiss === Swal.DismissReason.backdrop) {
+                                              location.reload();
+                                            }
+                                            else {
+                                                location.reload();
+                                            }
+                                          });;
+                                    }
+                                    else {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Oops...",
+                                            text: `${resData.message}`,
+                                            background: '#222338',
+                                            color: "white",
+                                            footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                                          });
+                                        return;
+                                    }
+                                })
+                            }
+                          });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Bạn không có quyền thực hiện điều này",
+                            background: '#222338',
+                            color: "white",
+                            footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                          });
+                        return;
+                    }
+              })
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Bạn không có quyền thực hiện điều này",
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+              });
+            return;
+        }
+
+    }
+    </script>
+    <script src="https://kit.fontawesome.com/476445fe42.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+</body>
+</html>

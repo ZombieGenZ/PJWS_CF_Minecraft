@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        const username = localStorage.getItem("username");
+        const password = localStorage.getItem("password");
+        if (username !== undefined && username !== null && password !== undefined && password !== null) {
+            const data = {
+                username: username,
+                password: password,
+            }
+            fetch('/API/authentication', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                credentials: 'include'
+              })
+              .then(res => res.json())
+              .then(resData => {
+                    if (!resData.status) {
+                        location.href = "/";
+                    }
+                })
+            }
+            else {
+                location.href = "/";
+            }
+    </script>
+    <style>
+        :root {
+            --brightColor: #1b1c30;
+            --prominentColor: #222338;
+            --itemsColor: #3869d3;
+          }
+        
+        .main {
+            max-width: 100vw;
+            min-height: 100vh;
+            max-height: 10000vh;
+            display: grid;
+            color: white;
+            background-color: var(--brightColor);
+            grid-template-columns: minmax(auto, 300px) auto;
+        }
+        .main-left {
+            background-color: var(--prominentColor);
+            display: grid;
+            grid-template-rows: 200px 1fr;
+        }
+        .main-left-logo {
+            display: grid;
+            place-items: center;
+        }
+        .main-left-logo img {
+            max-width: 50%;
+        }
+        .main-left-logo-content {
+            padding: 0 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .main-left-logo-content-group {
+            display: grid;
+            grid-template-rows: 30px auto;
+        }
+        .main-left-logo-content-group-top p {
+            user-select: none;
+            color: #656680;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .main-left-logo-content-group-bottom {
+            display: grid;
+            grid-auto-rows: 40px;
+            row-gap: 3px;
+        }
+        .main-left-logo-content-group-bottom a {
+            height: 40px;
+            text-decoration: none;
+        }
+        .main-left-logo-content-group-bottom button {
+            color: #656680;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            text-align: left;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+            width: 100%;
+            height: 40px;
+            border: none;
+            background-color: var(--prominentColor);
+            transition: background-color 0.3s;
+        }
+        .main-left-logo-content-group-bottom button:hover:not(.main-left-logo-content-group-bottom-active) {
+            border-left: 5px solid var(--itemsColor);
+            background-color: var(--brightColor);
+        }
+        .main-left-logo-content-group-bottom-active button {
+            border-left: 5px solid var(--itemsColor);
+            background-color: var(--brightColor);
+        }
+        .main-left-logo-content-group-bottom i {
+            margin-left: 8px;
+            margin-right: 5px;
+        }
+        .main-right {
+            display: grid;
+            grid-template-rows: 80px 1fr;
+        }
+        .main-right-header {
+            display: grid;
+            padding: 0 15px;
+            grid-template-columns: auto auto minmax(50px, 200px) minmax(50px, 150px);
+            background-color: var(--prominentColor);
+            column-gap: 10px;
+        }
+        .main-right-header-menu {
+            display: none;
+        }
+        .main-right-header-title {
+            grid-column: 1;
+            display: flex;
+            align-items: center;
+        }
+        .main-right-header-money {
+            display: grid;
+            place-content: center;
+            grid-column: 3;
+        }
+        .btn-money {
+            cursor: default !important;
+        }
+        .main-right-header-account {
+            display: grid;
+            place-content: center;
+            grid-column: 4;
+        }
+        .btn-color-menu-account {
+            border: none !important;
+            background-color: var(--itemsColor) !important;
+        }
+        .btn-color-menu-account-background {
+            box-shadow: 0 0 10px var(--brightColor);
+            background-color: var(--prominentColor) !important;
+        }
+        .btn-color-menu-account-items {
+            color: white !important;
+            transition: background-color, font-weight 0.3s;
+        }
+        .btn-color-menu-account-items:hover {
+            font-weight: bold;
+            border-left: 5px solid var(--itemsColor);
+            background-color: var(--brightColor) !important;
+        }
+        .verified {
+            color: #3bce5b;
+        }
+        .manage {
+            color: #ff4d00;
+        }
+        .developer {
+            color: #f2ff00;
+        }
+        .overflow-1 {
+            display: -webkit-box !important;
+            -webkit-box-orient: vertical !important;
+            -webkit-line-clamp: 1 !important;
+            overflow: hidden !important;
+        }
+        .overflow-2 {
+            display: -webkit-box !important;
+            -webkit-box-orient: vertical !important;
+            -webkit-line-clamp: 1 !important;
+            overflow: hidden !important;
+        }
+        .overflow-3 {
+            display: -webkit-box !important;
+            -webkit-box-orient: vertical !important;
+            -webkit-line-clamp: 1 !important;
+            overflow: hidden !important;
+        }
+        .modal-content {
+            background-color: var(--brightColor) !important;
+        }
+        .modal-header {
+            color: white;
+        }
+        .input-group-text-dark {
+            color: white !important;
+            background-color: var(--prominentColor) !important;
+        }
+        .accoutn-auth-group {
+            margin-bottom: 5px;
+        }
+        .accoutn-auth-group label {
+            margin-left: 5px;
+            color: white;
+            padding: 10px 0;
+        }
+        .accoutn-auth-group input {
+            color: white;
+            display: block;
+            height: 35px;
+            outline: none;
+            border: none;
+            padding: 5px 10px;
+            background-color: var(--prominentColor);
+            width: 100%;
+            transition: 0.3s;
+            border-radius: 8px;
+        }
+        .accoutn-auth-group input:focus {
+            box-shadow: 0 0 10px var(--itemsColor);
+        }
+        .accoutn-auth-group-btn {
+            display: grid;
+            place-content: center;
+            margin-top: 10px;
+        }
+        .accoutn-auth-group-btn-link {
+            margin: 10px 0;
+            color: white;
+            text-align: center;
+        }
+        .accoutn-auth-group-btn-link a {
+            color: white;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .accoutn-auth-group-btn-link a:hover {
+            color: var(--itemsColor);
+        }
+        .offcanvas {
+            background-color: var(--prominentColor) !important;
+        }
+        #menuLabel {
+            color: white;
+        }
+        #alert {
+            color: white !important;
+        }
+        @media (max-width: 1300px) {
+            .main {
+                max-width: 100vw;
+                min-height: 100vh;
+                max-height: 10000vh;
+                display: grid;
+                color: white;
+                background-color: var(--brightColor);
+                grid-template-columns: auto;
+            }
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px) auto minmax(50px, 200px) minmax(50px, 150px);
+                background-color: var(--prominentColor);
+                column-gap: 10px;
+            }
+            .main-right-header-title {
+                grid-column: 2;
+            }
+            .main-left {
+                background-color: var(--prominentColor);
+                display: none;
+                grid-template-rows: 200px 1fr;
+            }
+            .main-right-header-menu {
+                display: grid;
+                place-content: center;
+            }
+        }
+        @media (max-width: 680px) {
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px) auto minmax(80px, 200px);
+                background-color: var(--prominentColor);
+                column-gap: 10px;
+            }
+            .main-right-header-money {
+                display: grid;
+                place-content: center;
+                grid-column: 3;
+            }
+            .main-right-header-account {
+                display: none;
+            }
+        }
+        @media (max-width: 570px) {
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px) auto minmax(80px, 200px);
+                background-color: var(--prominentColor);
+                column-gap: 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px) auto minmax(auto, 50px);
+                background-color: var(--prominentColor);
+            }
+            .main-right-header-money {
+                display: none;
+                place-content: center;
+                grid-column: 3;
+            }
+        }
+        @media (max-width: 310px) {
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px) auto;
+                background-color: var(--prominentColor);
+            }
+            .main-right-header-money {
+                display: none;
+                place-content: center;
+                grid-column: 3;
+            }
+        }
+        @media (max-width: 250px) {
+            .main-right-header {
+                display: grid;
+                padding: 0 15px;
+                grid-template-columns: minmax(0px, 50px);
+                background-color: var(--prominentColor);
+            }
+            .main-right-header-title {
+                display: none;
+            }
+        }
+        .main-right-header-content {
+            padding: 10px;
+            display: grid;
+            grid-template-columns: minmax(0px, auto) minmax(auto, 1200px) minmax(0px, auto);
+        }
+        .main-right-header-content-center {
+            padding: 10px;
+            grid-column: 2;
+            display: grid;
+            grid-template-columns: minmax(auto, 200px) minmax(200px, auto);
+            background-color: var(--prominentColor);
+            padding: 30px;
+            column-gap: 20px;
+            display: grid;
+        }
+        .main-right-header-content-center-left {
+            display: grid;
+            grid-template-rows: 200px;
+            row-gap: 20px;
+        }
+        .main-right-header-content-center-left-top {
+            display: flex;
+            justify-content: center;
+        }
+        .main-right-header-content-center-left-top img {
+            max-width: 200px;
+            min-width: 200px;
+            max-height: 200px;
+            min-height: 200px;
+        }
+        .main-right-header-content-center-left-bottom {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .username-left {
+            display: none !important;
+        }
+        .main-right-header-content-center-right {
+            display: grid;
+            grid-template-rows: minmax(30px, 70px) minmax(0px, 50px) minmax(50px, auto);
+            row-gap: 10px;
+        }
+        .main-right-header-content-center-right-center {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-auto-rows: 65px;
+            gap: 5px;
+        }
+        .main-right-header-content-center-right-center-items {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            row-gap: 5px;
+            text-align: center;
+            padding: 5px;
+        }
+        @media (max-width: 600px) {
+            .main-right-header-content-center {
+                padding: 10px;
+                grid-column: 2;
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: minmax(auto, 300px) minmax(200px, auto);
+                background-color: var(--prominentColor);
+                padding: 30px;
+                column-gap: 20px;
+                display: grid;
+            }
+            .username-left {
+                display: block !important;
+            }
+            .username-right {
+                display: none !important;
+            }
+            .main-right-header-content-center-right {
+                display: grid;
+                grid-template-rows: 40px minmax(0px, 50px) minmax(50px, auto);
+                row-gap: 10px;
+            }
+            .main-right-header-content-center-right-center {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-auto-rows: 65px;
+                gap: 5px;
+            }
+            .main-right-header-content-center-right-top {
+                display: grid;
+                place-content: center;
+            }
+        }
+        @media (max-width: 320px) {
+            .main-right-header-content-center-left-top img {
+                max-width: 150px;
+                min-width: 100px;
+                max-height: 150px;
+                min-height: 100px;
+            }
+            .main-right-header-content-center-left-top {
+                display: grid;
+                place-content: center;
+            }
+        }
+        .chanageInformationGUI {
+            color: white;
+        }
+        .accordion-item {
+            background-color: var(--prominentColor) !important;
+            color: white !important;
+        }
+        .accordion-button {
+            color: white !important;
+            background-color: var(--brightColor) !important;
+        }
+        .avatar-group input {
+            color: white !important;
+            background-color: var(--prominentColor) !important;
+        }
+        .comfirm-group {
+            display: grid;
+            place-content: center;
+        }
+        .input-group input {
+            color: white !important;
+            background-color: var(--prominentColor) !important;
+        }
+    </style>
+    <link rel="icon" href="/image/system/favourite.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <title>Store</title>
+</head>
+<body>
+    <div class="chanageinformation" id="chanageinformation"></div>
+    <div class="madol" id="modal">
+        <div class="modal fade" id="loginMadal" tabindex="-1" aria-labelledby="loginLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="loginLabel">Đăng nhập tài khoản</h1>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="accoutn-auth-group">
+                        <label for="login-username"><i class="fa-solid fa-user"></i> Tên người dùng</label>
+                        <input type="text" id="login-username" placeholder="Nhập tên người dùng của bạn">
+                    </div>
+                    <div class="accoutn-auth-group">
+                        <label for="login-password"><i class="fa-solid fa-key"></i> Mật khẩu</label>
+                        <input type="password" id="login-password" placeholder="Nhập mật khẩu của bạn">
+                    </div>
+                    <div class="accoutn-auth-group-btn">
+                        <button type="button" class="btn btn-success form-auth-btn" onclick="LoginAccount()">Đăng nhập</button>
+                    </div>
+                    <div class="accoutn-auth-group-btn-link">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#forgotpasswordMadal">Quên mật khẩu?</a> |
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#registerMadal">Bạn chưa có tài khoản</a>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+          <div class="modal fade" id="registerMadal" tabindex="-1" aria-labelledby="registerLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="registerLabel">Đăng ký tài khoản</h1>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="accoutn-auth-group">
+                        <label for="register-username"><i class="fa-solid fa-user"></i> Tên người dùng</label>
+                        <input type="text" id="register-username" placeholder="Nhập tên người dùng của bạn">
+                    </div>
+                    <div class="accoutn-auth-group">
+                        <label for="register-email"><i class="fa-solid fa-envelope"></i> Đại chỉ email</label>
+                        <input type="text" id="register-email" placeholder="Nhập địa chỉ email của bạn">
+                    </div>
+                    <div class="accoutn-auth-group">
+                        <label for="register-password"><i class="fa-solid fa-key"></i> Mật khẩu</label>
+                        <input type="password" id="register-password" placeholder="Nhập mật khẩu của bạn">
+                    </div>
+                    <div class="accoutn-auth-group">
+                        <label for="register-comfirmpassword"><i class="fa-solid fa-key"></i> Xác nhận mật khẩu</label>
+                        <input type="password" id="register-comfirmpassword" placeholder="Xác nhận mật khẩu của bạn">
+                    </div>
+                    <div class="accoutn-auth-group-btn">
+                        <button type="submit" class="btn btn-success form-auth-btn" onclick="RegisterAccount()">Đăng ký</button>
+                    </div>
+                    <div class="accoutn-auth-group-btn-link">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#loginMadal">Bạn đã có tài khoản?</a>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          <div class="modal fade" id="forgotpasswordMadal" tabindex="-1" aria-labelledby="forgotpasswordLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="forgotpasswordLabel">Quên mật khẩu</h1>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="alert">Một email sẽ gửi về hộp thư của bạn điều này sẽ giúp chúng tôi xác minh bạn là chủ nhân của tài khoản này</p>
+                    <div class="accoutn-auth-group">
+                        <label for="forget-email"><i class="fa-solid fa-envelope"></i> Địa chỉ email</label>
+                        <input type="text" id="forget-email" placeholder="Nhập địa chỉ email của bạn">
+                    </div>
+                    <div class="accoutn-auth-group-btn">
+                        <button type="button" class="btn btn-success form-auth-btn" onclick="forgetPassword()">Xác nhận</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>   
+    </div>
+    <div class="main">
+        <div class="main-left">
+            <div class="main-left-logo">
+                <img src="/image/system/logo.png" alt="Logo">
+            </div>
+            <div class="main-left-logo-content" id="v_menu">
+                <div class="main-left-logo-content-group">
+                    <div class="main-left-logo-content-group-top">
+                        <p>Cửa hàng</p>
+                    </div>
+                    <div class="main-left-logo-content-group-bottom">
+                        <a href="/" class="main-left-logo-content-group-bottom-active">
+                            <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                        </a>
+                    </div>
+                </div>
+                    <div class="main-left-logo-content-group">
+                        <div class="main-left-logo-content-group-top">
+                            <p>Tài khoản</p>
+                        </div>
+                        <div class="main-left-logo-content-group-bottom">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#loginMadal">
+                                <button><i class="fa-solid fa-user"></i> Đăng nhập</button>
+                            </a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#registerMadal">
+                                <button><i class="fa-solid fa-user-plus"></i> Đăng ký</button>
+                            </a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="main-right">
+            <div class="main-right-header">
+                <div class="main-right-header-menu">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu" aria-controls="offcanvasExample">
+                        <i class="fa-solid fa-bars"></i>
+                      </button>
+                </div>
+                <div class="main-right-header-title">
+                    <h1 class="overflow-1">Tài khoản</h1>
+                </div>
+                <div class="main-right-header-money">
+                    <button type="button" class="btn btn-warning overflow-1 btn-money">
+                        <i class="fa-solid fa-money-bill-1"></i>
+                        <span id="money">0</span>
+                        đ
+                    </button>
+                </div>
+                <div class="main-right-header-account">
+                    <div class="dropdown" id="dropdown_menu">
+                        <a class="btn btn-secondary dropdown-toggle btn-color-menu-account" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          KHÁCH
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end btn-color-menu-account-background">
+                          <li><a class="dropdown-item btn-color-menu-account-items" href="#" data-bs-toggle="modal" data-bs-target="#loginMadal">Đăng nhập</a></li>
+                          <li><a class="dropdown-item btn-color-menu-account-items" href="#" data-bs-toggle="modal" data-bs-target="#registerMadal">Đăng ký</a></li>
+                        </ul>
+                      </div>
+                </div>
+            </div>
+            <div class="main-right-header-content">
+                <div class="main-right-header-content-center">
+                    <div class="main-right-header-content-center-left">
+                        <div class="main-right-header-content-center-left-top">
+                            <img src="/image/system/default_user.png" alt="" id="avatar">
+                        </div>
+                        <div class="main-right-header-content-center-left-bottom" id="profile-left">
+                            <h4 class="overflow-1 username-left" id="username-left"><span class="placeholder col-6"></span><h4/>
+                            <button type="button" class="btn btn-danger disabled placeholder" id="logout" onclick="Logout()">Đăng xuất</button>
+                        </div>
+                    </div>
+                    <div class="main-right-header-content-center-right">
+                        <div class="main-right-header-content-center-right-top" id="profile-right">
+                            <h4 class="overflow-1 username-right" id="username-right"><span class="placeholder col-3"></span></h4>
+                            <button type="button" class="btn btn-primary disabled placeholder" data-bs-toggle="modal" data-bs-target="#chanageInformationModal" id="chanageinformation-btn">Thay đổi thông tin</button>
+                        </div>
+                        <div class="main-right-header-content-center-medium overflow-2" id="bio">
+                            <span class="placeholder col-6"></span>
+                            <span class="placeholder col-4"></span>
+                            <span class="placeholder col-2"></span>
+                            <span class="placeholder col-6"></span>
+                            <span class="placeholder col-2"></span>
+                            <hr>
+                        </div>
+                        <div class="main-right-header-content-center-right-center">
+                            <div class="main-right-header-content-center-right-center-items">
+                                <div class="main-right-header-content-center-right-center-items-top overflow-1">
+                                    UID
+                                </div>
+                                <div class="main-right-header-content-center-right-center-items-bottom overflow-1" id="id">
+                                    <span class="placeholder col-6"></span>
+                                </div>
+                            </div>
+                            <div class="main-right-header-content-center-right-center-items">
+                                <div class="main-right-header-content-center-right-center-items-top overflow-1">
+                                    Chức vụ
+                                </div>
+                                <div class="main-right-header-content-center-right-center-items-bottom overflow-1" id="rank">
+                                    <span class="placeholder col-6"></span>
+                                </div>
+                            </div>
+                            <div class="main-right-header-content-center-right-center-items">
+                                <div class="main-right-header-content-center-right-center-items-top overflow-1">
+                                    Thời gian tạo tài khoản
+                                </div>
+                                <div class="main-right-header-content-center-right-center-items-bottom overflow-1" id="createtime">
+                                    <span class="placeholder col-6"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="Offcanvas">
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="menu" aria-labelledby="menuLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="menuLabel">Menu</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="main-left-logo-content" id="menu_offcanvas">
+                    <div class="main-left-logo-content-group">
+                        <div class="main-left-logo-content-group-top">
+                            <p>Cửa hàng</p>
+                        </div>
+                        <div class="main-left-logo-content-group-bottom">
+                            <a href="/" class="main-left-logo-content-group-bottom-active">
+                                <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                            </a>
+                        </div>
+                    </div>
+                        <div class="main-left-logo-content-group">
+                            <div class="main-left-logo-content-group-top">
+                                <p>Tài khoản</p>
+                            </div>
+                            <div class="main-left-logo-content-group-bottom">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#loginMadal">
+                                    <button><i class="fa-solid fa-user"></i> Đăng nhập</button>
+                                </a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#registerMadal">
+                                    <button><i class="fa-solid fa-user-plus"></i> Đăng ký</button>
+                                </a>
+                            </div>
+                        </div>
+            </div>
+          </div>
+          </div>
+    </div>
+    <script>
+        async function RegisterAccount() {
+            let username = document.getElementById("register-username").value;
+            let email = document.getElementById("register-email").value;
+            let password = document.getElementById("register-password").value;
+            let comfirmpassword = document.getElementById("register-comfirmpassword").value;
+    
+            username = normalizeString(username);
+            email = normalizeString_Email(email);
+            password = normalizeString(password);
+            comfirmpassword = normalizeString(comfirmpassword);
+    
+            if (username === "" || email === "" || password === "" || comfirmpassword === "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Bạn cần điền đầy đủ thông tin để tiếp tục",
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                    });
+                return;
+            }
+            else {
+                    if (username.length < 4 || username.length > 20) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Tên người dùng chỉ có thể dài từ 4 đến 20 ký tự",
+                            background: '#222338',
+                            color: "white",
+                            footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                          });
+                        return;
+                    }
+                    else {
+                        const accpetUsername = checkAlphanumeric(username);
+                        if (accpetUsername === false) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Tên người dùng không đựa chứa các ký tự đặt biệt",
+                                background: '#222338',
+                                color: "white",
+                                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                              });
+                            return;
+                        }
+                        else {
+                            const isEmail = checkEmail(email);
+                            if (!isEmail) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "Email không hợp lệ",
+                                    background: '#222338',
+                                    color: "white",
+                                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                                  });
+                                return;
+                            }
+                            else {
+                                if (password !== comfirmpassword) {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: "Hai mật khẩu không trùng khớp",
+                                        background: '#222338',
+                                        color: "white",
+                                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                                      });
+                                    return;
+                                }
+                                else {
+                                    if (password.length < 8 || password.length > 50) {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Oops...",
+                                            text: "Mật khẩu chỉ có thể dài 8 đến 50 ký tự",
+                                            background: '#222338',
+                                            color: "white",
+                                            footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                                          });
+                                        return;
+                                    }
+                                    else {
+                                        const data = {
+                                            username: username,
+                                            email: email,
+                                            password: password,
+                                            comfirmpassword: comfirmpassword
+                                        }
+                                        fetch('/API/register', {
+                                            method: 'POST',
+                                            headers: {
+                                              'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify(data),
+                                            credentials: 'include'
+                                          })
+                                          .then(res => res.json())
+                                          .then(resData => {
+                                            if (resData.status) {
+                                                localStorage.setItem("username", resData.username);
+                                                localStorage.setItem("password", resData.password);
+                                                Swal.fire({
+                                                    icon: "success",
+                                                    title: "Chúc mừng",
+                                                    text: `${resData.message}`,
+                                                    background: '#222338',
+                                                    color: "white"
+                                                }).then((result) => {
+                                                    if (result.dismiss === Swal.DismissReason.backdrop) {
+                                                      location.reload();
+                                                    }
+                                                    else {
+                                                        location.reload();
+                                                    }
+                                                  });;
+                                            } else {
+                                                Swal.fire({
+                                                    icon: "error",
+                                                    title: "Oops...",
+                                                    text: `${resData.message}`,
+                                                    background: '#222338',
+                                                    color: "white",
+                                                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                                                });
+                                            }
+                                          })
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+        }
+        function LoginAccount(){
+            let username = document.getElementById("login-username").value;
+            let password = document.getElementById("login-password").value;
+    
+            username = normalizeString(username);
+            password = normalizeString(password);
+    
+            if (username === "" || password === "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Vui lòng điền đầy đủ thông tin",
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                  });
+                return;
+            }
+            else {
+                const data = {
+                    username: username,
+                    password: password
+                }
+                fetch('/API/authentication', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                    credentials: 'include'
+                  })
+                  .then(res => res.json())
+                  .then(resData => {
+                    if (resData.status) {
+                        localStorage.setItem("username", resData.user.username);
+                        localStorage.setItem("password", resData.user.password);
+                        Swal.fire({
+                            icon: "success",
+                            title: "Chúc mừng",
+                            text: `${resData.message}`,
+                            background: '#222338',
+                            color: "white"
+                        }).then((result) => {
+                            if (result.dismiss === Swal.DismissReason.backdrop) {
+                              location.reload();
+                            }
+                            else {
+                                location.reload();
+                            }
+                          });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: `${resData.message}`,
+                            background: '#222338',
+                            color: "white",
+                            footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                        });
+                    }
+                })
+            }
+        }
+        function forgetPassword() {
+            const input = document.getElementById("forget-email").value;
+    
+            if (input !== "" && input !== undefined && input !== null) {
+                const isEmail = checkEmail(input);
+                if (isEmail) {
+                    const data = {
+                        email: input
+                    }
+                    fetch('/API/createotp', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                        credentials: 'include'
+                      })
+                      .then(res => res.json())
+                      .then(resData => {
+                        if (resData.status) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Chúc mừng",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white"
+                            }).then((result) => {
+                                if (result.dismiss === Swal.DismissReason.backdrop) {
+                                  location.reload();
+                                }
+                                else {
+                                    location.reload();
+                                }
+                              });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white",
+                                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                            });
+                        }
+                      })
+                 }
+                 else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: `Email không đúng định dạn`,
+                        background: '#222338',
+                        color: "white",
+                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                    });
+                 }
+            }
+            else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Vui lòng điền đầy đủ thông tin`,
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                });
+            }
+        }
+        function checkEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        function checkAlphanumeric(str) {
+            const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+            return alphanumericRegex.test(str);
+        }
+        function normalizeString(str) {
+            return String(str)
+                .trim()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/\s+/g, "");
+            }
+        function normalizeString_Email(str) {
+            return String(str)
+                .trim()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/\s+/g, "")
+                .toLowerCase();
+        }
+    function LoadFunction() {
+        const username = localStorage.getItem("username");
+        const password = localStorage.getItem("password");
+        if (username !== undefined && username !== null && password !== undefined && password !== null) {
+            const data = {
+                username: username,
+                password: password,
+            }
+            fetch('/API/authenticationpermission', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                credentials: 'include'
+              })
+              .then(res => res.json())
+              .then(resData => {
+                if (resData.status) {
+                    document.getElementById("modal").innerHTML = "";
+                    let HTML_offcanvas = `<div class="center-money-offset">
+                                    <button type="button" class="btn btn-warning overflow-1 btn-money">
+                                        <i class="fa-solid fa-money-bill-1"></i>
+                                        <span id="money">${resData.money.toLocaleString("de-DE")}</span>
+                                        đ
+                                </button>
+                            </div>`;
+                    HTML_offcanvas += `<div class="main-left-logo-content-group">
+                        <div class="main-left-logo-content-group-top">
+                            <p>Cửa hàng</p>
+                        </div>
+                        <div class="main-left-logo-content-group-bottom">
+                            <a href="/">
+                                <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                            </a>
+                            <a href="/shoppingcart">
+                                <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
+                            </a>
+                        </div>
+                    </div>`;
+                    let HTML_vmenu = `<div class="main-left-logo-content-group">
+                        <div class="main-left-logo-content-group-top">
+                            <p>Cửa hàng</p>
+                        </div>
+                        <div class="main-left-logo-content-group-bottom">
+                            <a href="/">
+                                <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                            </a>
+                            <a href="/shoppingcart">
+                                <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
+                            </a>
+                        </div>
+                    </div>`;
+                    if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall || resData.permission.acceptvouchermanagementall || resData.permission.acceptcensorproduct || resData.permission.acceptviewchart || resData.permission.acceptviewchartall) {
+                        HTML_offcanvas += `<div class="main-left-logo-content-group">
+                                        <div class="main-left-logo-content-group-top">
+                                            <p>Người bán</p>
+                                        </div>
+                                        <div class="main-left-logo-content-group-bottom">`;
+                        HTML_vmenu += `<div class="main-left-logo-content-group">
+                            <div class="main-left-logo-content-group-top">
+                                <p>Người bán</p>
+                            </div>
+                            <div class="main-left-logo-content-group-bottom">`;
+                        if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall) {
+                            HTML_offcanvas += `<a href="/productpanagement">
+                                        <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
+                                    </a>`;
+                            HTML_vmenu += `<a href="/productpanagement">
+                                <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
+                            </a>`;
+                                    
+                        }
+                        HTML_offcanvas += `</div>
+                            </div>`;
+                        HTML_vmenu += `</div>
+                            </div>`;
+                    }
+                    if (resData.permission.acceptcensorproduct || resData.permission.acceptcensorcooperate || resData.permission.acceptaccountmanagement) {
+                        HTML_offcanvas += `<div class="main-left-logo-content-group">
+                                        <div class="main-left-logo-content-group-top">
+                                            <p>Quản trị viên</p>
+                                        </div>
+                                        <div class="main-left-logo-content-group-bottom">`;
+                        HTML_vmenu += `<div class="main-left-logo-content-group">
+                            <div class="main-left-logo-content-group-top">
+                                <p>Quản trị viên</p>
+                            </div>
+                            <div class="main-left-logo-content-group-bottom">`;
+                        if (resData.permission.acceptcensorproduct) {
+                            HTML_offcanvas += `<a href="/censorproduct">
+                                        <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
+                                    </a>`;
+                            HTML_vmenu += `<a href="/censorproduct">
+                                <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
+                            </a>`;
+                        }
+                        if (resData.permission.acceptaccountmanagement) {
+                            HTML_offcanvas += `<a href="/accountmanagement">
+                                        <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
+                                    </a>`;
+                            HTML_vmenu += `<a href="/accountmanagement">
+                                <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
+                            </a>`;
+                        }
+                        HTML_offcanvas += `</div>
+                            </div>`;
+                            HTML_vmenu += `</div>
+                        </div>`;
+                    }
+                    HTML_offcanvas += `<div class="main-left-logo-content-group">
+                                <div class="main-left-logo-content-group-top">
+                                    <p>Tài khoản</p>
+                                </div>
+                                <div class="main-left-logo-content-group-bottom">
+                                    <a href="/profile" class="main-left-logo-content-group-bottom-active">
+                                        <button><i class="fa-solid fa-user"></i> Tài khoản</button>
+                                    </a>
+                                    <a href="/paymentgateway">
+                                        <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
+                                    </a>
+                                    <a href="/purchasedproducts">
+                                        <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
+                                    </a>
+                                </div>`;
+                        HTML_vmenu += `<div class="main-left-logo-content-group">
+                            <div class="main-left-logo-content-group-top">
+                                <p>Tài khoản</p>
+                            </div>
+                            <div class="main-left-logo-content-group-bottom">
+                                <a href="/profile" class="main-left-logo-content-group-bottom-active">
+                                    <button><i class="fa-solid fa-user"></i> Tài khoản</button>
+                                </a>
+                                <a href="/paymentgateway">
+                                    <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
+                                </a>
+                                <a href="/purchasedproducts">
+                                    <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
+                                </a>
+                            </div>`;
+                            document.getElementById("v_menu").innerHTML = HTML_vmenu;
+                            document.getElementById("menu_offcanvas").innerHTML = HTML_offcanvas;
+
+                            let dropdown = `<a class="btn btn-secondary dropdown-toggle btn-color-menu-account" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">${resData.username}`;
+                            if (resData.verify) {
+                                dropdown += ` <i class="fa-solid fa-circle-check verified"></i>`
+                            }
+                            dropdown += `</a>`;
+                            dropdown += `</ul>
+                                            <ul class="dropdown-menu dropdown-menu-end btn-color-menu-account-background">
+                                                <li><a class="dropdown-item btn-color-menu-account-items" href="/profile/">Tài khoản</a></li>
+                                                <li><a class="dropdown-item btn-color-menu-account-items" href="/shoppingcart">Giỏ hàng</a></li>
+                                                <li><a class="dropdown-item btn-color-menu-account-items" href="/purchasedproducts">Sản phẩm đã mua</a></li>
+                                                <li><a class="dropdown-item btn-color-menu-account-items" href="" onclick="Logout()">Đăng xuất</a></li>
+                                            </ul>`;
+                            document.getElementById("dropdown_menu").innerHTML = dropdown;
+                            document.getElementById("money").textContent = `${resData.money.toLocaleString('de-DE')}`;
+                    }
+              })
+        }
+    }
+    LoadFunction();
+    function Logout() {
+        localStorage.removeItem("username");
+        localStorage.removeItem("password");
+        location.reload();
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+        function LoadUser() {
+            const username = localStorage.getItem("username");
+            const password = localStorage.getItem("password");
+            if (username === "" || username === undefined || username === null || password === "" || password === undefined || password === null) {
+                location.href = "/";
+            }
+            else {
+                const data = {
+                    username: username,
+                    password: password
+                }
+                fetch('/API/getuserdata', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                    credentials: 'include'
+                  })
+                  .then(res => res.json())
+                  .then(resData => {
+                        if (resData.status) {
+                            if (resData.data !== null) {
+                                document.title = `Trang cá nhân của ${resData.data.username}`;
+                                document.getElementById("username-left").innerHTML = `${resData.data.username} ${resData.data.Verify ? '<i class="fa-solid fa-circle-check verified"></i>' : ""}`;
+                                document.getElementById("username-right").innerHTML = `${resData.data.username} ${resData.data.Verify ? '<i class="fa-solid fa-circle-check verified"></i>' : ""}`;
+                                document.getElementById("chanageinformation").innerHTML = `<div class="modal fade" id="chanageInformationModal" tabindex="-1" aria-labelledby="chanageInformationLabel" aria-hidden="true">
+                                                                                                <div class="modal-dialog">
+                                                                                                    <div class="modal-content">
+                                                                                                    <div class="modal-header">
+                                                                                                        <h1 class="modal-title fs-5" id="chanageInformationLabel">Modal title</h1>
+                                                                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                                    </div>
+                                                                                                    <div class="modal-body chanageInformationGUI">
+                                                                                                        <div class="accordion" id="ChanageInformation-Accordion">
+                                                                                                        <div class="accordion-item">
+                                                                                                            <h2 class="accordion-header">
+                                                                                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ChanageAvatar" aria-expanded="false" aria-controls="ChanageAvatar">
+                                                                                                                Thay đổi ảnh đại diện
+                                                                                                            </button>
+                                                                                                            </h2>
+                                                                                                            <div id="ChanageAvatar" class="accordion-collapse collapse" data-bs-parent="#ChanageInformation-Accordion">
+                                                                                                            <div class="accordion-body">
+                                                                                                                <div class="avatar-group">
+                                                                                                                <div class="input-group mb-3">
+                                                                                                                    <input type="file" class="form-control" id="ChanageAvatar-fied-input" accept=".jpg, .png">
+                                                                                                                </div>
+                                                                                                                </div>
+                                                                                                                <div class="comfirm-group">
+                                                                                                                <button type="button" class="btn btn-success" onclick="ChanageAvatar()">Xác nhận</button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="accordion-item">
+                                                                                                            <h2 class="accordion-header">
+                                                                                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ChanageUsername" aria-expanded="false" aria-controls="ChanageUsername">
+                                                                                                                Thay đổi tên người dùng
+                                                                                                            </button>
+                                                                                                            </h2>
+                                                                                                            <div id="ChanageUsername" class="accordion-collapse collapse" data-bs-parent="#ChanageInformation-Accordion">
+                                                                                                            <div class="accordion-body">
+                                                                                                                <div class="input-group mb-3">
+                                                                                                                <span class="input-group-text" id="ChanageUsername-fied">Username</span>
+                                                                                                                <input type="text" class="form-control" placeholder="Username" aria-label="ChanageUsername-fied" aria-describedby="ChanageUsername-fied" id="ChanageUsername-fied-input">
+                                                                                                                </div>
+                                                                                                                <div class="comfirm-group">
+                                                                                                                <button type="button" class="btn btn-success" onclick="ChanageUsername()">Xác nhận</button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="accordion-item">
+                                                                                                            <h2 class="accordion-header">
+                                                                                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ChanageBio" aria-expanded="false" aria-controls="ChanageBio">
+                                                                                                                Thay đổi tiểu sử
+                                                                                                            </button>
+                                                                                                            </h2>
+                                                                                                            <div id="ChanageBio" class="accordion-collapse collapse" data-bs-parent="#ChanageInformation-Accordion">
+                                                                                                            <div class="accordion-body">
+                                                                                                                <div class="input-group mb-3">
+                                                                                                                <span class="input-group-text" id="ChanageBio-fied">Bio</span>
+                                                                                                                <input type="text" class="form-control" placeholder="Bio" aria-label="ChanageBio-fied" aria-describedby="ChanageBio-fied" id="ChanageBio-fied-input">
+                                                                                                                </div>
+                                                                                                                <div class="comfirm-group">
+                                                                                                                <button type="button" class="btn btn-success" onclick="ChanageBio()">Xác nhận</button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="accordion-item">
+                                                                                                            <h2 class="accordion-header">
+                                                                                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ChanageEmail" aria-expanded="false" aria-controls="ChanageEmail">
+                                                                                                                Thay đổi email
+                                                                                                            </button>
+                                                                                                            </h2>
+                                                                                                            <div id="ChanageEmail" class="accordion-collapse collapse" data-bs-parent="#ChanageInformation-Accordion">
+                                                                                                            <div class="accordion-body">
+                                                                                                                <div class="input-group mb-3">
+                                                                                                                <span class="input-group-text" id="ChanageEmail-fied">Email</span>
+                                                                                                                <input type="text" class="form-control" placeholder="Email" aria-label="ChanageEmail-fied" aria-describedby="ChanageEmail-fied" id="ChanageEmail-fied-input">
+                                                                                                                </div>
+                                                                                                                <div class="comfirm-group">
+                                                                                                                <button type="button" class="btn btn-success" onclick="ChanageEmail()">Xác nhận</button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="accordion-item">
+                                                                                                            <h2 class="accordion-header">
+                                                                                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ChanagePassword" aria-expanded="false" aria-controls="ChanagePassword">
+                                                                                                                Thay đổi mật khẩu
+                                                                                                            </button>
+                                                                                                            </h2>
+                                                                                                            <div id="ChanagePassword" class="accordion-collapse collapse" data-bs-parent="#ChanageInformation-Accordion">
+                                                                                                            <div class="accordion-body">
+                                                                                                                <div class="input-group mb-3">
+                                                                                                                <span class="input-group-text" id="ChanagePassword-fied">Password</span>
+                                                                                                                <input type="password" class="form-control" placeholder="Mật khẩu hiện tại" aria-label="ChanagePassword-fied" aria-describedby="ChanagePassword-fied" id="ChanagePassword-fied-input-password">
+                                                                                                                </div>
+                                                                                                                <div class="input-group mb-3">
+                                                                                                                <span class="input-group-text" id="ChanageNewPassword-fied">New password</span>
+                                                                                                                <input type="password" class="form-control" placeholder="Mật khẩu mới" aria-label="ChanageNewPassword-fied" aria-describedby="ChanageNewPassword-fied" id="ChanagePassword-fied-input-newpassword">
+                                                                                                                </div>
+                                                                                                                <div class="input-group mb-3">
+                                                                                                                <span class="input-group-text" id="ChanageComfirmNewPassword-fied">Confirm password</span>
+                                                                                                                <input type="password" class="form-control" placeholder="Xác nhận mật khẩu" aria-label="ChanageComfirmNewPassword-fied" aria-describedby="ChanageComfirmNewPassword-fied" id="ChanagePassword-fied-input-newcomfirmpassword">
+                                                                                                                </div>
+                                                                                                                <div class="comfirm-group">
+                                                                                                                <button type="button" class="btn btn-success" onclick="ChanagePassword()">Xác nhận</button>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                </div>`;
+                                let avatarPath = resData.data.avatarpath.replace("public\\", "/").replaceAll("\\", "/");
+                                document.getElementById("avatar").src = `${avatarPath}`;
+                                document.getElementById("logout").classList.remove("disabled", "placeholder");
+                                document.getElementById("chanageinformation-btn").classList.remove("disabled", "placeholder");
+                                document.getElementById("bio").innerHTML = `${resData.data.bio === null || resData.data.bio === undefined || resData.data.bio === "" ? "" : resData.data.bio}`;
+                                document.getElementById("id").textContent = `${resData.data.userid}`;
+                                document.getElementById("rank").textContent = `${GetPermissionName(resData.data.permissionid)}`;
+                                document.getElementById("createtime").textContent = `${formatDate(resData.data.createtime)}`;
+                            }
+                            else {
+                                location.href = "/";
+                            }
+                        }
+                  })
+            }
+        }
+        LoadUser();
+    });
+    function GetPermissionName(permissionid) {
+        switch (permissionid) {
+            case "member":
+                return "Người mua";
+            case "seller":
+                return "Người bán";
+            case "moderator":
+                return "Người kiểm duyệt";
+            case "developer":
+                return "Nhà phát triển";
+            case "admin":
+                return "Quản trị viên";
+            default:
+                return "Người mua";
+        }
+    }
+    function formatDate(date) {
+        const now = new Date(date);
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const year = now.getFullYear();
+      
+        return `${hours}:${minutes}:${seconds} ${day}/${month}/${year}`;
+      }
+    function ChanageAvatar() {
+        const input = document.getElementById("ChanageAvatar-fied-input").files;
+        
+        if (input !== "" && input !== undefined && input !== null) {
+            const username = localStorage.getItem("username");
+            const password = localStorage.getItem("password");
+            const formData = new FormData();
+
+            const allowImg = checkImageExtension(input[0].name);
+
+            if (allowImg) {
+                formData.append('username', username);
+                formData.append('password', password);
+                formData.append('avatar', input[0]);
+                fetch('/API/chanageavatar', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                    })
+                    .then(res => res.json())
+                    .then(resData => {
+                    if (resData.status) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Chúc mừng",
+                            text: `${resData.message}`,
+                            background: '#222338',
+                            color: "white"
+                        }).then((result) => {
+                            if (result.dismiss === Swal.DismissReason.backdrop) {
+                                location.reload();
+                            }
+                            else {
+                                location.reload();
+                            }
+                            });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: `${resData.message}`,
+                            background: '#222338',
+                            color: "white",
+                            footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                        });
+                    }
+                    })
+            }
+            else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Không thể tài file không phải là ảnh`,
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                });
+                return;
+            }
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Bạn cần điền đầy đủ thông tin`,
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+            });
+            return;
+        }
+      }
+    function ChanageUsername() {
+        const input = document.getElementById("ChanageUsername-fied-input").value;
+
+        if (input !== "" && input !== undefined && input !== null) {
+            if (input.length >= 4 && input.length <= 20) {
+                let isAccept = checkAlphanumeric(input);
+                if (isAccept) {
+                    const username = localStorage.getItem("username");
+                    const password = localStorage.getItem("password");
+                    const data = {
+                        username: username,
+                        password: password,
+                        newusername: input
+                    }
+                    fetch('/API/chanageusername', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                        credentials: 'include'
+                      })
+                      .then(res => res.json())
+                      .then(resData => {
+                        if (resData.status) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Chúc mừng",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white"
+                            }).then((result) => {
+                                if (result.dismiss === Swal.DismissReason.backdrop) {
+                                  location.reload();
+                                }
+                                else {
+                                    location.reload();
+                                }
+                              });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white",
+                                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                            });
+                        }
+                      })
+                }
+                else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: `Tên người dùng không được chứa ký tự đặt biệt`,
+                        background: '#222338',
+                        color: "white",
+                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                    });
+                    return;
+                }
+            }
+            else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Tên người dùng chỉ được dài từ 4 đến 20 ký tự`,
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                });
+                return;
+            }
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Bạn cần điền đầy đủ thông tin`,
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+            });
+            return;
+        }
+    }
+    function ChanageEmail() {
+        const input = document.getElementById("ChanageEmail-fied-input").value;
+
+        if (input !== "" && input !== undefined && input !== null) {
+            let isEmail = checkEmail(input);
+            if (isEmail) {
+                const username = localStorage.getItem("username");
+            const password = localStorage.getItem("password");
+            const data = {
+                username: username,
+                password: password,
+                newemail: input
+            }
+            fetch('/API/chanageemail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                credentials: 'include'
+              })
+              .then(res => res.json())
+              .then(resData => {
+                if (resData.status) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Chúc mừng",
+                        text: `${resData.message}`,
+                        background: '#222338',
+                        color: "white"
+                    }).then((result) => {
+                        if (result.dismiss === Swal.DismissReason.backdrop) {
+                          location.reload();
+                        }
+                        else {
+                            location.reload();
+                        }
+                      });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: `${resData.message}`,
+                        background: '#222338',
+                        color: "white",
+                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                    });
+                }
+              })
+            }
+            else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Email không đúng định dạn`,
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                });
+                return;
+            }
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Bạn cần điền đầy đủ thông tin`,
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+            });
+            return;
+        }
+    }
+    function ChanagePassword() {
+        const currentPassword = document.getElementById("ChanagePassword-fied-input-password").value;
+        const newPassword = document.getElementById("ChanagePassword-fied-input-newpassword").value;
+        const comfirmNewPassword = document.getElementById("ChanagePassword-fied-input-newcomfirmpassword").value;
+
+        if (currentPassword !== "" && currentPassword !== undefined && currentPassword !== null && newPassword !== "" && newPassword !== undefined && newPassword !== null && comfirmNewPassword !== "" && comfirmNewPassword !== undefined && comfirmNewPassword !== null) {
+            if (newPassword.length >= 8 && newPassword.length <= 50 && comfirmNewPassword.length >= 8 && comfirmNewPassword.length <= 50) {
+                if (newPassword == comfirmNewPassword) {
+                    const username = localStorage.getItem("username");
+                    const password = localStorage.getItem("password");
+                    const data = {
+                        username: username,
+                        password: password,
+                        currentPassword: currentPassword,
+                        newPassword: newPassword,
+                        comfirmNewPassword: comfirmNewPassword
+                    }
+                    fetch('/API/chanagepassword', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                        credentials: 'include'
+                    })
+                    .then(res => res.json())
+                    .then(resData => {
+                        if (resData.status) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Chúc mừng",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white"
+                            }).then((result) => {
+                                if (result.dismiss === Swal.DismissReason.backdrop) {
+                                location.reload();
+                                }
+                                else {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: `${resData.message}`,
+                                background: '#222338',
+                                color: "white",
+                                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                            });
+                        }
+                    })
+                }
+                else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: `Hai mật khẩu không trùng nhau`,
+                        background: '#222338',
+                        color: "white",
+                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                    });
+                    return;
+                }
+            }
+            else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Mật khẩu chỉ có thể dài từ 8 đến 50 ký tự`,
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                });
+                return;
+            }
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Bạn cần điền đầy đủ thông tin`,
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+            });
+            return;
+        }
+    }
+    function ChanageBio() {
+        const bio = document.getElementById("ChanageBio-fied-input").value;
+
+        if (bio !== "") {
+            const username = localStorage.getItem("username");
+            const password = localStorage.getItem("password");
+            const data = {
+                username: username,
+                password: password,
+                newbio: bio
+            }
+            fetch('/API/chanagebio', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                credentials: 'include'
+            })
+            .then(res => res.json())
+            .then(resData => {
+                if (resData.status) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Chúc mừng",
+                        text: `${resData.message}`,
+                        background: '#222338',
+                        color: "white"
+                    }).then((result) => {
+                        if (result.dismiss === Swal.DismissReason.backdrop) {
+                        location.reload();
+                        }
+                        else {
+                            location.reload();
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: `${resData.message}`,
+                        background: '#222338',
+                        color: "white",
+                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                    });
+                }
+            })
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Bạn cần điền đầy đủ thông tin`,
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+            });
+            return;
+        }
+    }
+    function checkImageExtension(filename) {
+        const validExtensions = ['.png', '.jpg'];
+        return validExtensions.some(ext => filename.toLowerCase().endsWith(ext));
+      }
+    </script>
+    <script src="https://kit.fontawesome.com/476445fe42.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+</body>
+</html>
