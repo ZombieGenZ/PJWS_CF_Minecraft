@@ -39,27 +39,32 @@ let transporter = nodemailer.createTransport({
 
 
 routes.post("/", async (req, res) => {
-    let { to, subject, text, html } = req.body;
-    
-    try {
-        if (to !== "" && to !== undefined && to !== null) {
-            let info = await transporter.sendMail({
-                from: `"GALAXY VIRUS TEAM" <${email}>`,
-                to: `${to}`,
-                subject: `${subject}`,
-                text: `${text}`,
-                html: `${html}`
-            });
-      
-            res.status(200).json({ status: true, message: `Gửi email thành công!`, messageid: info.messageId });
+    let { to, subject, text, html, authenticationcode } = req.body;
+
+    if (authenticationcode == config.server_securitycode) {
+        try {
+            if (to !== "" && to !== undefined && to !== null) {
+                let info = await transporter.sendMail({
+                    from: `"GALAXY VIRUS TEAM" <${email}>`,
+                    to: `${to}`,
+                    subject: `${subject}`,
+                    text: `${text}`,
+                    html: `${html}`
+                });
+          
+                res.status(200).json({ status: true, message: `Gửi email thành công!`, messageid: info.messageId });
+            }
+            else {
+                res.status(200).json({ status: false, message: `Vui lòng điền đầy đủ thông tin!` });
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(200).json({ status: false, message: `Gửi email thấy bại!`, messageid: null })
         }
-        else {
-            res.status(200).json({ status: false, message: `Vui lòng điền đầy đủ thông tin!` });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(200).json({ status: false, message: `Gửi email thấy bại!`, message: error.toString(), messageid: null })
-      }
+    }
+    else {
+        res.status(200).json({ status: false, message: `Mã xác thực không chính xác` })
+    }
 });
 
 module.exports = routes;

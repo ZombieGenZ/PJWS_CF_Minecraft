@@ -783,10 +783,23 @@
             <div class="main-left-logo-content" id="v_menu">
                 <div class="main-left-logo-content-group">
                     <div class="main-left-logo-content-group-top">
+                        <p>Thảo luận</p>
+                    </div>
+                    <div class="main-left-logo-content-group-bottom">
+                        <a href="/">
+                            <button><i class="fa-solid fa-bullhorn"></i> Thông báo</button>
+                        </a>
+                        <a href="/forumn">
+                            <button><i class="fa-solid fa-comments"></i> Diển đàn</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="main-left-logo-content-group">
+                    <div class="main-left-logo-content-group-top">
                         <p>Cửa hàng</p>
                     </div>
                     <div class="main-left-logo-content-group-bottom">
-                        <a href="/" class="main-left-logo-content-group-bottom-active">
+                        <a href="/store" class="main-left-logo-content-group-bottom-active">
                             <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
                         </a>
                     </div>
@@ -842,7 +855,7 @@
                         <div class="main-right-header-content-center-top-right">
                             <div class="search">
                                 <input type="text" placeholder="Tìm kiếm..." id="user-search">
-                                <button onclick="SearchProduct()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                <button onclick="SearchAccounts()"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
                         </div>
                     </div>
@@ -875,10 +888,23 @@
                 <div class="main-left-logo-content" id="menu_offcanvas">
                     <div class="main-left-logo-content-group">
                         <div class="main-left-logo-content-group-top">
+                            <p>Thảo luận</p>
+                        </div>
+                        <div class="main-left-logo-content-group-bottom">
+                            <a href="/">
+                                <button><i class="fa-solid fa-bullhorn"></i> Thông báo</button>
+                            </a>
+                            <a href="/forumn">
+                                <button><i class="fa-solid fa-comments"></i> Diển đàn</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="main-left-logo-content-group">
+                        <div class="main-left-logo-content-group-top">
                             <p>Cửa hàng</p>
                         </div>
                         <div class="main-left-logo-content-group-bottom">
-                            <a href="/" class="main-left-logo-content-group-bottom-active">
+                            <a href="/store" >
                                 <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
                             </a>
                         </div>
@@ -1212,142 +1238,184 @@
                     if (resData.status) {
                         document.getElementById("modal").innerHTML = "";
                         let HTML_offcanvas = `<div class="center-money-offset">
-                                        <button type="button" class="btn btn-warning overflow-1 btn-money">
-                                            <i class="fa-solid fa-money-bill-1"></i>
-                                            <span id="money">${resData.money.toLocaleString("de-DE")}</span>
-                                            đ
-                                    </button>
-                                </div>`;
-                        HTML_offcanvas += `<div class="main-left-logo-content-group">
-                            <div class="main-left-logo-content-group-top">
-                                <p>Cửa hàng</p>
-                            </div>
-                            <div class="main-left-logo-content-group-bottom">
-                                <a href="/">
-                                    <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
-                                </a>
-                                <a href="/shoppingcart">
-                                    <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
-                                </a>
-                            </div>
-                        </div>`;
-                        let HTML_vmenu = `<div class="main-left-logo-content-group">
-                            <div class="main-left-logo-content-group-top">
-                                <p>Cửa hàng</p>
-                            </div>
-                            <div class="main-left-logo-content-group-bottom">
-                                <a href="/">
-                                    <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
-                                </a>
-                                <a href="/shoppingcart">
-                                    <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
-                                </a>
-                            </div>
-                        </div>`;
-                        if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall || resData.permission.acceptvouchermanagementall || resData.permission.acceptcensorproduct || resData.permission.acceptviewchart || resData.permission.acceptviewchartall) {
-                            HTML_offcanvas += `<div class="main-left-logo-content-group">
-                                            <div class="main-left-logo-content-group-top">
-                                                <p>Người bán</p>
-                                            </div>
-                                            <div class="main-left-logo-content-group-bottom">`;
-                            HTML_vmenu += `<div class="main-left-logo-content-group">
+                            <button type="button" class="btn btn-warning overflow-1 btn-money">
+                                <i class="fa-solid fa-money-bill-1"></i>
+                                <span id="money">${resData.money.toLocaleString("de-DE")}</span>
+                                đ
+                        </button>
+                    </div>`;
+            HTML_offcanvas += `<div class="main-left-logo-content-group">
+                <div class="main-left-logo-content-group-top">
+                    <p>Thảo luận</p>
+                </div>
+                <div class="main-left-logo-content-group-bottom">
+                    <a href="/">
+                        <button><i class="fa-solid fa-bullhorn"></i> Thông báo</button>
+                    </a>
+                    <a href="/forumn">
+                        <button><i class="fa-solid fa-comments"></i> Diển đàn</button>
+                    </a>
+                </div>
+            </div>
+            <div class="main-left-logo-content-group">
+                <div class="main-left-logo-content-group-top">
+                    <p>Cửa hàng</p>
+                </div>
+                <div class="main-left-logo-content-group-bottom">
+                    <a href="/store">
+                        <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                    </a>
+                    <a href="/shoppingcart">
+                        <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
+                    </a>
+                </div>
+            </div>`;
+            let HTML_vmenu = `<div class="main-left-logo-content-group">
+                <div class="main-left-logo-content-group-top">
+                    <p>Thảo luận</p>
+                </div>
+                <div class="main-left-logo-content-group-bottom">
+                    <a href="/">
+                        <button><i class="fa-solid fa-bullhorn"></i> Thông báo</button>
+                    </a>
+                    <a href="/forumn">
+                        <button><i class="fa-solid fa-comments"></i> Diển đàn</button>
+                    </a>
+                </div>
+            </div>
+            <div class="main-left-logo-content-group">
+                <div class="main-left-logo-content-group-top">
+                    <p>Cửa hàng</p>
+                </div>
+                <div class="main-left-logo-content-group-bottom">
+                    <a href="/store">
+                        <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                    </a>
+                    <a href="/shoppingcart">
+                        <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
+                    </a>
+                </div>
+            </div>`;
+            if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall || resData.permission.acceptvouchermanagementall || resData.permission.acceptcensorproduct || resData.permission.acceptviewchart || resData.permission.acceptviewchartall) {
+                HTML_offcanvas += `<div class="main-left-logo-content-group">
                                 <div class="main-left-logo-content-group-top">
                                     <p>Người bán</p>
                                 </div>
                                 <div class="main-left-logo-content-group-bottom">`;
-                            if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall) {
-                                HTML_offcanvas += `<a href="/productpanagement">
-                                            <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
-                                        </a>`;
-                                HTML_vmenu += `<a href="/productpanagement">
-                                    <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
-                                </a>`;
-                                        
-                            }
-                            HTML_offcanvas += `</div>
-                                </div>`;
-                            HTML_vmenu += `</div>
-                                </div>`;
-                        }
-                        if (resData.permission.acceptcensorproduct || resData.permission.acceptcensorcooperate || resData.permission.acceptaccountmanagement) {
-                            HTML_offcanvas += `<div class="main-left-logo-content-group">
-                                            <div class="main-left-logo-content-group-top">
-                                                <p>Quản trị viên</p>
-                                            </div>
-                                            <div class="main-left-logo-content-group-bottom">`;
-                            HTML_vmenu += `<div class="main-left-logo-content-group">
+                HTML_vmenu += `<div class="main-left-logo-content-group">
+                    <div class="main-left-logo-content-group-top">
+                        <p>Người bán</p>
+                    </div>
+                    <div class="main-left-logo-content-group-bottom">`;
+                if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall) {
+                    HTML_offcanvas += `<a href="/productpanagement">
+                                <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
+                            </a>`;
+                    HTML_vmenu += `<a href="/productpanagement">
+                        <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
+                    </a>`;
+                            
+                }
+                HTML_offcanvas += `</div>
+                    </div>`;
+                HTML_vmenu += `</div>
+                    </div>`;
+            }
+            if (resData.permission.acceptcensorproduct || resData.permission.acceptcensorcooperate || resData.permission.acceptaccountmanagement || resData.permission.acceptreportmanagement || resData.permission.acceptpostmanagement || resData.permission.acceptcensorpost) {
+                HTML_offcanvas += `<div class="main-left-logo-content-group">
                                 <div class="main-left-logo-content-group-top">
                                     <p>Quản trị viên</p>
                                 </div>
                                 <div class="main-left-logo-content-group-bottom">`;
-                            if (resData.permission.acceptcensorproduct) {
-                                HTML_offcanvas += `<a href="/censorproduct">
-                                            <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
-                                        </a>`;
-                                HTML_vmenu += `<a href="/censorproduct">
-                                    <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
-                                </a>`;
-                            }
-                            if (resData.permission.acceptaccountmanagement) {
-                                HTML_offcanvas += `<a href="/accountmanagement" class="main-left-logo-content-group-bottom-active">
-                                            <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
-                                        </a>`;
-                                HTML_vmenu += `<a href="/accountmanagement" class="main-left-logo-content-group-bottom-active">
-                                    <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
-                                </a>`;
-                            }
-                            HTML_offcanvas += `</div>
-                                </div>`;
-                                HTML_vmenu += `</div>
-                            </div>`;
-                        }
-                        HTML_offcanvas += `<div class="main-left-logo-content-group">
-                                    <div class="main-left-logo-content-group-top">
-                                        <p>Tài khoản</p>
-                                    </div>
-                                    <div class="main-left-logo-content-group-bottom">
-                                        <a href="/profile">
-                                            <button><i class="fa-solid fa-user"></i> Tài khoản</button>
-                                        </a>
-                                        <a href="/paymentgateway">
-                                            <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
-                                        </a>
-                                        <a href="/purchasedproducts">
-                                            <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
-                                        </a>
-                                    </div>`;
-                            HTML_vmenu += `<div class="main-left-logo-content-group">
-                                <div class="main-left-logo-content-group-top">
-                                    <p>Tài khoản</p>
-                                </div>
-                                <div class="main-left-logo-content-group-bottom">
-                                    <a href="/profile">
-                                        <button><i class="fa-solid fa-user"></i> Tài khoản</button>
-                                    </a>
-                                    <a href="/paymentgateway">
-                                        <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
-                                    </a>
-                                    <a href="/purchasedproducts">
-                                        <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
-                                    </a>
-                                </div>`;
-                                document.getElementById("v_menu").innerHTML = HTML_vmenu;
-                                document.getElementById("menu_offcanvas").innerHTML = HTML_offcanvas;
-    
-                                let dropdown = `<a class="btn btn-secondary dropdown-toggle btn-color-menu-account" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">${resData.username}`;
-                                if (resData.verify) {
-                                    dropdown += ` <i class="fa-solid fa-circle-check verified"></i>`
-                                }
-                                dropdown += `</a>`;
-                                dropdown += `</ul>
-                                                <ul class="dropdown-menu dropdown-menu-end btn-color-menu-account-background">
-                                                    <li><a class="dropdown-item btn-color-menu-account-items" href="/profile/">Tài khoản</a></li>
-                                                    <li><a class="dropdown-item btn-color-menu-account-items" href="/shoppingcart">Giỏ hàng</a></li>
-                                                    <li><a class="dropdown-item btn-color-menu-account-items" href="/purchasedproducts">Sản phẩm đã mua</a></li>
-                                                    <li><a class="dropdown-item btn-color-menu-account-items" href="" onclick="Logout()">Đăng xuất</a></li>
-                                                </ul>`;
-                                document.getElementById("dropdown_menu").innerHTML = dropdown;
-                                document.getElementById("money").textContent = `${resData.money.toLocaleString('de-DE')}`;
+                HTML_vmenu += `<div class="main-left-logo-content-group">
+                    <div class="main-left-logo-content-group-top">
+                        <p>Quản trị viên</p>
+                    </div>
+                    <div class="main-left-logo-content-group-bottom">`;
+                if (resData.permission.acceptcensorpost) {
+                    HTML_offcanvas += `<a href="/censorpost">
+                                <button><i class="fa-solid fa-bug"></i> Kiểm duyệt bài viết</button>
+                            </a>`;
+                    HTML_vmenu += `<a href="/censorpost">
+                        <button><i class="fa-solid fa-bug"></i> Kiểm duyệt bài viết</button>
+                    </a>`;
+                }
+                if (resData.permission.acceptcensorproduct) {
+                    HTML_offcanvas += `<a href="/censorproduct">
+                        <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
+                    </a>`;
+                    HTML_vmenu += `<a href="/censorproduct">
+                        <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
+                    </a>`;
+                }
+                if (resData.permission.acceptreportmanagement) {
+                    HTML_offcanvas += `<a href="/reportmanagement">
+                                <button><i class="fa-solid fa-bug"></i> Quản lý tố cáo</button>
+                            </a>`;
+                    HTML_vmenu += `<a href="/reportmanagement">
+                        <button><i class="fa-solid fa-bug"></i> Quản lý tố cáo</button>
+                    </a>`;
+                }
+                if (resData.permission.acceptaccountmanagement) {
+                    HTML_offcanvas += `<a href="/accountmanagement" class="main-left-logo-content-group-bottom-active">
+                                <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
+                            </a>`;
+                    HTML_vmenu += `<a href="/accountmanagement" class="main-left-logo-content-group-bottom-active">
+                        <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
+                    </a>`;
+                }
+                HTML_offcanvas += `</div>
+                    </div>`;
+                    HTML_vmenu += `</div>
+                </div>`;
+            }
+            HTML_offcanvas += `<div class="main-left-logo-content-group">
+                        <div class="main-left-logo-content-group-top">
+                            <p>Tài khoản</p>
+                        </div>
+                        <div class="main-left-logo-content-group-bottom">
+                            <a href="/profile">
+                                <button><i class="fa-solid fa-user"></i> Tài khoản</button>
+                            </a>
+                            <a href="/paymentgateway">
+                                <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
+                            </a>
+                            <a href="/purchasedproducts">
+                                <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
+                            </a>
+                        </div>`;
+                HTML_vmenu += `<div class="main-left-logo-content-group">
+                    <div class="main-left-logo-content-group-top">
+                        <p>Tài khoản</p>
+                    </div>
+                    <div class="main-left-logo-content-group-bottom">
+                        <a href="/profile">
+                            <button><i class="fa-solid fa-user"></i> Tài khoản</button>
+                        </a>
+                        <a href="/paymentgateway">
+                            <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
+                        </a>
+                        <a href="/purchasedproducts">
+                            <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
+                        </a>
+                    </div>`;
+                    document.getElementById("v_menu").innerHTML = HTML_vmenu;
+                    document.getElementById("menu_offcanvas").innerHTML = HTML_offcanvas;
+
+                    let dropdown = `<a class="btn btn-secondary dropdown-toggle btn-color-menu-account" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">${resData.username}`;
+                    if (resData.verify) {
+                        dropdown += ` <i class="fa-solid fa-circle-check verified"></i>`
+                    }
+                    dropdown += `</a>`;
+                    dropdown += `</ul>
+                                    <ul class="dropdown-menu dropdown-menu-end btn-color-menu-account-background">
+                                        <li><a class="dropdown-item btn-color-menu-account-items" href="/profile/">Tài khoản</a></li>
+                                        <li><a class="dropdown-item btn-color-menu-account-items" href="/shoppingcart">Giỏ hàng</a></li>
+                                        <li><a class="dropdown-item btn-color-menu-account-items" href="/purchasedproducts">Sản phẩm đã mua</a></li>
+                                        <li><a class="dropdown-item btn-color-menu-account-items" href="" onclick="Logout()">Đăng xuất</a></li>
+                                    </ul>`;
+                    document.getElementById("dropdown_menu").innerHTML = dropdown;
+                    document.getElementById("money").textContent = `${resData.money.toLocaleString('de-DE')}`;
                         }
                   })
             }
@@ -1362,7 +1430,7 @@
     <script>
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("modal").innerHTML = ``;
-        function loadProducts() {
+        function loadAccounts() {
             const username = localStorage.getItem("username");
             const password = localStorage.getItem("password");
             if (username !== undefined && username !== null && password !== undefined && password !== null) {
@@ -1394,7 +1462,7 @@
                                 if (resData.status) {
                                     if (resData.data === null) {
                                         document.getElementById("productlist").innerHTML = `<div class="none-items">
-                                            <p>Hiện không có bất cứ sản phẩm nào hợp lệ</p>
+                                            <p>Hiện không có bất cứ tài khoản nào hợp lệ</p>
                                         </div>`;
                                         return;
                                     }
@@ -1402,7 +1470,7 @@
                                     document.getElementById("permission-profile-modal").innerHTML = "";
                                     document.getElementById("punish-profile-modal").innerHTML = "";
                                     if (resData.data.length > 0) {
-                                        let HTML = `<h3>Sản phẩm</h3>                        
+                                        let HTML = `<h3>Tài khoản</h3>                        
                                                     <table class="table table-dark">
                                                     <thead>
                                                     <tr>
@@ -1500,7 +1568,7 @@
                                                     HTML += `<tr>
                                                         <td class="tb-col1" scope="row">${items.userid}</td>
                                                         <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${items.email}</td>
+                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
                                                         <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#${items.userid}-punishModal">Trừng phạt</button></td>
@@ -1510,7 +1578,7 @@
                                                     HTML += `<tr>
                                                         <td class="tb-col1" scope="row">${items.userid}</td>
                                                         <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${items.email}</td>
+                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
                                                         <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" onclick="RemovePunish('${items.userid}', '${items.penalty}')">Trừng phạt</button></td>
@@ -1530,9 +1598,9 @@
                     location.href = "/";
                 }
         }
-        loadProducts();  
+        loadAccounts();  
     });
-    function SearchProduct() {
+    function SearchAccounts() {
         const username = localStorage.getItem("username");
         const password = localStorage.getItem("password");
         if (username !== undefined && username !== null && password !== undefined && password !== null) {
@@ -1579,7 +1647,7 @@
                                 if (resData.status) {
                                     if (resData.data === null) {
                                         document.getElementById("productlist").innerHTML = `<div class="none-items">
-                                            <p>Hiện không có bất cứ sản phẩm nào hợp lệ</p>
+                                            <p>Hiện không có bất cứ tài khoản nào hợp lệ</p>
                                         </div>`;
                                         return;
                                     }
@@ -1587,7 +1655,7 @@
                                     document.getElementById("permission-profile-modal").innerHTML = "";
                                     document.getElementById("punish-profile-modal").innerHTML = "";
                                     if (resData.data.length > 0) {
-                                        let HTML = `<h3>Sản phẩm</h3>                        
+                                        let HTML = `<h3>Tài khoản</h3>                        
                                                     <table class="table table-dark">
                                                     <thead>
                                                     <tr>
@@ -1685,7 +1753,7 @@
                                                     HTML += `<tr>
                                                         <td class="tb-col1" scope="row">${items.userid}</td>
                                                         <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${items.email}</td>
+                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
                                                         <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#${items.userid}-punishModal">Trừng phạt</button></td>
@@ -1695,7 +1763,7 @@
                                                     HTML += `<tr>
                                                         <td class="tb-col1" scope="row">${items.userid}</td>
                                                         <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${items.email}</td>
+                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
                                                         <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" onclick="RemovePunish('${items.userid}', '${items.penalty}')">Trừng phạt</button></td>
@@ -1754,7 +1822,7 @@
                                 if (resData.status) {
                                     if (resData.data === null) {
                                         document.getElementById("productlist").innerHTML = `<div class="none-items">
-                                            <p>Hiện không có bất cứ sản phẩm nào hợp lệ</p>
+                                            <p>Hiện không có bất cứ tài khoản nào hợp lệ</p>
                                         </div>`;
                                         return;
                                     }
@@ -1762,7 +1830,7 @@
                                     document.getElementById("permission-profile-modal").innerHTML = "";
                                     document.getElementById("punish-profile-modal").innerHTML = "";
                                     if (resData.data.length > 0) {
-                                        let HTML = `<h3>Sản phẩm</h3>                        
+                                        let HTML = `<h3>Tài khoản</h3>                        
                                                     <table class="table table-dark">
                                                     <thead>
                                                     <tr>
@@ -1860,7 +1928,7 @@
                                                     HTML += `<tr>
                                                         <td class="tb-col1" scope="row">${items.userid}</td>
                                                         <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${items.email}</td>
+                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
                                                         <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#${items.userid}-punishModal">Trừng phạt</button></td>
@@ -1870,7 +1938,7 @@
                                                     HTML += `<tr>
                                                         <td class="tb-col1" scope="row">${items.userid}</td>
                                                         <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${items.email}</td>
+                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
                                                         <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
                                                         <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" onclick="RemovePunish('${items.userid}', '${items.penalty}')">Trừng phạt</button></td>
@@ -2227,6 +2295,16 @@
               });
             return;
         }
+    }
+    function formatEmail(email) {
+        let [name, domain] = email.split('@');
+        
+        let formattedName = name.substring(0, 4);
+        let formattedDomain = domain.substring(domain.length - 7);
+        
+        let hiddenPart = '*'.repeat(email.length - formattedName.length - formattedDomain.length);
+    
+        return formattedName + hiddenPart + formattedDomain;
     }
     </script>
     <script src="https://kit.fontawesome.com/476445fe42.js" crossorigin="anonymous"></script>

@@ -19,4 +19,5 @@ module.exports = {
     game_rconpassword: "your_rcon_password",
     game_rconport: "your_rcon_port",
     game_serverip: "your_minecraft_serverip",
+    discord_botid: "",
 };

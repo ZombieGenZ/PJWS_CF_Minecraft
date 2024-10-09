@@ -27,6 +27,9 @@ CREATE TABLE Permission (
 	acceptproductmanagementall BOOLEAN NOT NULL DEFAULT false,
 	acceptcensorproduct BOOLEAN NOT NULL DEFAULT false,
 	acceptaccountmanagement BOOLEAN NOT NULL DEFAULT false,
+	acceptreportmanagement BOOLEAN NOT NULL DEFAULT false,
+	acceptpostmanagement BOOLEAN NOT NULL DEFAULT false,
+	acceptcensorpost BOOLEAN NOT NULL DEFAULT false,
 	PRIMARY KEY(permissionname)
 );
 
@@ -71,8 +74,8 @@ CREATE TABLE PurchaseHistory (
 	historyid INT NOT NULL AUTO_INCREMENT UNIQUE,
 	userid INT NOT NULL,
 	productid VARCHAR(255) NOT NULL,
-	totalprice DECIMAL(15,3) NOT NULL CHECK(totalprice > 0),
-	totalquantity INT NOT NULL CHECK(totalquantity > 0),
+	totalprice DECIMAL(15,3) NOT NULL CHECK(totalprice >= 0),
+	totalquantity INT NOT NULL CHECK(totalquantity >= 0),
 	createtime DATE NOT NULL DEFAULT NOW(),
     received BOOLEAN NOT NULL DEFAULT false,
 	PRIMARY KEY(historyid)
@@ -100,6 +103,55 @@ CREATE TABLE OTP (
 	otpcode VARCHAR(255) NOT NULL UNIQUE,
 	email VARCHAR(255) NOT NULL,
 	PRIMARY KEY(otpid)
+);
+
+CREATE TABLE ReportUser (
+	reportid INT NOT NULL AUTO_INCREMENT UNIQUE,
+	sender INT NOT NULL,
+	userid INT NOT NULL,
+    message VARCHAR(256) DEFAULT 'Không có lý do',
+	createtime DATETIME NOT NULL DEFAULT NOW(),
+	PRIMARY KEY(reportid)
+);
+
+CREATE TABLE ReportProduct (
+	reportid INT NOT NULL AUTO_INCREMENT UNIQUE,
+	sender INT NOT NULL,
+	productid VARCHAR(255) NOT NULL,
+    message VARCHAR(256) DEFAULT 'Không có lý do',
+	createtime DATETIME NOT NULL DEFAULT NOW(),
+	PRIMARY KEY(reportid)
+);
+
+CREATE TABLE ReportPost (
+	reportid INT NOT NULL AUTO_INCREMENT UNIQUE,
+	sender INT NOT NULL,
+	postid INT NOT NULL,
+    message VARCHAR(256) DEFAULT 'Không có lý do',
+	createtime DATETIME NOT NULL DEFAULT NOW(),
+	PRIMARY KEY(reportid)
+);
+
+CREATE TABLE Post (
+	postid INT NOT NULL AUTO_INCREMENT UNIQUE,
+	userid INT NOT NULL,
+	posttitle VARCHAR(255) NOT NULL,
+	postcontent TEXT NOT NULL,
+	postpath VARCHAR(255) NOT NULL,
+	createtime DATETIME NOT NULL DEFAULT NOW(),
+	status VARCHAR(255) NOT NULL,
+    notification BOOLEAN NOT NULL DEFAULT false,
+    acceptcomment BOOLEAN NOT NULL DEFAULT true,
+	PRIMARY KEY(postid)
+);
+
+CREATE TABLE Comment (
+	commentid INT NOT NULL AUTO_INCREMENT UNIQUE,
+	userid INT NOT NULL,
+	postid INT NOT NULL,
+	comment TEXT,
+	createtime DATETIME DEFAULT NOW(),
+	PRIMARY KEY(commentid)
 );
 
 ALTER TABLE Account
@@ -132,6 +184,27 @@ ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE OTP
 ADD FOREIGN KEY(email) REFERENCES Account(email)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE ReportUser
+ADD FOREIGN KEY(sender) REFERENCES Account(userid)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE ReportProduct
+ADD FOREIGN KEY(sender) REFERENCES Account(userid)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE ReportPost
+ADD FOREIGN KEY(sender) REFERENCES Account(userid)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE ReportProduct
+ADD FOREIGN KEY(productid) REFERENCES Product(productid)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE ReportPost
+ADD FOREIGN KEY(postid) REFERENCES Post(postid)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE Post
+ADD FOREIGN KEY(userid) REFERENCES Account(userid)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE Comment
+ADD FOREIGN KEY(postid) REFERENCES Post(postid)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 -- member permission
 INSERT INTO Permission (permissionname)
@@ -142,16 +215,16 @@ INSERT INTO Permission (permissionname, acceptproductmanagement)
 VALUE ("seller", true);
 
 -- active moderator permission
-INSERT INTO Permission (permissionname, acceptproductmanagement, acceptcensorproduct)
-VALUE ("moderator", true, true);
+INSERT INTO Permission (permissionname, acceptproductmanagement, acceptcensorproduct, acceptcensorpost)
+VALUE ("moderator", true, true, true);
 
 -- developer permission
 INSERT INTO Permission (permissionname, acceptproductmanagement, acceptproductmanagementall)
 VALUE ("developer", true, true);
 
 -- active admim permission
-INSERT INTO Permission (permissionname, acceptproductmanagement, acceptproductmanagementall, acceptcensorproduct, acceptaccountmanagement)
-VALUE ("admin", true, true, true, true);
+INSERT INTO Permission (permissionname, acceptproductmanagement, acceptproductmanagementall, acceptcensorproduct, acceptaccountmanagement, acceptreportmanagement, acceptpostmanagement, acceptcensorpost)
+VALUE ("admin", true, true, true, true, true, true, true);
 
 
 DELIMITER //
@@ -241,3 +314,8 @@ SELECT * FROM Penalty;
 SELECT * FROM PurchaseHistory;
 SELECT * FROM Evaluate;
 SELECT * FROM OTP;
+SELECT * FROM ReportUser;
+SELECT * FROM ReportProduct;
+SELECT * FROM ReportPost;
+SELECT * FROM Post;
+SELECT * FROM Comment;

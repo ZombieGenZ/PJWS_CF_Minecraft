@@ -149,7 +149,8 @@ async function SendEmail(email, username, url) {
         to: email,
         subject: `Yêu cầu đặt lại mật khẩu cho tài khoản ${username}`,
         text: text,
-        html: HTML
+        html: HTML,
+        authenticationcode: config.server_securitycode
     }, {
         headers: {
           'Content-Type': 'application/json'

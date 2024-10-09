@@ -646,7 +646,7 @@
                         <p>Cửa hàng</p>
                     </div>
                     <div class="main-left-logo-content-group-bottom">
-                        <a href="/" class="main-left-logo-content-group-bottom-active">
+                        <a href="/" >
                             <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
                         </a>
                     </div>
@@ -739,7 +739,7 @@
                             <p>Cửa hàng</p>
                         </div>
                         <div class="main-left-logo-content-group-bottom">
-                            <a href="/" class="main-left-logo-content-group-bottom-active">
+                            <a href="/" >
                                 <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
                             </a>
                         </div>
@@ -1073,142 +1073,184 @@
                 if (resData.status) {
                     document.getElementById("modal").innerHTML = "";
                     let HTML_offcanvas = `<div class="center-money-offset">
-                                    <button type="button" class="btn btn-warning overflow-1 btn-money">
-                                        <i class="fa-solid fa-money-bill-1"></i>
-                                        <span id="money">${resData.money.toLocaleString("de-DE")}</span>
-                                        đ
-                                </button>
-                            </div>`;
-                    HTML_offcanvas += `<div class="main-left-logo-content-group">
-                        <div class="main-left-logo-content-group-top">
-                            <p>Cửa hàng</p>
-                        </div>
-                        <div class="main-left-logo-content-group-bottom">
-                            <a href="/">
-                                <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
-                            </a>
-                            <a href="/shoppingcart">
-                                <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
-                            </a>
-                        </div>
-                    </div>`;
-                    let HTML_vmenu = `<div class="main-left-logo-content-group">
-                        <div class="main-left-logo-content-group-top">
-                            <p>Cửa hàng</p>
-                        </div>
-                        <div class="main-left-logo-content-group-bottom">
-                            <a href="/">
-                                <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
-                            </a>
-                            <a href="/shoppingcart">
-                                <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
-                            </a>
-                        </div>
-                    </div>`;
-                    if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall || resData.permission.acceptvouchermanagementall || resData.permission.acceptcensorproduct || resData.permission.acceptviewchart || resData.permission.acceptviewchartall) {
-                        HTML_offcanvas += `<div class="main-left-logo-content-group">
-                                        <div class="main-left-logo-content-group-top">
-                                            <p>Người bán</p>
-                                        </div>
-                                        <div class="main-left-logo-content-group-bottom">`;
-                        HTML_vmenu += `<div class="main-left-logo-content-group">
+                        <button type="button" class="btn btn-warning overflow-1 btn-money">
+                            <i class="fa-solid fa-money-bill-1"></i>
+                            <span id="money">${resData.money.toLocaleString("de-DE")}</span>
+                            đ
+                    </button>
+                </div>`;
+        HTML_offcanvas += `<div class="main-left-logo-content-group">
+            <div class="main-left-logo-content-group-top">
+                <p>Thảo luận</p>
+            </div>
+            <div class="main-left-logo-content-group-bottom">
+                <a href="/">
+                    <button><i class="fa-solid fa-bullhorn"></i> Thông báo</button>
+                </a>
+                <a href="/forumn">
+                    <button><i class="fa-solid fa-comments"></i> Diển đàn</button>
+                </a>
+            </div>
+        </div>
+        <div class="main-left-logo-content-group">
+            <div class="main-left-logo-content-group-top">
+                <p>Cửa hàng</p>
+            </div>
+            <div class="main-left-logo-content-group-bottom">
+                <a href="/store">
+                    <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                </a>
+                <a href="/shoppingcart">
+                    <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
+                </a>
+            </div>
+        </div>`;
+        let HTML_vmenu = `<div class="main-left-logo-content-group">
+            <div class="main-left-logo-content-group-top">
+                <p>Thảo luận</p>
+            </div>
+            <div class="main-left-logo-content-group-bottom">
+                <a href="/">
+                    <button><i class="fa-solid fa-bullhorn"></i> Thông báo</button>
+                </a>
+                <a href="/forumn">
+                    <button><i class="fa-solid fa-comments"></i> Diển đàn</button>
+                </a>
+            </div>
+        </div>
+        <div class="main-left-logo-content-group">
+            <div class="main-left-logo-content-group-top">
+                <p>Cửa hàng</p>
+            </div>
+            <div class="main-left-logo-content-group-bottom">
+                <a href="/store">
+                    <button><i class="fa-solid fa-bag-shopping"></i> Cửa hàng</button>
+                </a>
+                <a href="/shoppingcart">
+                    <button><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</button>
+                </a>
+            </div>
+        </div>`;
+        if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall || resData.permission.acceptvouchermanagementall || resData.permission.acceptcensorproduct || resData.permission.acceptviewchart || resData.permission.acceptviewchartall) {
+            HTML_offcanvas += `<div class="main-left-logo-content-group">
                             <div class="main-left-logo-content-group-top">
                                 <p>Người bán</p>
                             </div>
                             <div class="main-left-logo-content-group-bottom">`;
-                        if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall) {
-                            HTML_offcanvas += `<a href="/productpanagement">
-                                        <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
-                                    </a>`;
-                            HTML_vmenu += `<a href="/productpanagement">
-                                <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
-                            </a>`;
-                                    
-                        }
-                        HTML_offcanvas += `</div>
-                            </div>`;
-                        HTML_vmenu += `</div>
-                            </div>`;
-                    }
-                    if (resData.permission.acceptcensorproduct || resData.permission.acceptcensorcooperate || resData.permission.acceptaccountmanagement) {
-                        HTML_offcanvas += `<div class="main-left-logo-content-group">
-                                        <div class="main-left-logo-content-group-top">
-                                            <p>Quản trị viên</p>
-                                        </div>
-                                        <div class="main-left-logo-content-group-bottom">`;
-                        HTML_vmenu += `<div class="main-left-logo-content-group">
+            HTML_vmenu += `<div class="main-left-logo-content-group">
+                <div class="main-left-logo-content-group-top">
+                    <p>Người bán</p>
+                </div>
+                <div class="main-left-logo-content-group-bottom">`;
+            if (resData.permission.acceptproductmanagement || resData.permission.acceptproductmanagementall) {
+                HTML_offcanvas += `<a href="/productpanagement">
+                            <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
+                        </a>`;
+                HTML_vmenu += `<a href="/productpanagement">
+                    <button><i class="fa-brands fa-product-hunt"></i> Quản lý sản phẩm</button>
+                </a>`;
+                        
+            }
+            HTML_offcanvas += `</div>
+                </div>`;
+            HTML_vmenu += `</div>
+                </div>`;
+        }
+        if (resData.permission.acceptcensorproduct || resData.permission.acceptcensorcooperate || resData.permission.acceptaccountmanagement || resData.permission.acceptreportmanagement || resData.permission.acceptpostmanagement || resData.permission.acceptcensorpost) {
+            HTML_offcanvas += `<div class="main-left-logo-content-group">
                             <div class="main-left-logo-content-group-top">
                                 <p>Quản trị viên</p>
                             </div>
                             <div class="main-left-logo-content-group-bottom">`;
-                        if (resData.permission.acceptcensorproduct) {
-                            HTML_offcanvas += `<a href="/censorproduct">
-                                        <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
-                                    </a>`;
-                            HTML_vmenu += `<a href="/censorproduct">
-                                <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
-                            </a>`;
-                        }
-                        if (resData.permission.acceptaccountmanagement) {
-                            HTML_offcanvas += `<a href="/accountmanagement">
-                                        <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
-                                    </a>`;
-                            HTML_vmenu += `<a href="/accountmanagement">
-                                <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
-                            </a>`;
-                        }
-                        HTML_offcanvas += `</div>
-                            </div>`;
-                            HTML_vmenu += `</div>
-                        </div>`;
-                    }
-                    HTML_offcanvas += `<div class="main-left-logo-content-group">
-                                <div class="main-left-logo-content-group-top">
-                                    <p>Tài khoản</p>
-                                </div>
-                                <div class="main-left-logo-content-group-bottom">
-                                    <a href="/profile">
-                                        <button><i class="fa-solid fa-user"></i> Tài khoản</button>
-                                    </a>
-                                    <a href="/paymentgateway">
-                                        <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
-                                    </a>
-                                    <a href="/purchasedproducts" class="main-left-logo-content-group-bottom-active">
-                                        <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
-                                    </a>
-                                </div>`;
-                        HTML_vmenu += `<div class="main-left-logo-content-group">
-                            <div class="main-left-logo-content-group-top">
-                                <p>Tài khoản</p>
-                            </div>
-                            <div class="main-left-logo-content-group-bottom">
-                                <a href="/profile">
-                                    <button><i class="fa-solid fa-user"></i> Tài khoản</button>
-                                </a>
-                                <a href="/paymentgateway">
-                                    <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
-                                </a>
-                                <a href="/purchasedproducts" class="main-left-logo-content-group-bottom-active">
-                                    <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
-                                </a>
-                            </div>`;
-                            document.getElementById("v_menu").innerHTML = HTML_vmenu;
-                            document.getElementById("menu_offcanvas").innerHTML = HTML_offcanvas;
+            HTML_vmenu += `<div class="main-left-logo-content-group">
+                <div class="main-left-logo-content-group-top">
+                    <p>Quản trị viên</p>
+                </div>
+                <div class="main-left-logo-content-group-bottom">`;
+            if (resData.permission.acceptcensorpost) {
+                HTML_offcanvas += `<a href="/censorpost">
+                            <button><i class="fa-solid fa-bug"></i> Kiểm duyệt bài viết</button>
+                        </a>`;
+                HTML_vmenu += `<a href="/censorpost">
+                    <button><i class="fa-solid fa-bug"></i> Kiểm duyệt bài viết</button>
+                </a>`;
+            }
+            if (resData.permission.acceptcensorproduct) {
+                HTML_offcanvas += `<a href="/censorproduct">
+                    <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
+                </a>`;
+                HTML_vmenu += `<a href="/censorproduct">
+                    <button><i class="fa-solid fa-diagram-successor"></i> Kiễm duyệt sản phẩm</button>
+                </a>`;
+            }
+            if (resData.permission.acceptreportmanagement) {
+                HTML_offcanvas += `<a href="/reportmanagement">
+                            <button><i class="fa-solid fa-bug"></i> Quản lý tố cáo</button>
+                        </a>`;
+                HTML_vmenu += `<a href="/reportmanagement">
+                    <button><i class="fa-solid fa-bug"></i> Quản lý tố cáo</button>
+                </a>`;
+            }
+            if (resData.permission.acceptaccountmanagement) {
+                HTML_offcanvas += `<a href="/accountmanagement">
+                            <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
+                        </a>`;
+                HTML_vmenu += `<a href="/accountmanagement">
+                    <button><i class="fa-solid fa-shield-halved"></i> Quản lý tài khoản</button>
+                </a>`;
+            }
+            HTML_offcanvas += `</div>
+                </div>`;
+                HTML_vmenu += `</div>
+            </div>`;
+        }
+        HTML_offcanvas += `<div class="main-left-logo-content-group">
+                    <div class="main-left-logo-content-group-top">
+                        <p>Tài khoản</p>
+                    </div>
+                    <div class="main-left-logo-content-group-bottom">
+                        <a href="/profile">
+                            <button><i class="fa-solid fa-user"></i> Tài khoản</button>
+                        </a>
+                        <a href="/paymentgateway">
+                            <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
+                        </a>
+                        <a href="/purchasedproducts" class="main-left-logo-content-group-bottom-active">
+                            <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
+                        </a>
+                    </div>`;
+            HTML_vmenu += `<div class="main-left-logo-content-group">
+                <div class="main-left-logo-content-group-top">
+                    <p>Tài khoản</p>
+                </div>
+                <div class="main-left-logo-content-group-bottom">
+                    <a href="/profile">
+                        <button><i class="fa-solid fa-user"></i> Tài khoản</button>
+                    </a>
+                    <a href="/paymentgateway">
+                        <button><i class="fa-solid fa-dollar-sign"></i> Nạp tiền</button>
+                    </a>
+                    <a href="/purchasedproducts" class="main-left-logo-content-group-bottom-active">
+                        <button><i class="fa-solid fa-basket-shopping"></i> Đã mua</button>
+                    </a>
+                </div>`;
+                document.getElementById("v_menu").innerHTML = HTML_vmenu;
+                document.getElementById("menu_offcanvas").innerHTML = HTML_offcanvas;
 
-                            let dropdown = `<a class="btn btn-secondary dropdown-toggle btn-color-menu-account" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">${resData.username}`;
-                            if (resData.verify) {
-                                dropdown += ` <i class="fa-solid fa-circle-check verified"></i>`
-                            }
-                            dropdown += `</a>`;
-                            dropdown += `</ul>
-                                            <ul class="dropdown-menu dropdown-menu-end btn-color-menu-account-background">
-                                                <li><a class="dropdown-item btn-color-menu-account-items" href="/profile/">Tài khoản</a></li>
-                                                <li><a class="dropdown-item btn-color-menu-account-items" href="/shoppingcart">Giỏ hàng</a></li>
-                                                <li><a class="dropdown-item btn-color-menu-account-items" href="/purchasedproducts">Sản phẩm đã mua</a></li>
-                                                <li><a class="dropdown-item btn-color-menu-account-items" href="" onclick="Logout()">Đăng xuất</a></li>
-                                            </ul>`;
-                            document.getElementById("dropdown_menu").innerHTML = dropdown;
-                            document.getElementById("money").textContent = `${resData.money.toLocaleString('de-DE')}`;
+                let dropdown = `<a class="btn btn-secondary dropdown-toggle btn-color-menu-account" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">${resData.username}`;
+                if (resData.verify) {
+                    dropdown += ` <i class="fa-solid fa-circle-check verified"></i>`
+                }
+                dropdown += `</a>`;
+                dropdown += `</ul>
+                                <ul class="dropdown-menu dropdown-menu-end btn-color-menu-account-background">
+                                    <li><a class="dropdown-item btn-color-menu-account-items" href="/profile/">Tài khoản</a></li>
+                                    <li><a class="dropdown-item btn-color-menu-account-items" href="/shoppingcart">Giỏ hàng</a></li>
+                                    <li><a class="dropdown-item btn-color-menu-account-items" href="/purchasedproducts">Sản phẩm đã mua</a></li>
+                                    <li><a class="dropdown-item btn-color-menu-account-items" href="" onclick="Logout()">Đăng xuất</a></li>
+                                </ul>`;
+                document.getElementById("dropdown_menu").innerHTML = dropdown;
+                document.getElementById("money").textContent = `${resData.money.toLocaleString('de-DE')}`;
                     }
               })
         }
@@ -1305,7 +1347,8 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                                            <button type="button" class="btn btn-primary" onclick="ExportBill(${count})">Xuất hóa đơn</button>
+                                                            <button type="button" class="btn btn-primary" onclick="ExportBill(${count})">Xuất ảnh</button>
+                                                            <button type="button" class="btn btn-success" onclick="ExportBillExel('${items.productid}', '${items.producttitle}', ${items.price})">Xuất Exel</button>
                                                             </div>
                                                         </div>
                                                         </div>
@@ -1448,7 +1491,8 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                                            <button type="button" class="btn btn-primary" onclick="ExportBill(${count})">Xuất hóa đơn</button>
+                                                            <button type="button" class="btn btn-primary" onclick="ExportBill(${count})">Xuất ảnh</button>
+                                                            <button type="button" class="btn btn-success" onclick="ExportBillExel('${items.productid}', '${items.producttitle}', ${items.price})">Xuất Exel</button>
                                                             </div>
                                                         </div>
                                                         </div>
@@ -1581,7 +1625,8 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                                            <button type="button" class="btn btn-primary" onclick="ExportBill(${count})">Xuất hóa đơn</button>
+                                                            <button type="button" class="btn btn-primary" onclick="ExportBill(${count})">Xuất ảnh</button>
+                                                            <button type="button" class="btn btn-success" onclick="ExportBillExel('${items.productid}', '${items.producttitle}', ${items.price})">Xuất Exel</button>
                                                             </div>
                                                         </div>
                                                         </div>
@@ -1725,7 +1770,7 @@
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Bạn phải chọn sản phẩm cần mua",
+                    text: "Bạn phải chọn sản phẩm cần xuất bill",
                     background: '#222338',
                     color: "white",
                     footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
@@ -1774,7 +1819,8 @@
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                <button type="button" class="btn btn-primary" onclick="ExportBill(${id})">Xuất hóa đơn</button>
+                                <button type="button" class="btn btn-primary" onclick="ExportBill(${id})">Xuất ảnh</button>
+                                <button type="button" class="btn btn-success" onclick="ExportAllBillExel(${id})">Xuất Exel</button>
                                 </div>
                             </div>
                             </div>
@@ -1878,8 +1924,105 @@
                     color: "white",
                     footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
                   });
-            }
+            }   
+        }
+        function ExportBillExel(id, name, price) {
+            const data = [
+                ['ID', 'Tên sản phẩm', 'Giá bán'],
+                [id, name, price.toLocaleString("de-DE")  + " đ"],
+                ["", "Tổng: ", price.toLocaleString("de-DE")  + " đ"]
+            ];
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, "bill");
+
+            const username = localStorage.getItem("username");
+            const now = new Date();
             
+            const year = now.getFullYear().toString().padStart(4, '0');
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const hour = now.getHours().toString().padStart(2, '0');
+            const minute = now.getMinutes().toString().padStart(2, '0');
+            const second = now.getSeconds().toString().padStart(2, '0');
+            
+            const time = `${hour}-${minute}-${second}_${day}-${month}-${year}`;
+
+            XLSX.writeFile(wb, `${username}-bill-${time}.xlsx`);
+        }
+        function ExportAllBillExel() {
+            const username = localStorage.getItem("username");
+            const allCheckBox = document.querySelectorAll(".select-bill");
+            const data = [];
+            Array.from(allCheckBox).forEach(items => {
+                if (items.checked) {
+                    const existingItem = data.find(item => item.productid === items.dataset.productid);
+                    if (existingItem) {
+                        existingItem.price += Number(items.dataset.price);
+                        existingItem.quantity += Number(items.dataset.quantity);
+                    }
+                    else {
+                        const billData = {
+                            productid: items.dataset.productid,
+                            productname: items.dataset.productname,
+                            price: Number(items.dataset.price),
+                            quantity: Number(items.dataset.quantity)
+                        }
+                        data.push(billData);
+                    }
+                }
+            });
+            
+            if (data.length < 1) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Bạn phải chọn sản phẩm cần xuất bill",
+                    background: '#222338',
+                    color: "white",
+                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                  });
+                return;
+            }
+
+            const id = String(Math.round(Math.random() * 1e9));
+
+            let billTotal = 0;
+            data.forEach(items => { 
+                billTotal += items.price;
+            });
+
+            const bill = [["ID", "Tên sản phẩm", "số lượng", "Giá mua"]];
+
+            data.forEach(items => {
+                const billData = [
+                    items.productid,
+                    items.productname,
+                    Number(items.quantity),
+                    Number(items.price.toLocaleString("de-DE") ) + " đ"
+                ]
+                bill.push(billData);
+            });
+
+            bill.push(["", "", "Tổng: ", billTotal.toLocaleString("de-DE") + " đ"]);
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(bill);
+            XLSX.utils.book_append_sheet(wb, ws, "bill");
+
+            const now = new Date();
+            
+            const year = now.getFullYear().toString().padStart(4, '0');
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const hour = now.getHours().toString().padStart(2, '0');
+            const minute = now.getMinutes().toString().padStart(2, '0');
+            const second = now.getSeconds().toString().padStart(2, '0');
+            
+            const time = `${hour}-${minute}-${second}_${day}-${month}-${year}`;
+
+            XLSX.writeFile(wb, `${username}-bill-${time}.xlsx`);
         }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -1887,5 +2030,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </body>
 </html>

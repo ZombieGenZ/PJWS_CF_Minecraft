@@ -245,7 +245,8 @@ async function SendEmail(email, productquantity, productname, productprice) {
       to: email,
       subject: `Hóa đơn giao dịch khi mua sản phẩm ${productname}`,
       text: text,
-      html: HTML
+      html: HTML,
+      authenticationcode: config.server_securitycode
   }, {
       headers: {
         'Content-Type': 'application/json'

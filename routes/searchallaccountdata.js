@@ -42,7 +42,7 @@ routes.post("/", async (req, res) => {
   .then(async response => {
     if (response.data.status) {
       if (Boolean(response.data.permission.acceptaccountmanagement)) {
-          let accountData = await GetAllAccountData(keywork);
+          const accountData = await GetAllAccountData(keywork);
           res.status(200).json({ status: true, data: accountData });
       }
       else {
@@ -69,7 +69,7 @@ function normalizeString(str) {
 
   async function GetAllAccountData(keyword) {
     return new Promise((resolve, reject) => {
-      database.query(`SELECT userid, username, email, money, revenue, avatarpath, Verify, createtime, permissionid, bio, penalty FROM Account WHERE username = '%${keyword}%'`, (err, res) => {
+      database.query(`SELECT userid, username, email, money, revenue, avatarpath, Verify, createtime, permissionid, bio, penalty FROM Account WHERE LOWER(username) LIKE LOWER('%${keyword}%') OR LOWER(email) LIKE LOWER('%${keyword}%')`, (err, res) => {
         if (err) {
           reject(err);
         } else {

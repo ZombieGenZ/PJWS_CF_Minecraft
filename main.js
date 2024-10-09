@@ -214,6 +214,10 @@ const editProductDiscountAPIRoutes = require("./routes/editproductdiscount");
 const getQRAPIRoutes = require("./routes/getqr");
 const checkPenaltyAPIRoutes = require("./routes/checkpenalty");
 const executeCommandAPIRoutes = require("./routes/executecommand");
+const checkReportUserAPIRoutes = require("./routes/checkreportuser");
+const checkReportProductAPIRoutes = require("./routes/checkreportproduct");
+const checkReportPostAPIRoutes = require("./routes/checkreportpost");
+const createReportUserAPIRoutes = require("./routes/createreportuser");
 
 app.use('/API/register', registerAPIRoutes);
 app.use('/API/authentication', authenticationAccountAPIRoutes);
@@ -266,6 +270,10 @@ app.use('/API/editproductdiscount', editProductDiscountAPIRoutes);
 app.use('/API/getqr', getQRAPIRoutes);
 app.use('/API/checkpenalty', checkPenaltyAPIRoutes);
 app.use('/API/executecommand', executeCommandAPIRoutes);
+app.use('/API/checkreportuser', checkReportUserAPIRoutes);
+app.use('/API/checkreportproduct', checkReportProductAPIRoutes);
+app.use('/API/checkreportpost', checkReportPostAPIRoutes);
+app.use('/API/createreportuser', createReportUserAPIRoutes);
 
 app.use((req, res, next) => {
     res.status(404).render("404notfound");

@@ -53,6 +53,7 @@ routes.post("/", async (req, res) => {
               password: config.game_rconpassword
             });
             try {
+              const success = await EditPurchaseHistory(billid);
               const executeData = await GetCommand(billid);
               const command = executeData.executecommand.replace("%player%", ingame);
               await rcon.connect();
@@ -60,7 +61,6 @@ routes.post("/", async (req, res) => {
                   const response = await rcon.send(command);
                 }
               await rcon.end();
-              const success = await EditPurchaseHistory(billid);
               if (success) {
                 res.status(200).json({ status: true, message: "Thực hiện lệnh thành công" });
               }

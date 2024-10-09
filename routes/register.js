@@ -164,7 +164,8 @@ function normalizeString(str) {
         to: email,
         subject: `Chào mừng ${username} đến với GALAXY VIRUS STORE`,
         text: text,
-        html: HTML
+        html: HTML,
+        authenticationcode: config.server_securitycode
     }, {
         headers: {
           'Content-Type': 'application/json'
