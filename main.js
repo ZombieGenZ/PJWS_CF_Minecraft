@@ -15,6 +15,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get("/", (req, res) => {
     res.status(200);
+    res.render("404notfound");
+});
+app.get("/store", (req, res) => {
+    res.status(200);
     res.render("store");
 });
 app.get("/productpanagement", (req, res) => {
@@ -162,6 +166,10 @@ app.get("/paymentgateway", (req, res) => {
     res.status(200);
     res.render("paymentgateway");
 });
+app.get("/reportmanagement", (req, res) => {
+    res.status(200);
+    res.render("reportmanagement");
+});
 
 const registerAPIRoutes = require("./routes/register");
 const authenticationAccountAPIRoutes = require("./routes/authentication");
@@ -218,6 +226,20 @@ const checkReportUserAPIRoutes = require("./routes/checkreportuser");
 const checkReportProductAPIRoutes = require("./routes/checkreportproduct");
 const checkReportPostAPIRoutes = require("./routes/checkreportpost");
 const createReportUserAPIRoutes = require("./routes/createreportuser");
+const createReporProductAPIRoutes = require("./routes/createreportproduct");
+const createReportPostAPIRoutes = require("./routes/createreportpost");
+const getAllReportUserAPIRoutes = require("./routes/getallreportuserdata");
+const getAllReportProductAPIRoutes = require("./routes/getallreportproductdata");
+const getAllReportPostAPIRoutes = require("./routes/getallreportpostdata");
+const deleteReportUserAPIRoutes = require("./routes/deletereportuser");
+const deleteReportProductAPIRoutes = require("./routes/deletereportproduct");
+const deleteReportPostAPIRoutes = require("./routes/deletereportpost");
+const executeReportUserAPIRoutes = require("./routes/executereportuser");
+const executeReportProductAPIRoutes = require("./routes/executereportproduct");
+const executeReportPostAPIRoutes = require("./routes/executereportpost");
+const searchAllReportUserAPIRoutes = require("./routes/seachallreportuserdata");
+const searchAllReportProductAPIRoutes = require("./routes/searchallreportproductdata");
+const searchAllReportPostAPIRoutes = require("./routes/searchallreportpostdata");
 
 app.use('/API/register', registerAPIRoutes);
 app.use('/API/authentication', authenticationAccountAPIRoutes);
@@ -274,6 +296,20 @@ app.use('/API/checkreportuser', checkReportUserAPIRoutes);
 app.use('/API/checkreportproduct', checkReportProductAPIRoutes);
 app.use('/API/checkreportpost', checkReportPostAPIRoutes);
 app.use('/API/createreportuser', createReportUserAPIRoutes);
+app.use('/API/createreportproduct', createReporProductAPIRoutes);
+app.use('/API/createreportpost', createReportPostAPIRoutes);
+app.use('/API/getallreportuserdata', getAllReportUserAPIRoutes);
+app.use('/API/getallreportproductdata', getAllReportProductAPIRoutes);
+app.use('/API/getallreportpostdata', getAllReportPostAPIRoutes);
+app.use('/API/deletereportuser', deleteReportUserAPIRoutes);
+app.use('/API/deletereportproduct', deleteReportProductAPIRoutes);
+app.use('/API/deletereportpost', deleteReportPostAPIRoutes);
+app.use('/API/executereportuser', executeReportUserAPIRoutes);
+app.use('/API/executereportproduct', executeReportProductAPIRoutes);
+app.use('/API/executereportpost', executeReportPostAPIRoutes);
+app.use('/API/searchallreportuserdata', searchAllReportUserAPIRoutes);
+app.use('/API/searchallreportproductdata', searchAllReportProductAPIRoutes);
+app.use('/API/searchallreportpostdata', searchAllReportPostAPIRoutes);
 
 app.use((req, res, next) => {
     res.status(404).render("404notfound");

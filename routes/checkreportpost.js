@@ -42,12 +42,17 @@ routes.post("/", async (req, res) => {
     })
     .then(async responseUser => {
         if (responseUser.data.status) {
-          const success = await CheckReport(postid, responseUser.data.userid);
-          if (success) {
-            res.status(200).json({ status: true, message: "Bạn chưa tố cáo bài viết này bao giờ", userid: responseUser.data.userid });
+          if (postid !== "" && postid !== null && postid !== undefined) {
+            const success = await CheckReport(postid, responseUser.data.userid);
+            if (success) {
+              res.status(200).json({ status: true, message: "Bạn chưa tố cáo bài viết này bao giờ", userid: responseUser.data.userid });
+            }
+            else {
+              res.status(200).json({ status: false, message: "Người dùng này đã tố cáo bài viết này rồi" });
+            }
           }
           else {
-            res.status(200).json({ status: false, message: "Người dùng này đã tố cáo bài viết này rồi" });
+            res.status(200).json({ status: false, message: "Vui lòng nhập đầy đủ thông tin" });
           }
         }
         else {

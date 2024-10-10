@@ -39,12 +39,17 @@ routes.post("/", async (req, res) => {
     })
     .then(async responseUser => {
         if (responseUser.data.status) {
-          const success = await CheckReport(userid, responseUser.data.userid);
-          if (success) {
-            res.status(200).json({ status: true, message: "Bạn chưa tố cáo người dùng này bao giờ", userid: responseUser.data.userid });
+          if (userid !== "" && userid !== null && userid !== undefined) {
+            const success = await CheckReport(userid, responseUser.data.userid);
+            if (success) {
+              res.status(200).json({ status: true, message: "Bạn chưa tố cáo người dùng này bao giờ", userid: responseUser.data.userid });
+            }
+            else {
+              res.status(200).json({ status: false, message: "Người dùng này đã tố cáo người dùng này rồi" });
+            }
           }
           else {
-            res.status(200).json({ status: false, message: "Người dùng này đã tố cáo người dùng này rồi" });
+            res.status(200).json({ status: false, message: "Vui lòng nhập đầy đủ thông tin" });
           }
         }
         else {

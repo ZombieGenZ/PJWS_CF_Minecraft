@@ -51,6 +51,7 @@ CREATE TABLE Product (
     EvaluateTotal INT NOT NULL DEFAULT 0,
     discount INT NOT NULL DEFAULT 0 CHECK (discount >= 0 AND discount <= 100),
     discountcount INT NOT NULL DEFAULT 0 CHECK (discountcount >= 0),
+	executeCommand TEXT NOT NULL,
 	PRIMARY KEY(productid)
 );
 
@@ -111,6 +112,7 @@ CREATE TABLE ReportUser (
 	userid INT NOT NULL,
     message VARCHAR(256) DEFAULT 'Không có lý do',
 	createtime DATETIME NOT NULL DEFAULT NOW(),
+	complete BOOLEAN NOT NULL DEFAULT false,
 	PRIMARY KEY(reportid)
 );
 
@@ -120,6 +122,7 @@ CREATE TABLE ReportProduct (
 	productid VARCHAR(255) NOT NULL,
     message VARCHAR(256) DEFAULT 'Không có lý do',
 	createtime DATETIME NOT NULL DEFAULT NOW(),
+	complete BOOLEAN NOT NULL DEFAULT false,
 	PRIMARY KEY(reportid)
 );
 
@@ -129,6 +132,7 @@ CREATE TABLE ReportPost (
 	postid INT NOT NULL,
     message VARCHAR(256) DEFAULT 'Không có lý do',
 	createtime DATETIME NOT NULL DEFAULT NOW(),
+	complete BOOLEAN NOT NULL DEFAULT false,
 	PRIMARY KEY(reportid)
 );
 

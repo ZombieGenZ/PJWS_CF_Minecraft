@@ -1366,8 +1366,14 @@
                             text: `${resData.message}`,
                             background: '#222338',
                             color: "white",
+                          }).then((result) => {
+                            if (result.dismiss === Swal.DismissReason.backdrop) {
+                              location.reload();
+                            }
+                            else {
+                                location.reload();
+                            }
                           });
-                        return;
                     }
                     else {
                         Swal.fire({
@@ -1377,14 +1383,7 @@
                             background: '#222338',
                             color: "white",
                             footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
-                          }).then((result) => {
-                            if (result.dismiss === Swal.DismissReason.backdrop) {
-                              location.reload();
-                            }
-                            else {
-                                location.reload();
-                            }
-                          });;
+                          });
                         return;
                     }
                 })

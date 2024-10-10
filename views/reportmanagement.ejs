@@ -22,7 +22,7 @@
               .then(res => res.json())
               .then(resData => {
                     if (resData.status) {
-                        if (!resData.permission.acceptaccountmanagement) {
+                        if (!resData.permission.acceptreportmanagement) {
                             location.href = "/";
                         }
                     }
@@ -686,7 +686,7 @@
     </style>
     <link rel="icon" href="/image/system/favourite.ico" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Quản lý tài khoản</title>
+    <title>Quản lý tố cáo</title>
 </head>
 <body>
     <div class="madol" id="modal">
@@ -772,9 +772,12 @@
             </div>
           </div>  
     </div>
-    <div class="currentcy-profile-modal" id="currentcy-profile-modal"></div>
-    <div class="permission-profile-modal" id="permission-profile-modal"></div>
-    <div class="punish-profile-modal" id="punish-profile-modal"></div>
+    <div class="punishuser-profile-modal" id="punishuser-profile-modal"></div>
+    <div class="punishproduct-profile-modal" id="punishproduct-profile-modal"></div>
+    <div class="punishpost-profile-modal" id="punishpost-profile-modal"></div>
+    <div class="punishsenderuser-profile-modal" id="punishsenderuser-profile-modal"></div>
+    <div class="punishsenderproduct-profile-modal" id="punishsenderproduct-profile-modal"></div>
+    <div class="punishsenderpost-profile-modal" id="punishsenderpost-profile-modal"></div>
     <div class="main">
         <div class="main-left">
             <div class="main-left-logo">
@@ -855,7 +858,7 @@
                         <div class="main-right-header-content-center-top-right">
                             <div class="search">
                                 <input type="text" placeholder="Tìm kiếm..." id="user-search">
-                                <button onclick="SearchAccounts()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                <button onclick="SearchReport()"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
                         </div>
                     </div>
@@ -1430,7 +1433,7 @@
     <script>
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("modal").innerHTML = ``;
-        function loadAccounts() {
+        function loadReport() {
             const username = localStorage.getItem("username");
             const password = localStorage.getItem("password");
             if (username !== undefined && username !== null && password !== undefined && password !== null) {
@@ -1447,150 +1450,262 @@
                     credentials: 'include'
                   })
                   .then(res => res.json())
-                  .then(resData => {
-                        if (resData.status) {
-                            fetch('/API/getallaccountdata', {
-                                method: 'POST',
-                                headers: {
-                                  'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(data),
-                                credentials: 'include'
-                              })
-                              .then(res => res.json())
-                              .then(resData => {
-                                if (resData.status) {
-                                    if (resData.data === null) {
-                                        document.getElementById("productlist").innerHTML = `<div class="none-items">
-                                            <p>Hiện không có bất cứ tài khoản nào hợp lệ</p>
-                                        </div>`;
-                                        return;
-                                    }
-                                    document.getElementById("currentcy-profile-modal").innerHTML = "";
-                                    document.getElementById("permission-profile-modal").innerHTML = "";
-                                    document.getElementById("punish-profile-modal").innerHTML = "";
-                                    if (resData.data.length > 0) {
-                                        let HTML = `<h3>Tài khoản</h3>                        
-                                                    <table class="table table-dark">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="tb-col1" scope="col">ID</th>
-                                                        <th class="tb-col2" scope="col">Tên người dùng</th>
-                                                        <th class="tb-col3" scope="col">Email</th>
-                                                        <th class="tb-col4" scope="col">Tiền</th>
-                                                        <th class="tb-col5" scope="col">Doanh thu</th>
-                                                        <th class="tb-col6" scope="col">Chức năng</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>`;
-                                        resData.data.forEach(items => {
-                                            let currencyModal = `<div class="modal fade" id="${items.userid}-CurrentcyModal" tabindex="-1" aria-labelledby="${items.userid}-CurrentcyModalLable" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-scrollable">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                        <h1 class="modal-title fs-5" id="${items.userid}-CurrentcyModalLabel">Thay đổi tiền tệ</h1>
-                                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                        <div class="create-product-form">
-                                                                            <div class="create-product-form-group">
-                                                                                <label for="user-currentcy-${items.userid}">Tiền tệ</label>
-                                                                                <input type="number" id="user-currentcy-${items.userid}" placeholder="Tiền tệ" value="${items.money}">
+                  .then(async resData => {
+                      if (resData.status) {
+                        let HTMLUser = "";
+                        let HTMLProduct = "";
+                        let HTMLPost = "";
+                        await fetch('/API/getallreportuserdata', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                            credentials: 'include'
+                          })
+                          .then(res => res.json())
+                          .then(resData => {
+                            if (resData.status) {
+                                if (resData.data != null && resData.data.length > 0) {
+                                    document.getElementById("punishuser-profile-modal").innerHTML = "";
+                                    document.getElementById("punishsenderuser-profile-modal").innerHTML = "";
+                                    HTMLUser = `<h3>Tố cáo người dùng</h3>                        
+                                                <table class="table table-dark">
+                                                <thead>
+                                                <tr>
+                                                    <th class="tb-col1" scope="col">ID</th>
+                                                    <th class="tb-col2" scope="col">Tên người dùng</th>
+                                                    <th class="tb-col3" scope="col">Tên người tố cáo</th>
+                                                    <th class="tb-col5" scope="col">Lý do</th>
+                                                    <th class="tb-col6" scope="col">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>`;
+                                    resData.data.forEach(items => {
+                                            const randomNumber = Math.floor(Math.random() * 1e9);
+                                            let punishSenderModal = `<div class="modal fade" id="punishSender-user-${items.senderid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punishSender-user-${items.senderid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5" id="punishSender-user-${items.senderid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                             </div>
-                                                                              <div class="accoutn-auth-group-btn">
-                                                                                <button type="button" onclick="ChanageCurrentcy('${items.userid}')" class="btn btn-success form-auth-btn">Xác nhận</button>
+                                                                            <div class="modal-body">
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-reason-${items.senderid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="user-sender-punish-reason-${items.senderid}-${randomNumber}" placeholder="Lý do">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-startime-${items.senderid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="user-sender-punish-startime-${items.senderid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-endime-${items.senderid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="user-sender-punish-endime-${items.senderid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
+                                                                                <div class="accoutn-auth-group-btn">
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.senderid}', 'user-sender', '${randomNumber}', 1, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>`;
-                                            document.getElementById("currentcy-profile-modal").innerHTML += currencyModal;
-                                            let permissionModal = `<div class="modal fade" id="${items.userid}-PermissionModal" tabindex="-1" aria-labelledby="${items.userid}-PermissionModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-scrollable">
+                                                                </div>`;
+                                                let punishModal = `<div class="modal fade" id="punish-user-${items.userid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punish-user-${items.userid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h1 class="modal-title fs-5" id="${items.userid}-PermissionModalLabel">Thay đổi quyền hạn</h1>
-                                                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            <h1 class="modal-title fs-5" id="punish-user-${items.userid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                             </div>
                                                                             <div class="modal-body">
-                                                                                <div class="create-product-form">
-                                                                                    <select class="form-select form-select-lg mb-3" aria-label="Large select" id="user-permission-${items.userid}">
-                                                                                        <option value="member" ${items.permissionid === "member" ? "selected disabled " : ""}>Người mua</option>
-                                                                                        <option value="seller" ${items.permissionid === "seller" ? "selected disabled" : ""}>Người bán</option>
-                                                                                        <option value="moderator" ${items.permissionid === "moderator" ? "selected disabled" : ""}>Người kiễm duyệt</option>
-                                                                                        <option value="developer" ${items.permissionid === "developer" ? "selected disabled" : ""}>Nhà phát triển</option>
-                                                                                        <option value="admin" ${items.permissionid === "admin" ? "selected disabled" : ""}>Quản trị viên</option>
-                                                                                    </select>
-                                                                                    <div class="form-check form-switch form-check-reverse">
-                                                                                        <input class="form-check-input" type="checkbox" id="verify-${items.userid}" ${items.Verify ? "checked" : ""}>
-                                                                                        <label class="form-check-label" for="verify-${items.userid}">Xác minh</label>
-                                                                                    </div>
-                                                                                    <div class="accoutn-auth-group-btn">
-                                                                                        <button type="button" onclick="ChanagePermission('${items.userid}')" class="btn btn-success form-auth-btn">Xác nhận</button>
-                                                                                    </div>
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-reason-${items.userid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="user-punish-reason-${items.userid}-${randomNumber}" placeholder="Lý do">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-startime-${items.userid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="user-punish-startime-${items.userid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-endime-${items.userid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="user-punish-endime-${items.userid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
+                                                                                <div class="accoutn-auth-group-btn">
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.userid}', 'user', '${randomNumber}', 1, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>`;
-                                                document.getElementById("permission-profile-modal").innerHTML += permissionModal;
-                                                if (items.penalty == null) {
-                                                    let punishModal = `<div class="modal fade" id="${items.userid}-punishModal" tabindex="-1" aria-labelledby="${items.userid}-punishLable" aria-hidden="true">
-                                                                            <div class="modal-dialog modal-dialog-scrollable">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                <h1 class="modal-title fs-5" id="${items.userid}-punishLabel">Trừng phạt</h1>
-                                                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                <div class="create-product-form">
-                                                                                    <div class="create-product-form-group">
-                                                                                        <label for="user-punish-reason-${items.userid}">Lý do</label>
-                                                                                        <input type="text" id="user-punish-reason-${items.userid}" placeholder="Lý do">
-                                                                                    </div>
-                                                                                    <div class="create-product-form-group">
-                                                                                        <label for="user-punish-startime-${items.userid}">Thời gian bắt đầu</label>
-                                                                                        <input type="datetime-local" id="user-punish-startime-${items.userid}" placeholder="Thời gian bắt đầ">
-                                                                                    </div>
-                                                                                    <div class="create-product-form-group">
-                                                                                        <label for="user-punish-endime-${items.userid}">Thời gian kết thúc</label>
-                                                                                        <input type="datetime-local" id="user-punish-endime-${items.userid}" placeholder="Thời gian kết thúc">
-                                                                                    </div>
-                                                                                    <div class="accoutn-auth-group-btn">
-                                                                                        <button type="button" onclick="ChanagePunish('${items.userid}')" class="btn btn-success form-auth-btn">Xác nhận</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>`;
-                                                    document.getElementById("punish-profile-modal").innerHTML += punishModal;
-                                                }
-                                                if (items.penalty == null) {
-                                                    HTML += `<tr>
-                                                        <td class="tb-col1" scope="row">${items.userid}</td>
-                                                        <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
-                                                        <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#${items.userid}-punishModal">Trừng phạt</button></td>
-                                                    </tr>`;
-                                                }
-                                                else {
-                                                    HTML += `<tr>
-                                                        <td class="tb-col1" scope="row">${items.userid}</td>
-                                                        <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
-                                                        <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" onclick="RemovePunish('${items.userid}', '${items.penalty}')">Trừng phạt</button></td>
-                                                    </tr>`;
-                                                }
-                                        });
-                                        HTML += `</tbody>
-                                                    </table>`;
-                                        document.getElementById("productlist").innerHTML = HTML;
-                                    }
+                                                                    </div>
+                                                                </div>`;
+                                            document.getElementById("punishsenderuser-profile-modal").innerHTML += punishSenderModal;
+                                            document.getElementById("punishuser-profile-modal").innerHTML += punishModal;
+                                            HTMLUser += `<tr>
+                                                <td class="tb-col1" scope="row">${items.reportid}</td>
+                                                <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
+                                                <td class="tb-col3"><a href="/profile/${items.sendername}" class="overflow-1" target="_blank">${items.sendername}</a></td>
+                                                <td class="tb-col5">${items.message != null ? items.message : "Không có lý do"}</td>
+                                                <td class="tb-col6"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#punishSender-user-${items.senderid}-${randomNumber}-punishModal">Phạt span</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#punish-user-${items.userid}-${randomNumber}-punishModal">Xử lý</button></td>
+                                            </tr>`;
+                                    });
+                                    HTMLUser += `</tbody>
+                                                </table>`;
                                 }
-                            })
+                            }
+                        })
+                        await fetch('/API/getallreportproductdata', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                            credentials: 'include'
+                          })
+                          .then(res => res.json())
+                          .then(resData => {
+                            if (resData.status) {
+                                if (resData.data != null && resData.data.length > 0) {
+                                    document.getElementById("punishproduct-profile-modal").innerHTML = "";
+                                    document.getElementById("punishsenderproduct-profile-modal").innerHTML = "";
+                                    HTMLProduct = `<h3>Tố cáo Sản phẩm</h3>                        
+                                                <table class="table table-dark">
+                                                <thead>
+                                                <tr>
+                                                    <th class="tb-col1" scope="col">ID</th>
+                                                    <th class="tb-col2" scope="col">Tên sản phẩm</th>
+                                                    <th class="tb-col3" scope="col">Tên người tố cáo</th>
+                                                    <th class="tb-col5" scope="col">Lý do</th>
+                                                    <th class="tb-col6" scope="col">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>`;
+                                    resData.data.forEach(items => {
+                                            const randomNumber = Math.floor(Math.random() * 1e9);
+                                            let punishSenderModal = `<div class="modal fade" id="punishSender-product-${items.senderid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punishSender-product-${items.senderid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5" id="punishSender-product-${items.senderid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="product-punish-reason-${items.senderid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="product-punish-reason-${items.senderid}-${randomNumber}" placeholder="Lý do">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="product-punish-startime-${items.senderid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="product-punish-startime-${items.senderid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="product-punish-endime-${items.senderid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="product-punish-endime-${items.senderid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
+                                                                                <div class="accoutn-auth-group-btn">
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.senderid}', 'product', '${randomNumber}', 2, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`;
+                                            document.getElementById("punishsenderproduct-profile-modal").innerHTML += punishSenderModal;
+                                            HTMLProduct += `<tr>
+                                                <td class="tb-col1" scope="row">${items.reportid}</td>
+                                                <td class="tb-col2"><a href="/product/${items.productpath}" class="overflow-1" target="_blank">${items.producttitle}</a></td>
+                                                <td class="tb-col3"><a href="/profile/${items.sendername}" class="overflow-1" target="_blank">${items.sendername}</a></td>
+                                                <td class="tb-col5">${items.message != null ? items.message : "Không có lý do"}</td>
+                                                <td class="tb-col6"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#punishSender-product-${items.senderid}-${randomNumber}-punishModal">Phạt span</button><button type="button" class="btn btn-info" onclick="ExecuteReportProduct(${items.reportid}, '${items.productid}')">Xử lý</button></td>
+                                            </tr>`;
+                                    });
+                                    HTMLProduct += `</tbody>
+                                                </table>`;
+                                }
+                            }
+                        })
+                        await fetch('/API/getallreportpostdata', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                            credentials: 'include'
+                          })
+                          .then(res => res.json())
+                          .then(resData => {
+                            if (resData.status) {
+                                if (resData.data != null && resData.data.length > 0) {
+                                    document.getElementById("punishpost-profile-modal").innerHTML = "";
+                                    document.getElementById("punishsenderpost-profile-modal").innerHTML = "";
+                                    HTMLPost = `<h3>Tố cáo bài viết</h3>                        
+                                                <table class="table table-dark">
+                                                <thead>
+                                                <tr>
+                                                    <th class="tb-col1" scope="col">ID</th>
+                                                    <th class="tb-col2" scope="col">Tên bài viết</th>
+                                                    <th class="tb-col3" scope="col">Tên người tố cáo</th>
+                                                    <th class="tb-col5" scope="col">Lý do</th>
+                                                    <th class="tb-col6" scope="col">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>`;
+                                    resData.data.forEach(items => {
+                                            const randomNumber = Math.floor(Math.random() * 1e9);
+                                            let punishSenderModal = `<div class="modal fade" id="punishSender-post-${items.senderid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punishSender-post-${items.senderid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5" id="punishSender-post-${items.senderid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="post-punish-reason-${items.senderid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="post-punish-reason-${items.senderid}-${randomNumber}" placeholder="Lý do">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="post-punish-startime-${items.senderid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="post-punish-startime-${items.senderid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="post-punish-endime-${items.senderid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="post-punish-endime-${items.senderid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
+                                                                                <div class="accoutn-auth-group-btn">
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.senderid}', 'post', '${randomNumber}', 3, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`;
+                                            document.getElementById("punishsenderpost-profile-modal").innerHTML += punishSenderModal;
+                                            HTMLPost += `<tr>
+                                                <td class="tb-col1" scope="row">${items.reportid}</td>
+                                                <td class="tb-col2"><a href="/post/${items.postpath}" class="overflow-1" target="_blank">${items.posttitle}</a></td>
+                                                <td class="tb-col3"><a href="/profile/${items.sendername}" class="overflow-1" target="_blank">${items.sendername}</a></td>
+                                                <td class="tb-col5">${items.message != null ? items.message : "Không có lý do"}</td>
+                                                <td class="tb-col6"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#punishSender-post-${items.senderid}-${randomNumber}-punishModal">Phạt span</button><button type="button" class="btn btn-info" onclick="ExecuteReportPost(${items.reportid}, ${items.postid})">Xử lý</button></td>
+                                            </tr>`;
+                                    });
+                                    HTMLPost += `</tbody>
+                                                </table>`;
+                                }
+                            }
+                        })
+                        if (HTMLUser != "" || HTMLProduct != "" || HTMLPost != "") {
+                            document.getElementById("productlist").innerHTML = "";
+                            document.getElementById("productlist").innerHTML += HTMLUser;
+                            document.getElementById("productlist").innerHTML += HTMLProduct;
+                            document.getElementById("productlist").innerHTML += HTMLPost;
+                        }
+                        else {
+                            document.getElementById("productlist").innerHTML = `<div class="none-items">
+                                <p>Hiện không có bất cứ tố cáo nào hợp lệ</p>
+                            </div>`;
+                            return;
+                        }
                         }
                     })
                 }
@@ -1598,9 +1713,9 @@
                     location.href = "/";
                 }
         }
-        loadAccounts();  
+        loadReport();  
     });
-    function SearchAccounts() {
+    function SearchReport() {
         const username = localStorage.getItem("username");
         const password = localStorage.getItem("password");
         if (username !== undefined && username !== null && password !== undefined && password !== null) {
@@ -1623,7 +1738,7 @@
                     username: username,
                     password: password,
                 }
-                fetch('/API/authenticationpermission', {
+                fetch('/API/getallaccountdata', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1632,152 +1747,264 @@
                     credentials: 'include'
                     })
                     .then(res => res.json())
-                    .then(resData => {
-                        if (resData.status) {
-                            fetch('/API/getallaccountdata', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(data),
-                                credentials: 'include'
-                                })
-                                .then(res => res.json())
-                                .then(resData => {
-                                if (resData.status) {
-                                    if (resData.data === null) {
-                                        document.getElementById("productlist").innerHTML = `<div class="none-items">
-                                            <p>Hiện không có bất cứ tài khoản nào hợp lệ</p>
-                                        </div>`;
-                                        return;
-                                    }
-                                    document.getElementById("currentcy-profile-modal").innerHTML = "";
-                                    document.getElementById("permission-profile-modal").innerHTML = "";
-                                    document.getElementById("punish-profile-modal").innerHTML = "";
-                                    if (resData.data.length > 0) {
-                                        let HTML = `<h3>Tài khoản</h3>                        
-                                                    <table class="table table-dark">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="tb-col1" scope="col">ID</th>
-                                                        <th class="tb-col2" scope="col">Tên người dùng</th>
-                                                        <th class="tb-col3" scope="col">Email</th>
-                                                        <th class="tb-col4" scope="col">Tiền</th>
-                                                        <th class="tb-col5" scope="col">Doanh thu</th>
-                                                        <th class="tb-col6" scope="col">Chức năng</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>`;
-                                        resData.data.forEach(items => {
-                                            let currencyModal = `<div class="modal fade" id="${items.userid}-CurrentcyModal" tabindex="-1" aria-labelledby="${items.userid}-CurrentcyModalLable" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-scrollable">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                        <h1 class="modal-title fs-5" id="${items.userid}-CurrentcyModalLabel">Thay đổi tiền tệ</h1>
-                                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                        <div class="create-product-form">
-                                                                            <div class="create-product-form-group">
-                                                                                <label for="user-currentcy-${items.userid}">Tiền tệ</label>
-                                                                                <input type="number" id="user-currentcy-${items.userid}" placeholder="Tiền tệ" value="${items.money}">
+                    .then(async resData => {
+                    if (resData.status) {
+                        let HTMLUser = "";
+                        let HTMLProduct = "";
+                        let HTMLPost = "";
+                        await fetch('/API/getallreportuserdata', {
+                            method: 'POST',
+                            headers: {
+                            'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                            credentials: 'include'
+                        })
+                        .then(res => res.json())
+                        .then(resData => {
+                            if (resData.status) {
+                                if (resData.data != null && resData.data.length > 0) {
+                                    document.getElementById("punishuser-profile-modal").innerHTML = "";
+                                    document.getElementById("punishsenderuser-profile-modal").innerHTML = "";
+                                    HTMLUser = `<h3>Tố cáo người dùng</h3>                        
+                                                <table class="table table-dark">
+                                                <thead>
+                                                <tr>
+                                                    <th class="tb-col1" scope="col">ID</th>
+                                                    <th class="tb-col2" scope="col">Tên người dùng</th>
+                                                    <th class="tb-col3" scope="col">Tên người tố cáo</th>
+                                                    <th class="tb-col5" scope="col">Lý do</th>
+                                                    <th class="tb-col6" scope="col">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>`;
+                                    resData.data.forEach(items => {
+                                            const randomNumber = Math.floor(Math.random() * 1e9);
+                                            let punishSenderModal = `<div class="modal fade" id="punishSender-user-${items.senderid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punishSender-user-${items.senderid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5" id="punishSender-user-${items.senderid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                             </div>
+                                                                            <div class="modal-body">
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-reason-${items.senderid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="user-sender-punish-reason-${items.senderid}-${randomNumber}" placeholder="Lý do">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-startime-${items.senderid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="user-sender-punish-startime-${items.senderid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-endime-${items.senderid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="user-sender-punish-endime-${items.senderid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
                                                                                 <div class="accoutn-auth-group-btn">
-                                                                                <button type="button" onclick="ChanageCurrentcy('${items.userid}')" class="btn btn-success form-auth-btn">Xác nhận</button>
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.senderid}', 'user-sender', '${randomNumber}', 1, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>`;
-                                            document.getElementById("currentcy-profile-modal").innerHTML += currencyModal;
-                                            let permissionModal = `<div class="modal fade" id="${items.userid}-PermissionModal" tabindex="-1" aria-labelledby="${items.userid}-PermissionModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-scrollable">
+                                                                </div>`;
+                                                let punishModal = `<div class="modal fade" id="punish-user-${items.userid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punish-user-${items.userid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h1 class="modal-title fs-5" id="${items.userid}-PermissionModalLabel">Thay đổi quyền hạn</h1>
-                                                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            <h1 class="modal-title fs-5" id="punish-user-${items.userid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                             </div>
                                                                             <div class="modal-body">
-                                                                                <div class="create-product-form">
-                                                                                    <select class="form-select form-select-lg mb-3" aria-label="Large select" id="user-permission-${items.userid}">
-                                                                                        <option value="member" ${items.permissionid === "member" ? "selected disabled " : ""}>Người mua</option>
-                                                                                        <option value="seller" ${items.permissionid === "seller" ? "selected disabled" : ""}>Người bán</option>
-                                                                                        <option value="moderator" ${items.permissionid === "moderator" ? "selected disabled" : ""}>Người kiễm duyệt</option>
-                                                                                        <option value="developer" ${items.permissionid === "developer" ? "selected disabled" : ""}>Nhà phát triển</option>
-                                                                                        <option value="admin" ${items.permissionid === "admin" ? "selected disabled" : ""}>Quản trị viên</option>
-                                                                                    </select>
-                                                                                    <div class="form-check form-switch form-check-reverse">
-                                                                                        <input class="form-check-input" type="checkbox" id="verify-${items.userid}" ${items.Verify ? "checked" : ""}>
-                                                                                        <label class="form-check-label" for="verify-${items.userid}">Xác minh</label>
-                                                                                    </div>
-                                                                                    <div class="accoutn-auth-group-btn">
-                                                                                        <button type="button" onclick="ChanagePermission('${items.userid}')" class="btn btn-success form-auth-btn">Xác nhận</button>
-                                                                                    </div>
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-reason-${items.userid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="user-punish-reason-${items.userid}-${randomNumber}" placeholder="Lý do">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-startime-${items.userid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="user-punish-startime-${items.userid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-endime-${items.userid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="user-punish-endime-${items.userid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
+                                                                                <div class="accoutn-auth-group-btn">
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.userid}', 'user', '${randomNumber}', 1, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>`;
-                                                document.getElementById("permission-profile-modal").innerHTML += permissionModal;
-                                                if (items.penalty == null) {
-                                                    let punishModal = `<div class="modal fade" id="${items.userid}-punishModal" tabindex="-1" aria-labelledby="${items.userid}-punishLable" aria-hidden="true">
-                                                                            <div class="modal-dialog modal-dialog-scrollable">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                <h1 class="modal-title fs-5" id="${items.userid}-punishLabel">Trừng phạt</h1>
-                                                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                <div class="create-product-form">
-                                                                                    <div class="create-product-form-group">
-                                                                                        <label for="user-punish-reason-${items.userid}">Lý do</label>
-                                                                                        <input type="text" id="user-punish-reason-${items.userid}" placeholder="Lý do">
-                                                                                    </div>
-                                                                                    <div class="create-product-form-group">
-                                                                                        <label for="user-punish-startime-${items.userid}">Thời gian bắt đầu</label>
-                                                                                        <input type="datetime-local" id="user-punish-startime-${items.userid}" placeholder="Thời gian bắt đầ">
-                                                                                    </div>
-                                                                                    <div class="create-product-form-group">
-                                                                                        <label for="user-punish-endime-${items.userid}">Thời gian kết thúc</label>
-                                                                                        <input type="datetime-local" id="user-punish-endime-${items.userid}" placeholder="Thời gian kết thúc">
-                                                                                    </div>
-                                                                                    <div class="accoutn-auth-group-btn">
-                                                                                        <button type="button" onclick="ChanagePunish('${items.userid}')" class="btn btn-success form-auth-btn">Xác nhận</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>`;
-                                                    document.getElementById("punish-profile-modal").innerHTML += punishModal;
-                                                }
-                                                if (items.penalty == null) {
-                                                    HTML += `<tr>
-                                                        <td class="tb-col1" scope="row">${items.userid}</td>
-                                                        <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
-                                                        <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#${items.userid}-punishModal">Trừng phạt</button></td>
-                                                    </tr>`;
-                                                }
-                                                else {
-                                                    HTML += `<tr>
-                                                        <td class="tb-col1" scope="row">${items.userid}</td>
-                                                        <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
-                                                        <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" onclick="RemovePunish('${items.userid}', '${items.penalty}')">Trừng phạt</button></td>
-                                                    </tr>`;
-                                                }
-                                        });
-                                        HTML += `</tbody>
-                                                    </table>`;
-                                        document.getElementById("productlist").innerHTML = HTML;
-                                    }
+                                                                    </div>
+                                                                </div>`;
+                                            document.getElementById("punishsenderuser-profile-modal").innerHTML += punishSenderModal;
+                                            document.getElementById("punishuser-profile-modal").innerHTML += punishModal;
+                                            HTMLUser += `<tr>
+                                                <td class="tb-col1" scope="row">${items.reportid}</td>
+                                                <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
+                                                <td class="tb-col3"><a href="/profile/${items.sendername}" class="overflow-1" target="_blank">${items.sendername}</a></td>
+                                                <td class="tb-col5">${items.message != null ? items.message : "Không có lý do"}</td>
+                                                <td class="tb-col6"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#punishSender-user-${items.senderid}-${randomNumber}-punishModal">Phạt span</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#punish-user-${items.userid}-${randomNumber}-punishModal">Xử lý</button></td>
+                                            </tr>`;
+                                    });
+                                    HTMLUser += `</tbody>
+                                                </table>`;
                                 }
-                            })
+                            }
+                        })
+                        await fetch('/API/getallreportproductdata', {
+                            method: 'POST',
+                            headers: {
+                            'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                            credentials: 'include'
+                        })
+                        .then(res => res.json())
+                        .then(resData => {
+                            if (resData.status) {
+                                if (resData.data != null && resData.data.length > 0) {
+                                    document.getElementById("punishproduct-profile-modal").innerHTML = "";
+                                    document.getElementById("punishsenderproduct-profile-modal").innerHTML = "";
+                                    HTMLProduct = `<h3>Tố cáo Sản phẩm</h3>                        
+                                                <table class="table table-dark">
+                                                <thead>
+                                                <tr>
+                                                    <th class="tb-col1" scope="col">ID</th>
+                                                    <th class="tb-col2" scope="col">Tên sản phẩm</th>
+                                                    <th class="tb-col3" scope="col">Tên người tố cáo</th>
+                                                    <th class="tb-col5" scope="col">Lý do</th>
+                                                    <th class="tb-col6" scope="col">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>`;
+                                    resData.data.forEach(items => {
+                                            const randomNumber = Math.floor(Math.random() * 1e9);
+                                            let punishSenderModal = `<div class="modal fade" id="punishSender-product-${items.senderid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punishSender-product-${items.senderid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5" id="punishSender-product-${items.senderid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="product-punish-reason-${items.senderid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="product-punish-reason-${items.senderid}-${randomNumber}" placeholder="Lý do">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="product-punish-startime-${items.senderid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="product-punish-startime-${items.senderid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="product-punish-endime-${items.senderid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="product-punish-endime-${items.senderid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
+                                                                                <div class="accoutn-auth-group-btn">
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.senderid}', 'product', '${randomNumber}', 2, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`;
+                                            document.getElementById("punishsenderproduct-profile-modal").innerHTML += punishSenderModal;
+                                            HTMLProduct += `<tr>
+                                                <td class="tb-col1" scope="row">${items.reportid}</td>
+                                                <td class="tb-col2"><a href="/product/${items.productpath}" class="overflow-1" target="_blank">${items.producttitle}</a></td>
+                                                <td class="tb-col3"><a href="/profile/${items.sendername}" class="overflow-1" target="_blank">${items.sendername}</a></td>
+                                                <td class="tb-col5">${items.message != null ? items.message : "Không có lý do"}</td>
+                                                <td class="tb-col6"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#punishSender-product-${items.senderid}-${randomNumber}-punishModal">Phạt span</button><button type="button" class="btn btn-info" onclick="ExecuteReportProduct(${items.reportid}, '${items.productid}')">Xử lý</button></td>
+                                            </tr>`;
+                                    });
+                                    HTMLProduct += `</tbody>
+                                                </table>`;
+                                }
+                            }
+                        })
+                        await fetch('/API/getallreportpostdata', {
+                            method: 'POST',
+                            headers: {
+                            'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                            credentials: 'include'
+                        })
+                        .then(res => res.json())
+                        .then(resData => {
+                            if (resData.status) {
+                                if (resData.data != null && resData.data.length > 0) {
+                                    document.getElementById("punishpost-profile-modal").innerHTML = "";
+                                    document.getElementById("punishsenderpost-profile-modal").innerHTML = "";
+                                    HTMLPost = `<h3>Tố cáo bài viết</h3>                        
+                                                <table class="table table-dark">
+                                                <thead>
+                                                <tr>
+                                                    <th class="tb-col1" scope="col">ID</th>
+                                                    <th class="tb-col2" scope="col">Tên bài viết</th>
+                                                    <th class="tb-col3" scope="col">Tên người tố cáo</th>
+                                                    <th class="tb-col5" scope="col">Lý do</th>
+                                                    <th class="tb-col6" scope="col">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>`;
+                                    resData.data.forEach(items => {
+                                            const randomNumber = Math.floor(Math.random() * 1e9);
+                                            let punishSenderModal = `<div class="modal fade" id="punishSender-post-${items.senderid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punishSender-post-${items.senderid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5" id="punishSender-post-${items.senderid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="post-punish-reason-${items.senderid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="post-punish-reason-${items.senderid}-${randomNumber}" placeholder="Lý do">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="post-punish-startime-${items.senderid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="post-punish-startime-${items.senderid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="post-punish-endime-${items.senderid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="post-punish-endime-${items.senderid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
+                                                                                <div class="accoutn-auth-group-btn">
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.senderid}', 'post', '${randomNumber}', 3, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`;
+                                            document.getElementById("punishsenderpost-profile-modal").innerHTML += punishSenderModal;
+                                            HTMLPost += `<tr>
+                                                <td class="tb-col1" scope="row">${items.reportid}</td>
+                                                <td class="tb-col2"><a href="/post/${items.postpath}" class="overflow-1" target="_blank">${items.posttitle}</a></td>
+                                                <td class="tb-col3"><a href="/profile/${items.sendername}" class="overflow-1" target="_blank">${items.sendername}</a></td>
+                                                <td class="tb-col5">${items.message != null ? items.message : "Không có lý do"}</td>
+                                                <td class="tb-col6"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#punishSender-post-${items.senderid}-${randomNumber}-punishModal">Phạt span</button><button type="button" class="btn btn-info" onclick="ExecuteReportPost(${items.reportid}, ${items.postid})">Xử lý</button></td>
+                                            </tr>`;
+                                    });
+                                    HTMLPost += `</tbody>
+                                                </table>`;
+                                }
+                            }
+                        })
+                        if (HTMLUser != "" || HTMLProduct != "" || HTMLPost != "") {
+                            document.getElementById("productlist").innerHTML = "";
+                            document.getElementById("productlist").innerHTML += HTMLUser;
+                            document.getElementById("productlist").innerHTML += HTMLProduct;
+                            document.getElementById("productlist").innerHTML += HTMLPost;
                         }
-                    })
+                        else {
+                            document.getElementById("productlist").innerHTML = `<div class="none-items">
+                                <p>Hiện không có bất cứ tố cáo nào hợp lệ</p>
+                            </div>`;
+                            return;
+                        }
+                    }
+                })
             }
             else {
                 document.getElementById("productlist").innerHTML = `<div class="loading-product placeholder-glow">
@@ -1798,7 +2025,7 @@
                     password: password,
                     keyword: input
                 }
-                fetch('/API/authenticationpermission', {
+                fetch('/API/searchallaccountdata', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1807,313 +2034,276 @@
                     credentials: 'include'
                     })
                     .then(res => res.json())
-                    .then(resData => {
-                        if (resData.status) {
-                            fetch('/API/searchallaccountdata', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(data),
-                                credentials: 'include'
-                                })
-                                .then(res => res.json())
-                                .then(resData => {
-                                if (resData.status) {
-                                    if (resData.data === null) {
-                                        document.getElementById("productlist").innerHTML = `<div class="none-items">
-                                            <p>Hiện không có bất cứ tài khoản nào hợp lệ</p>
-                                        </div>`;
-                                        return;
-                                    }
-                                    document.getElementById("currentcy-profile-modal").innerHTML = "";
-                                    document.getElementById("permission-profile-modal").innerHTML = "";
-                                    document.getElementById("punish-profile-modal").innerHTML = "";
-                                    if (resData.data.length > 0) {
-                                        let HTML = `<h3>Tài khoản</h3>                        
-                                                    <table class="table table-dark">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="tb-col1" scope="col">ID</th>
-                                                        <th class="tb-col2" scope="col">Tên người dùng</th>
-                                                        <th class="tb-col3" scope="col">Email</th>
-                                                        <th class="tb-col4" scope="col">Tiền</th>
-                                                        <th class="tb-col5" scope="col">Doanh thu</th>
-                                                        <th class="tb-col6" scope="col">Chức năng</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>`;
-                                        resData.data.forEach(items => {
-                                            let currencyModal = `<div class="modal fade" id="${items.userid}-CurrentcyModal" tabindex="-1" aria-labelledby="${items.userid}-CurrentcyModalLable" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-scrollable">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                        <h1 class="modal-title fs-5" id="${items.userid}-CurrentcyModalLabel">Thay đổi tiền tệ</h1>
-                                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                        <div class="create-product-form">
-                                                                            <div class="create-product-form-group">
-                                                                                <label for="user-currentcy-${items.userid}">Tiền tệ</label>
-                                                                                <input type="number" id="user-currentcy-${items.userid}" placeholder="Tiền tệ" value="${items.money}">
+                    .then(async resData => {
+                    if (resData.status) {
+                        let HTMLUser = "";
+                        let HTMLProduct = "";
+                        let HTMLPost = "";
+                        await fetch('/API/searchallreportuserdata', {
+                            method: 'POST',
+                            headers: {
+                            'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                            credentials: 'include'
+                        })
+                        .then(res => res.json())
+                        .then(resData => {
+                            if (resData.status) {
+                                if (resData.data != null && resData.data.length > 0) {
+                                    document.getElementById("punishuser-profile-modal").innerHTML = "";
+                                    document.getElementById("punishsenderuser-profile-modal").innerHTML = "";
+                                    HTMLUser = `<h3>Tố cáo người dùng</h3>                        
+                                                <table class="table table-dark">
+                                                <thead>
+                                                <tr>
+                                                    <th class="tb-col1" scope="col">ID</th>
+                                                    <th class="tb-col2" scope="col">Tên người dùng</th>
+                                                    <th class="tb-col3" scope="col">Tên người tố cáo</th>
+                                                    <th class="tb-col5" scope="col">Lý do</th>
+                                                    <th class="tb-col6" scope="col">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>`;
+                                    resData.data.forEach(items => {
+                                            const randomNumber = Math.floor(Math.random() * 1e9);
+                                            let punishSenderModal = `<div class="modal fade" id="punishSender-user-${items.senderid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punishSender-user-${items.senderid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5" id="punishSender-user-${items.senderid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                             </div>
+                                                                            <div class="modal-body">
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-reason-${items.senderid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="user-sender-punish-reason-${items.senderid}-${randomNumber}" placeholder="Lý do">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-startime-${items.senderid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="user-sender-punish-startime-${items.senderid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-endime-${items.senderid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="user-sender-punish-endime-${items.senderid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
                                                                                 <div class="accoutn-auth-group-btn">
-                                                                                <button type="button" onclick="ChanageCurrentcy('${items.userid}')" class="btn btn-success form-auth-btn">Xác nhận</button>
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.senderid}', 'user-sender', '${randomNumber}', 1, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>`;
-                                            document.getElementById("currentcy-profile-modal").innerHTML += currencyModal;
-                                            let permissionModal = `<div class="modal fade" id="${items.userid}-PermissionModal" tabindex="-1" aria-labelledby="${items.userid}-PermissionModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-scrollable">
+                                                                </div>`;
+                                                let punishModal = `<div class="modal fade" id="punish-user-${items.userid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punish-user-${items.userid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h1 class="modal-title fs-5" id="${items.userid}-PermissionModalLabel">Thay đổi quyền hạn</h1>
-                                                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            <h1 class="modal-title fs-5" id="punish-user-${items.userid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                             </div>
                                                                             <div class="modal-body">
-                                                                                <div class="create-product-form">
-                                                                                    <select class="form-select form-select-lg mb-3" aria-label="Large select" id="user-permission-${items.userid}">
-                                                                                        <option value="member" ${items.permissionid === "member" ? "selected disabled " : ""}>Người mua</option>
-                                                                                        <option value="seller" ${items.permissionid === "seller" ? "selected disabled" : ""}>Người bán</option>
-                                                                                        <option value="moderator" ${items.permissionid === "moderator" ? "selected disabled" : ""}>Người kiễm duyệt</option>
-                                                                                        <option value="developer" ${items.permissionid === "developer" ? "selected disabled" : ""}>Nhà phát triển</option>
-                                                                                        <option value="admin" ${items.permissionid === "admin" ? "selected disabled" : ""}>Quản trị viên</option>
-                                                                                    </select>
-                                                                                    <div class="form-check form-switch form-check-reverse">
-                                                                                        <input class="form-check-input" type="checkbox" id="verify-${items.userid}" ${items.Verify ? "checked" : ""}>
-                                                                                        <label class="form-check-label" for="verify-${items.userid}">Xác minh</label>
-                                                                                    </div>
-                                                                                    <div class="accoutn-auth-group-btn">
-                                                                                        <button type="button" onclick="ChanagePermission('${items.userid}')" class="btn btn-success form-auth-btn">Xác nhận</button>
-                                                                                    </div>
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-reason-${items.userid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="user-punish-reason-${items.userid}-${randomNumber}" placeholder="Lý do">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-startime-${items.userid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="user-punish-startime-${items.userid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="user-punish-endime-${items.userid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="user-punish-endime-${items.userid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
+                                                                                <div class="accoutn-auth-group-btn">
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.userid}', 'user', '${randomNumber}', 1, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>`;
-                                                document.getElementById("permission-profile-modal").innerHTML += permissionModal;
-                                                if (items.penalty == null) {
-                                                    let punishModal = `<div class="modal fade" id="${items.userid}-punishModal" tabindex="-1" aria-labelledby="${items.userid}-punishLable" aria-hidden="true">
-                                                                            <div class="modal-dialog modal-dialog-scrollable">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                <h1 class="modal-title fs-5" id="${items.userid}-punishLabel">Trừng phạt</h1>
-                                                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                </div>`;
+                                            document.getElementById("punishsenderuser-profile-modal").innerHTML += punishSenderModal;
+                                            document.getElementById("punishuser-profile-modal").innerHTML += punishModal;
+                                            HTMLUser += `<tr>
+                                                <td class="tb-col1" scope="row">${items.reportid}</td>
+                                                <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
+                                                <td class="tb-col3"><a href="/profile/${items.sendername}" class="overflow-1" target="_blank">${items.sendername}</a></td>
+                                                <td class="tb-col5">${items.message != null ? items.message : "Không có lý do"}</td>
+                                                <td class="tb-col6"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#punishSender-user-${items.senderid}-${randomNumber}-punishModal">Phạt span</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#punish-user-${items.userid}-${randomNumber}-punishModal">Xử lý</button></td>
+                                            </tr>`;
+                                    });
+                                    HTMLUser += `</tbody>
+                                                </table>`;
+                                }
+                            }
+                        })
+                        await fetch('/API/searchallreportproductdata', {
+                            method: 'POST',
+                            headers: {
+                            'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                            credentials: 'include'
+                        })
+                        .then(res => res.json())
+                        .then(resData => {
+                            if (resData.status) {
+                                if (resData.data != null && resData.data.length > 0) {
+                                    document.getElementById("punishproduct-profile-modal").innerHTML = "";
+                                    document.getElementById("punishsenderproduct-profile-modal").innerHTML = "";
+                                    HTMLProduct = `<h3>Tố cáo Sản phẩm</h3>                        
+                                                <table class="table table-dark">
+                                                <thead>
+                                                <tr>
+                                                    <th class="tb-col1" scope="col">ID</th>
+                                                    <th class="tb-col2" scope="col">Tên sản phẩm</th>
+                                                    <th class="tb-col3" scope="col">Tên người tố cáo</th>
+                                                    <th class="tb-col5" scope="col">Lý do</th>
+                                                    <th class="tb-col6" scope="col">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>`;
+                                    resData.data.forEach(items => {
+                                            const randomNumber = Math.floor(Math.random() * 1e9);
+                                            let punishSenderModal = `<div class="modal fade" id="punishSender-product-${items.senderid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punishSender-product-${items.senderid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5" id="punishSender-product-${items.senderid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="product-punish-reason-${items.senderid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="product-punish-reason-${items.senderid}-${randomNumber}" placeholder="Lý do">
                                                                                 </div>
-                                                                                <div class="modal-body">
-                                                                                <div class="create-product-form">
-                                                                                    <div class="create-product-form-group">
-                                                                                        <label for="user-punish-reason-${items.userid}">Lý do</label>
-                                                                                        <input type="text" id="user-punish-reason-${items.userid}" placeholder="Lý do">
-                                                                                    </div>
-                                                                                    <div class="create-product-form-group">
-                                                                                        <label for="user-punish-startime-${items.userid}">Thời gian bắt đầu</label>
-                                                                                        <input type="datetime-local" id="user-punish-startime-${items.userid}" placeholder="Thời gian bắt đầ">
-                                                                                    </div>
-                                                                                    <div class="create-product-form-group">
-                                                                                        <label for="user-punish-endime-${items.userid}">Thời gian kết thúc</label>
-                                                                                        <input type="datetime-local" id="user-punish-endime-${items.userid}" placeholder="Thời gian kết thúc">
-                                                                                    </div>
-                                                                                    <div class="accoutn-auth-group-btn">
-                                                                                        <button type="button" onclick="ChanagePunish('${items.userid}')" class="btn btn-success form-auth-btn">Xác nhận</button>
-                                                                                    </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="product-punish-startime-${items.senderid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="product-punish-startime-${items.senderid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="product-punish-endime-${items.senderid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="product-punish-endime-${items.senderid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
+                                                                                <div class="accoutn-auth-group-btn">
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.senderid}', 'product', '${randomNumber}', 2, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>`;
-                                                    document.getElementById("punish-profile-modal").innerHTML += punishModal;
-                                                }
-                                                if (items.penalty == null) {
-                                                    HTML += `<tr>
-                                                        <td class="tb-col1" scope="row">${items.userid}</td>
-                                                        <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
-                                                        <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#${items.userid}-punishModal">Trừng phạt</button></td>
-                                                    </tr>`;
-                                                }
-                                                else {
-                                                    HTML += `<tr>
-                                                        <td class="tb-col1" scope="row">${items.userid}</td>
-                                                        <td class="tb-col2"><a href="/profile/${items.username}" class="overflow-1" target="_blank">${items.username}</a></td>
-                                                        <td class="tb-col3">${formatEmail(items.email)}</td>
-                                                        <td class="tb-col4">${items.money.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col5">${items.revenue.toLocaleString("de-DE")} đ</td>
-                                                        <td class="tb-col6"><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#${items.userid}-CurrentcyModal">Tiền tệ</button><button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#${items.userid}-PermissionModal">Chức vụ</button><button type="button" class="btn btn-danger" onclick="RemovePunish('${items.userid}', '${items.penalty}')">Trừng phạt</button></td>
-                                                    </tr>`;
-                                                }
-                                        });
-                                        HTML += `</tbody>
-                                                    </table>`;
-                                        document.getElementById("productlist").innerHTML = HTML;
-                                    }
+                                                                    </div>
+                                                                </div>`;
+                                            document.getElementById("punishsenderproduct-profile-modal").innerHTML += punishSenderModal;
+                                            HTMLProduct += `<tr>
+                                                <td class="tb-col1" scope="row">${items.reportid}</td>
+                                                <td class="tb-col2"><a href="/product/${items.productpath}" class="overflow-1" target="_blank">${items.producttitle}</a></td>
+                                                <td class="tb-col3"><a href="/profile/${items.sendername}" class="overflow-1" target="_blank">${items.sendername}</a></td>
+                                                <td class="tb-col5">${items.message != null ? items.message : "Không có lý do"}</td>
+                                                <td class="tb-col6"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#punishSender-product-${items.senderid}-${randomNumber}-punishModal">Phạt span</button><button type="button" class="btn btn-info" onclick="ExecuteReportProduct(${items.reportid}, '${items.productid}')">Xử lý</button></td>
+                                            </tr>`;
+                                    });
+                                    HTMLProduct += `</tbody>
+                                                </table>`;
                                 }
-                            })
-                        }
-                    })
-            }
-        }
-        else {
-            location.href = "/";
-        }
-    }
-    function ChanageCurrentcy(id) {
-        const username = localStorage.getItem("username");
-        const password = localStorage.getItem("password");
-        const value = document.getElementById(`user-currentcy-${id}`).value;
-
-        if (username !== undefined && username !== null && password !== undefined && password !== null) {
-            if (value !== "" && id !== "") {
-                if (Number(value) >= 0) {
-                    const data = {
-                        username: username,
-                        password: password,
-                        userid: id,
-                        money: value
-                    }
-                    fetch('/API/chanagemoney', {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data),
-                        credentials: 'include'
-                      })
-                      .then(res => res.json())
-                      .then(resData => {
-                        console.log(resData);
-                        if (resData.status) {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Chúc mừng",
-                                text: `${resData.message}`,
-                                background: '#222338',
-                                color: "white"
-                            }).then((result) => {
-                                if (result.dismiss === Swal.DismissReason.backdrop) {
-                                  location.reload();
-                                }
-                                else {
-                                    location.reload();
-                                }
-                              });
-                        } else {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Oops...",
-                                text: `${resData.message}`,
-                                background: '#222338',
-                                color: "white",
-                                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
-                            });
-                        }
-                      })
-                }
-                else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: `Số tiền phải lớn hơn 0`,
-                        background: '#222338',
-                        color: "white",
-                        footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
-                      });
-                    return;
-                }
-            }
-            else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: `Bạn phải điền đầy đủ thông tin`,
-                    background: '#222338',
-                    color: "white",
-                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
-                  });
-                return;
-            }
-        }
-        else {
-            location.href = "/";
-        }
-    }
-    function ChanagePermission(id) {
-        const username = localStorage.getItem("username");
-        const password = localStorage.getItem("password");
-        const value = document.getElementById(`user-permission-${id}`).value;
-        const verify = document.getElementById(`verify-${id}`).checked;
-
-        if (username !== undefined && username !== null && password !== undefined && password !== null) {
-            if (value !== "" && id !== "" && verify !== "") {
-                const data = {
-                    username: username,
-                    password: password,
-                    userid: id,
-                    permissionid: value,
-                    verify: verify
-                }
-                fetch('/API/chanagepermission', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                    credentials: 'include'
-                  })
-                  .then(res => res.json())
-                  .then(resData => {
-                    console.log(resData);
-                    if (resData.status) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Chúc mừng",
-                            text: `${resData.message}`,
-                            background: '#222338',
-                            color: "white"
-                        }).then((result) => {
-                            if (result.dismiss === Swal.DismissReason.backdrop) {
-                              location.reload();
                             }
-                            else {
-                                location.reload();
+                        })
+                        await fetch('/API/searchallreportpostdata', {
+                            method: 'POST',
+                            headers: {
+                            'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                            credentials: 'include'
+                        })
+                        .then(res => res.json())
+                        .then(resData => {
+                            if (resData.status) {
+                                if (resData.data != null && resData.data.length > 0) {
+                                    document.getElementById("punishpost-profile-modal").innerHTML = "";
+                                    document.getElementById("punishsenderpost-profile-modal").innerHTML = "";
+                                    HTMLPost = `<h3>Tố cáo bài viết</h3>                        
+                                                <table class="table table-dark">
+                                                <thead>
+                                                <tr>
+                                                    <th class="tb-col1" scope="col">ID</th>
+                                                    <th class="tb-col2" scope="col">Tên bài viết</th>
+                                                    <th class="tb-col3" scope="col">Tên người tố cáo</th>
+                                                    <th class="tb-col5" scope="col">Lý do</th>
+                                                    <th class="tb-col6" scope="col">Chức năng</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>`;
+                                    resData.data.forEach(items => {
+                                            const randomNumber = Math.floor(Math.random() * 1e9);
+                                            let punishSenderModal = `<div class="modal fade" id="punishSender-post-${items.senderid}-${randomNumber}-punishModal" tabindex="-1" aria-labelledby="punishSender-post-${items.senderid}-${randomNumber}-punishLable" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5" id="punishSender-post-${items.senderid}-${randomNumber}-punishLabel">Trừng phạt</h1>
+                                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                            <div class="create-product-form">
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="post-punish-reason-${items.senderid}-${randomNumber}">Lý do</label>
+                                                                                    <input type="text" id="post-punish-reason-${items.senderid}-${randomNumber}" placeholder="Lý do">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="post-punish-startime-${items.senderid}-${randomNumber}">Thời gian bắt đầu</label>
+                                                                                    <input type="datetime-local" id="post-punish-startime-${items.senderid}-${randomNumber}" placeholder="Thời gian bắt đầ">
+                                                                                </div>
+                                                                                <div class="create-product-form-group">
+                                                                                    <label for="post-punish-endime-${items.senderid}-${randomNumber}">Thời gian kết thúc</label>
+                                                                                    <input type="datetime-local" id="post-punish-endime-${items.senderid}-${randomNumber}" placeholder="Thời gian kết thúc">
+                                                                                </div>
+                                                                                <div class="accoutn-auth-group-btn">
+                                                                                    <button type="button" onclick="ExecuteReportUser('${items.senderid}', 'post', '${randomNumber}', 3, ${items.reportid})" class="btn btn-success form-auth-btn">Xác nhận</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>`;
+                                            document.getElementById("punishsenderpost-profile-modal").innerHTML += punishSenderModal;
+                                            HTMLPost += `<tr>
+                                                <td class="tb-col1" scope="row">${items.reportid}</td>
+                                                <td class="tb-col2"><a href="/post/${items.postpath}" class="overflow-1" target="_blank">${items.posttitle}</a></td>
+                                                <td class="tb-col3"><a href="/profile/${items.sendername}" class="overflow-1" target="_blank">${items.sendername}</a></td>
+                                                <td class="tb-col5">${items.message != null ? items.message : "Không có lý do"}</td>
+                                                <td class="tb-col6"><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#punishSender-post-${items.senderid}-${randomNumber}-punishModal">Phạt span</button><button type="button" class="btn btn-info" onclick="ExecuteReportPost(${items.reportid}, ${items.postid})">Xử lý</button></td>
+                                            </tr>`;
+                                    });
+                                    HTMLPost += `</tbody>
+                                                </table>`;
+                                }
                             }
-                          });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: `${resData.message}`,
-                            background: '#222338',
-                            color: "white",
-                            footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
-                        });
+                        })
+                        if (HTMLUser != "" || HTMLProduct != "" || HTMLPost != "") {
+                            document.getElementById("productlist").innerHTML = "";
+                            document.getElementById("productlist").innerHTML += HTMLUser;
+                            document.getElementById("productlist").innerHTML += HTMLProduct;
+                            document.getElementById("productlist").innerHTML += HTMLPost;
+                        }
+                        else {
+                            document.getElementById("productlist").innerHTML = `<div class="none-items">
+                                <p>Hiện không có bất cứ tố cáo nào hợp lệ</p>
+                            </div>`;
+                            return;
+                        }
                     }
-                  })
-            }
-            else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: `Bạn phải điền đầy đủ thông tin`,
-                    background: '#222338',
-                    color: "white",
-                    footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
-                  });
-                return;
+                })
             }
         }
         else {
             location.href = "/";
         }
     }
-    function ChanagePunish(id) {
+    function ExecuteReportUser(userid, id, rdcode, type, reportid) {
         const username = localStorage.getItem("username");
         const password = localStorage.getItem("password");
-        const reason = document.getElementById(`user-punish-reason-${id}`).value;
-        const starttime = document.getElementById(`user-punish-startime-${id}`).value;
-        const endtime = document.getElementById(`user-punish-endime-${id}`).value;
+        const reason = document.getElementById(`${id}-punish-reason-${userid}-${rdcode}`).value;
+        const starttime = document.getElementById(`${id}-punish-startime-${userid}-${rdcode}`).value;
+        const endtime = document.getElementById(`${id}-punish-endime-${userid}-${rdcode}`).value;
 
         if (username !== undefined && username !== null && password !== undefined && password !== null) {
             if (starttime !== "" && endtime !== "") {
@@ -2121,12 +2311,14 @@
                     const data = {
                         username: username,
                         password: password,
-                        userid: id,
+                        userid: userid,
                         reason: reason,
                         starttime: starttime,
-                        endtime: endtime
+                        endtime: endtime,
+                        table: type,
+                        reportid: reportid
                     }
-                    fetch('/API/createpenalty', {
+                    fetch('/API/executereportuser', {
                         method: 'POST',
                         headers: {
                           'Content-Type': 'application/json',
@@ -2191,7 +2383,7 @@
             location.href = "/";
         }
     }
-    function RemovePunish(id, penaltyid) {
+    function ExecuteReportProduct(reportid, productid) {
         const username = localStorage.getItem("username");
         const password = localStorage.getItem("password");
 
@@ -2210,10 +2402,10 @@
               })
               .then(res => res.json())
               .then(resData => {
-                    if (resData.permission.acceptaccountmanagement) {
+                    if (resData.permission.acceptreportmanagement) {
                         Swal.fire({
-                            title: "Bạn chắc chắn muống xóa?",
-                            text: "Xóa sản phẩm thì bạn sẽ không thể khôi phục lại",
+                            title: "Bạn chắc chắn muống xử lý?",
+                            text: "Việc xử lý có thể khiến báo cáo biến mất vĩnh viễn",
                             icon: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#d33",
@@ -2227,10 +2419,10 @@
                                 const data = {
                                     username: username,
                                     password: password,
-                                    userid: id,
-                                    penaltyid: penaltyid
+                                    reportid: reportid,
+                                    productid: productid
                                 }
-                                fetch('/API/deletepenalty', {
+                                fetch('/API/executereportproduct', {
                                     method: 'POST',                
                                     headers: {
                                         'Content-Type': 'application/json',
@@ -2296,15 +2488,110 @@
             return;
         }
     }
-    function formatEmail(email) {
-        let [name, domain] = email.split('@');
-        
-        let formattedName = name.substring(0, 4);
-        let formattedDomain = domain.substring(domain.length - 7);
-        
-        let hiddenPart = '*'.repeat(email.length - formattedName.length - formattedDomain.length);
-    
-        return formattedName + hiddenPart + formattedDomain;
+    function ExecuteReportPost(reportid, postid) {
+        const username = localStorage.getItem("username");
+        const password = localStorage.getItem("password");
+
+        if (username !== undefined && username !== null && username !== "" && password !== undefined && password !== "" && password !== null) {
+            const data = {
+                username: username,
+                password: password
+            }
+            fetch('/API/authenticationpermission', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                credentials: 'include'
+              })
+              .then(res => res.json())
+              .then(resData => {
+                    if (resData.permission.acceptreportmanagement) {
+                        Swal.fire({
+                            title: "Bạn chắc chắn muống xử lý?",
+                            text: "Việc xử lý có thể khiến báo cáo biến mất vĩnh viễn",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#d33",
+                            confirmButtonText: "Hũy",
+                            cancelButtonColor: "#3869d3",
+                            confirmButtonText: "Xóa",
+                            background: '#222338',
+                            color: "white"
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                                const data = {
+                                    username: username,
+                                    password: password,
+                                    reportid: reportid,
+                                    postid: postid
+                                }
+                                fetch('/API/executereportpost', {
+                                    method: 'POST',                
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(data),
+                                    credentials: 'include'
+                                  })
+                                  .then(res => res.json())
+                                  .then(resData => {
+                                    if (resData.status) {
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Chúc mừng",
+                                            text: `${resData.message}`,
+                                            background: '#222338',
+                                            color: "white",
+                                          }).then((result) => {
+                                            if (result.dismiss === Swal.DismissReason.backdrop) {
+                                              location.reload();
+                                            }
+                                            else {
+                                                location.reload();
+                                            }
+                                          });;
+                                    }
+                                    else {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Oops...",
+                                            text: `${resData.message}`,
+                                            background: '#222338',
+                                            color: "white",
+                                            footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                                          });
+                                        return;
+                                    }
+                                })
+                            }
+                          });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Bạn không có quyền thực hiện điều này",
+                            background: '#222338',
+                            color: "white",
+                            footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+                          });
+                        return;
+                    }
+              })
+        }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Bạn không có quyền thực hiện điều này",
+                background: '#222338',
+                color: "white",
+                footer: '<a href="https://www.facebook.com/ZombieGenZ/" target="_blank" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Bạn cần giúp hổ trợ?</a>'
+              });
+            return;
+        }
     }
     </script>
     <script src="https://kit.fontawesome.com/476445fe42.js" crossorigin="anonymous"></script>

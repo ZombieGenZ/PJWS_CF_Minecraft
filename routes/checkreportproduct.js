@@ -42,12 +42,17 @@ routes.post("/", async (req, res) => {
     })
     .then(async responseUser => {
         if (responseUser.data.status) {
-          const success = await CheckReport(productid, responseUser.data.userid);
-          if (success) {
-            res.status(200).json({ status: true, message: "Bạn chưa tố cáo sản phẩm này bao giờ" });
+          if (productid !== "" && productid !== null && productid !== undefined) {
+            const success = await CheckReport(productid, responseUser.data.userid);
+            if (success) {
+              res.status(200).json({ status: true, message: "Bạn chưa tố cáo sản phẩm này bao giờ" });
+            }
+            else {
+              res.status(200).json({ status: false, message: "Người dùng này đã tố cáo sản phẩm này rồi" });
+            }
           }
           else {
-            res.status(200).json({ status: false, message: "Người dùng này đã tố cáo sản phẩm này rồi" });
+            res.status(200).json({ status: false, message: "Vui lòng nhập đầy đủ thông tin" });
           }
         }
         else {

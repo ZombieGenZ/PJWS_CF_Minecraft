@@ -15,7 +15,7 @@ const database = mysql.createConnection({
 
 database.connect((err) => {
     if (err) throw err;
-    console.log("API create report user successfully connected to the server");
+    console.log("API create report product successfully connected to the server");
 });
 
 const routes = express.Router();
@@ -26,7 +26,7 @@ routes.use(bodyParser.urlencoded({ extended: true }));
 
 
 routes.post("/", async (req, res) => {
-    let { username, password, userid, message } = req.body;
+    let { username, password, productid, message } = req.body;
     username = await normalizeString(username);
     password = await normalizeString(password);
 
@@ -42,17 +42,17 @@ routes.post("/", async (req, res) => {
     })
     .then(async responseCheckReport => {
       if (responseCheckReport.data.status) {
-        if (userid !== "" && userid !== null && userid !== undefined) {
-          const success = await CreateReport(responseCheckReport.data.userid, userid, message);
+        if (productid !== "" && productid !== null && productid !== undefined) {
+          const success = await CreateReport(responseCheckReport.data.userid, productid, message);
           if (success) {
             res.status(200).json({ status: true, message: "Tố cáo thành công!" });
           }
           else {
             res.status(200).json({ status: false, message: "Lỗi trong quá trình tố cáo" });
-          } 
+          }
         }
         else {
-          res.status(200).json({ status: false, message: "Vui lòng điền đầy đủ thông tin" });
+          res.status(200).json({ status: false, message: "Vui lòng nhập đầy đủ thông tin" });
         }
       }
       else {  
@@ -78,10 +78,10 @@ function normalizeString(str) {
     .replace(/\s+/g, "");
 }
 
-async function CreateReport(sender, userid, messgae) {
+async function CreateReport(sender, productid, messgae) {
   try {
-    const result = await database.query(`INSERT INTO ReportUser (userid, sender, message) VALUE (?, ?, ?)`, 
-      [userid, sender, messgae]);
+    const result = await database.query(`INSERT INTO ReportUser (productid, sender, message) VALUE (?, ?, ?)`, 
+      [productid, sender, messgae]);
       return true;
   }
   catch (e) {
